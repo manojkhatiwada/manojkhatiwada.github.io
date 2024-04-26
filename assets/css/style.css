@@ -524,7 +524,7 @@ section .container {
   border-radius: 6px;
   align-items: center;
   padding: 20px;
-  background: #0d2757;
+  background: rgba(255, 255, 255, 0.12);
   transition: ease-in-out 0.3s;
 }
 
@@ -544,7 +544,7 @@ section .container {
 }
 
 .interests .icon-box:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: #0d2757;
 }
 
 /*--------------------------------------------------------------
@@ -933,7 +933,7 @@ section .container {
 --------------------------------------------------------------*/
 .portfolio-details {
   padding-top: 40px;
-  background: #0d2757;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   position: fixed;
   left: 0;
@@ -1009,7 +1009,7 @@ section .container {
   padding: 20px;
   width: 100%;
   border-radius: 6px;
-  background:#0d2757;
+  background:rgba(255, 255, 255, 0.12);
 }
 
 .contact .info-box i.bx {
@@ -1023,7 +1023,7 @@ section .container {
 
 .contact .info-box h3 {
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.5);
+  color: #fff;
   font-weight: 700;
   margin: 10px 0 8px 68px;
 }
@@ -1051,7 +1051,7 @@ section .container {
 }
 
 .contact .info-box .social-links a:hover {
-  color: #3a82f5;
+  color: #0d2757;
 }
 
 @keyframes animate-loading {
