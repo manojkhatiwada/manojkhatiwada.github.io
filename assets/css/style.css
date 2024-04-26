@@ -112,8 +112,6 @@ h6 {
   justify-content: center;
   align-items: center;
   background: rgba(255, 255, 255, 0.08);
-
-  /* background: rgba(255, 255, 255, 0.1); */
   color: #fff;
   line-height: 1;
   margin-right: 8px;
@@ -154,7 +152,7 @@ h6 {
   left: 0;
   top: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background:#031538;
 }
 
 #header.header-top .social-links,
@@ -299,7 +297,6 @@ h6 {
   left: 0;
   bottom: 0;
   background: #112c63;
-  /* background: rgba(0, 0, 0, 0.9); */
   transition: 0.3s;
   z-index: 999;
   margin-top: 0;
@@ -609,8 +606,6 @@ section .container {
   margin: 0 15px 0 15px;
   padding: 20px 20px 60px 20px;
   background: #0d2757;
-  /* background:rgba(24,82,191,0.25); */
-   /* rgba(255, 255, 255, 0.1); */
   position: relative;
   border-radius: 6px;
   position: relative;
@@ -801,7 +796,6 @@ section .container {
   text-transform: uppercase;
   color: #fff;
   background: #5a92f4;
-   /* rgba(255, 255, 255, 0.1); */
   margin: 0 3px 10px 3px;
   transition: all 0.3s ease-in-out;
   border-radius: 4px;
@@ -909,7 +903,7 @@ section .container {
 }
 
 .portfolio .portfolio-wrap .portfolio-links a:hover {
-  color: #63eda3;
+  color: #3a82f5;
 }
 
 .portfolio .portfolio-wrap:hover::before {
@@ -941,7 +935,6 @@ section .container {
   padding-top: 40px;
   background: #0d2757;
   border-radius: 6px;
-   /* rgba(0, 0, 0, 0.8); */
   position: fixed;
   left: 0;
   right: 0;
@@ -1069,36 +1062,4 @@ section .container {
   100% {
     transform: rotate(360deg);
   }
-}
-
-/*--------------------------------------------------------------
-# Credits
---------------------------------------------------------------*/
-.credits {
-  position: fixed;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  padding: 15px;
-  text-align: right;
-  font-size: 13px;
-  color: #fff;
-  z-index: 999999;
-}
-
-@media (max-width: 992px) {
-  .credits {
-    text-align: center;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.8);
-  }
-}
-
-.credits a {
-  color: #3a82f5;
-  transition: 0.3s;
-}
-
-.credits a:hover {
-  color: #fff;
 }
