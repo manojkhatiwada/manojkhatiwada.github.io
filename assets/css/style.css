@@ -605,7 +605,7 @@ section .container {
   font-style: italic;
   margin: 0 15px 0 15px;
   padding: 20px 20px 60px 20px;
-  background: #0d2757;
+  background: rgba(255, 255, 255, 0.12);
   position: relative;
   border-radius: 6px;
   position: relative;
@@ -621,7 +621,8 @@ section .container {
   width: 12px;
   height: 12px;
   opacity: 1;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color:#3a82f5;
+   /* rgba(255, 255, 255, 0.3); */
 }
 
 .testimonials .swiper-pagination .swiper-pagination-bullet-active {
@@ -658,8 +659,7 @@ section .container {
 
 .resume .resume-item h5 {
   font-size: 16px;
-  /* background: rgba(255, 255, 255, 0.15); */
-  background: #5a92f4;
+  background: rgba(255, 255, 255, 0.12);
   padding: 5px 15px;
   display: inline-block;
   font-weight: 600;
