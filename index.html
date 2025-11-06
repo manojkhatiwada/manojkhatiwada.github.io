@@ -35,9 +35,41 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet" />
+
+  <style>
+    /* Earth background canvas */
+    #earth-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Ensure content is visible over background */
+    body {
+      position: relative;
+    }
+
+    /* Add subtle backdrop for better text readability */
+    #hero, #main section {
+      position: relative;
+    }
+
+    #hero .container {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Earth particle background -->
+  <div id="earth-background"></div>
   <i class="bi bi-list mobile-nav-toggle d-lg-none"></i>
   <!-- ======= Header ======= -->
   <header id="header" class="d-flex flex-column justify-content-center">
@@ -991,7 +1023,204 @@
   <script src="assets/js/main.js"></script>
   <script src="https://kit.fontawesome.com/7f79889e25.js" crossorigin="anonymous"></script>
 
-  <!-- <script type='text/javascript'>                    var divElement = document.getElementById('viz1715607817211');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='420px';vizElement.style.maxWidth='650px';vizElement.style.width='100%';vizElement.style.minHeight='587px';vizElement.style.maxHeight='887px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='420px';vizElement.style.maxWidth='650px';vizElement.style.width='100%';vizElement.style.minHeight='587px';vizElement.style.maxHeight='887px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='777px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script> -->
+  <!-- Three.js for Earth background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // Earth particle background initialization
+    (function() {
+      let scene, camera, renderer, particleSystem, stars;
+      let autoRotate = true;
+
+      function generateEarthParticles(count) {
+        const particles = [];
+        const earthRadius = 400; // Smaller for background
+
+        const oceanColors = [0x5DA9FF, 0x7BC2FF, 0x99D5FF];
+        const landColors = [0x8FBC6D, 0xB4D99E, 0xF5A577, 0xE4B888];
+        const iceColors = [0xFFFFFF, 0xF0FAFF];
+
+        for (let i = 0; i < count; i++) {
+          const phi = Math.acos(1 - 2 * (i + 0.5) / count);
+          const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+          const radiusVariation = earthRadius + (Math.random() - 0.5) * 25;
+
+          const x = radiusVariation * Math.sin(phi) * Math.cos(theta);
+          const y = radiusVariation * Math.sin(phi) * Math.sin(theta);
+          const z = radiusVariation * Math.cos(phi);
+
+          const latitude = phi;
+          const longitude = theta % (2 * Math.PI);
+
+          let color;
+
+          // Ice caps at poles
+          if (latitude < 0.3 || latitude > 2.84) {
+            color = iceColors[Math.floor(Math.random() * iceColors.length)];
+          }
+          // Land masses
+          else if (
+            (latitude > 1.0 && latitude < 2.2 && longitude > 0 && longitude < 2.5) ||
+            (latitude > 0.8 && latitude < 2.5 && longitude > 3.5 && longitude < 5.0) ||
+            (latitude > 0.7 && latitude < 2.0 && longitude > 2.5 && longitude < 4.5)
+          ) {
+            color = landColors[Math.floor(Math.random() * landColors.length)];
+          }
+          // Oceans
+          else {
+            color = oceanColors[Math.floor(Math.random() * oceanColors.length)];
+          }
+
+          particles.push({
+            x, y, z,
+            color: color,
+            size: 2.0 + Math.random() * 1.5
+          });
+        }
+
+        return particles;
+      }
+
+      function createParticleTexture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+
+        const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+        gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.6)');
+        gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.3)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 64, 64);
+
+        const texture = new THREE.Texture(canvas);
+        texture.needsUpdate = true;
+        return texture;
+      }
+
+      function init() {
+        const container = document.getElementById('earth-background');
+
+        // Scene
+        scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x1E1E1E, 0.0001);
+
+        // Camera
+        camera = new THREE.PerspectiveCamera(
+          60,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          5000
+        );
+        camera.position.set(0, 100, 800);
+        camera.lookAt(0, 0, 0);
+
+        // Renderer
+        renderer = new THREE.WebGLRenderer({
+          antialias: true,
+          alpha: true
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit for performance
+        container.appendChild(renderer.domElement);
+
+        // Generate particles
+        stars = generateEarthParticles(25000); // Reduced for performance
+
+        // Create particle system
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(stars.length * 3);
+        const colors = new Float32Array(stars.length * 3);
+        const sizes = new Float32Array(stars.length);
+
+        for (let i = 0; i < stars.length; i++) {
+          const star = stars[i];
+          positions[i * 3] = star.x;
+          positions[i * 3 + 1] = star.y;
+          positions[i * 3 + 2] = star.z;
+
+          const color = new THREE.Color(star.color);
+          colors[i * 3] = color.r;
+          colors[i * 3 + 1] = color.g;
+          colors[i * 3 + 2] = color.b;
+
+          sizes[i] = star.size;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+        const material = new THREE.ShaderMaterial({
+          uniforms: {
+            pointTexture: { value: createParticleTexture() }
+          },
+          vertexShader: `
+            attribute float size;
+            varying vec3 vColor;
+            void main() {
+              vColor = color;
+              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+              gl_PointSize = size * (300.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+            uniform sampler2D pointTexture;
+            varying vec3 vColor;
+            void main() {
+              vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+              gl_FragColor = vec4(vColor * 1.1, 0.85) * texColor;
+            }
+          `,
+          blending: THREE.NormalBlending,
+          depthTest: true,
+          depthWrite: false,
+          transparent: true,
+          vertexColors: true
+        });
+
+        particleSystem = new THREE.Points(geometry, material);
+        scene.add(particleSystem);
+
+        // Ambient light
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        // Handle window resize
+        window.addEventListener('resize', onWindowResize, false);
+
+        // Start animation
+        animate();
+      }
+
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Gentle auto-rotation
+        if (autoRotate && particleSystem) {
+          particleSystem.rotation.y += 0.0005; // Slower for subtle effect
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      // Initialize when page loads
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
 
 </body>
 
