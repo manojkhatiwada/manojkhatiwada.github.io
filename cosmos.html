@@ -256,8 +256,8 @@
                     finalColor = Math.random() > 0.3 ? 0xFAF9F5 : 0xE5F2FF; // White/light blue ice
                 }
 
-                // Particle size variation
-                const size = 1.2 + Math.random() * 1.5;
+                // Particle size variation (larger for better visibility)
+                const size = 3.5 + Math.random() * 2.5;
 
                 stars.push({
                     x, y, z,
@@ -359,7 +359,7 @@
                     void main() {
                         vColor = color;
                         vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                        gl_PointSize = size * (250.0 / -mvPosition.z);
+                        gl_PointSize = size * (400.0 / -mvPosition.z);
                         gl_Position = projectionMatrix * mvPosition;
                     }
                 `,
