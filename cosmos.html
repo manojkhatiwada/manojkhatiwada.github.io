@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Cosmos - Real Star Catalog Visualization</title>
+    <title>Earth From Stars - Interactive Particle Earth Visualization</title>
     <style>
         * {
             margin: 0;
@@ -152,7 +152,7 @@
 <body>
     <div id="loading">
         <div class="spinner"></div>
-        <p>Loading 50,000+ stars...</p>
+        <p>Forming Earth from particles...</p>
     </div>
 
     <a href="index.html" id="home-button">← Back to Portfolio</a>
@@ -160,79 +160,112 @@
     <div id="canvas-container"></div>
 
     <div id="info-panel">
-        <h1>Cosmos Explorer</h1>
-        <p>Navigate through 50,000+ real stars mapped from astronomical data.</p>
-        <p id="star-count">Stars: 0</p>
+        <h1>Earth From Stars</h1>
+        <p>An interactive particle Earth formed from 50,000+ particles representing oceans, continents, and ice caps.</p>
+        <p id="star-count">Particles: 0</p>
 
         <div class="control-info">
             <h3>Controls</h3>
-            <div class="control-item">🖱️ Left Click + Drag: Rotate</div>
-            <div class="control-item">🖱️ Right Click + Drag: Pan</div>
+            <div class="control-item">🖱️ Left Click + Drag: Rotate Earth</div>
+            <div class="control-item">🖱️ Right Click + Drag: Pan View</div>
             <div class="control-item">⚙️ Scroll: Zoom In/Out</div>
-            <div class="control-item">🎯 Click Star: View Info</div>
         </div>
     </div>
 
     <div id="stats">
         <div class="stat-row">Camera Position: <span id="cam-pos">0, 0, 0</span></div>
-        <div class="stat-row">Visible Stars: <span id="visible-stars">0</span></div>
+        <div class="stat-row">Visible Particles: <span id="visible-stars">0</span></div>
         <div class="stat-row">FPS: <span id="fps">60</span></div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Star data generator based on astronomical distributions
+        // Star data generator - forms Earth sphere
         function generateStarCatalog(count) {
             const stars = [];
+            const earthRadius = 800; // Base radius for Earth sphere
 
-            // Warm color palette inspired by Claude Code design
-            const starTypes = [
-                { name: 'Bright', temp: 8000, color: 0xFAF9F5, probability: 5 },      // Cream white
-                { name: 'Warm', temp: 6000, color: 0xE5C9B5, probability: 15 },       // Warm beige
-                { name: 'Terracotta', temp: 5000, color: 0xD97757, probability: 25 }, // Clay/Terracotta
-                { name: 'Olive', temp: 4500, color: 0x9DAA88, probability: 20 },      // Sage/Olive
-                { name: 'Moss', temp: 4000, color: 0x788C5D, probability: 20 },       // Deep olive/moss
-                { name: 'Amber', temp: 3500, color: 0xC9956B, probability: 10 },      // Amber/bronze
-                { name: 'Subtle', temp: 3000, color: 0xB0AEA5, probability: 5 }       // Light grey
+            // Earth-inspired color palette
+            const oceanColors = [
+                { color: 0x4A90E2, probability: 35 },  // Deep blue
+                { color: 0x5BA3E8, probability: 20 },  // Medium blue
+                { color: 0x6BB6FF, probability: 10 }   // Light blue
             ];
 
-            // Generate stars with realistic distribution
+            const landColors = [
+                { color: 0x788C5D, probability: 15 },  // Forest green
+                { color: 0x9DAA88, probability: 10 },  // Light green
+                { color: 0xD97757, probability: 5 },   // Desert terracotta
+                { color: 0xC9956B, probability: 3 },   // Sandy brown
+                { color: 0xFAF9F5, probability: 2 }    // Ice/snow white
+            ];
+
+            // Combine color palettes (70% ocean, 30% land - like Earth)
+            const allColors = [];
+            oceanColors.forEach(c => {
+                for (let i = 0; i < c.probability; i++) allColors.push(c.color);
+            });
+            landColors.forEach(c => {
+                for (let i = 0; i < c.probability; i++) allColors.push(c.color);
+            });
+
+            // Generate stars distributed on a sphere (Earth surface)
             for (let i = 0; i < count; i++) {
-                // Use spherical coordinates for even distribution
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.acos(2 * Math.random() - 1);
-                const radius = 1000 + Math.random() * 4000;
+                // Use Fibonacci sphere for even distribution
+                const phi = Math.acos(1 - 2 * (i + 0.5) / count);
+                const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+
+                // Add slight randomness to create texture (depth variation)
+                const radiusVariation = earthRadius + (Math.random() - 0.5) * 50;
 
                 // Convert to Cartesian coordinates
-                const x = radius * Math.sin(phi) * Math.cos(theta);
-                const y = radius * Math.sin(phi) * Math.sin(theta);
-                const z = radius * Math.cos(phi);
+                const x = radiusVariation * Math.sin(phi) * Math.cos(theta);
+                const y = radiusVariation * Math.sin(phi) * Math.sin(theta);
+                const z = radiusVariation * Math.cos(phi);
 
-                // Select star type based on probability distribution
-                let cumulativeProbability = 0;
-                let selectedType = starTypes[starTypes.length - 1];
-                const random = Math.random() * 100;
+                // Select color (more blues for ocean, greens/browns for land)
+                const selectedColor = allColors[Math.floor(Math.random() * allColors.length)];
 
-                for (const type of starTypes) {
-                    cumulativeProbability += type.probability;
-                    if (random <= cumulativeProbability) {
-                        selectedType = type;
-                        break;
-                    }
+                // Create continents by clustering land colors
+                const latitude = phi;
+                const longitude = theta % (2 * Math.PI);
+
+                // Simple continent simulation (roughly Earth-like)
+                let finalColor = selectedColor;
+
+                // Create land masses based on position
+                const isLand = (
+                    // Africa/Europe region
+                    (latitude > 1.0 && latitude < 2.2 && longitude > 0 && longitude < 2.5) ||
+                    // Americas region
+                    (latitude > 0.8 && latitude < 2.5 && longitude > 3.5 && longitude < 5.0) ||
+                    // Asia region
+                    (latitude > 0.7 && latitude < 2.0 && longitude > 2.5 && longitude < 4.5)
+                );
+
+                if (isLand) {
+                    const landColorOptions = [0x788C5D, 0x9DAA88, 0xD97757, 0xC9956B];
+                    finalColor = landColorOptions[Math.floor(Math.random() * landColorOptions.length)];
+                } else {
+                    const oceanColorOptions = [0x4A90E2, 0x5BA3E8, 0x6BB6FF];
+                    finalColor = oceanColorOptions[Math.floor(Math.random() * oceanColorOptions.length)];
                 }
 
-                // Brightness based on inverse square law with some randomization
-                const baseBrightness = 1 / (radius / 1000);
-                const brightness = baseBrightness * (0.4 + Math.random() * 1.8);
-                const size = brightness * 2.5 * (0.7 + Math.random() * 0.6);
+                // Add ice caps at poles
+                if (latitude < 0.3 || latitude > 2.84) {
+                    finalColor = Math.random() > 0.3 ? 0xFAF9F5 : 0xE5F2FF; // White/light blue ice
+                }
+
+                // Particle size variation
+                const size = 1.2 + Math.random() * 1.5;
 
                 stars.push({
                     x, y, z,
-                    color: selectedType.color,
-                    size: Math.max(0.8, Math.min(6, size)),
-                    magnitude: -2.5 * Math.log10(brightness),
-                    type: selectedType.name,
-                    temperature: selectedType.temp
+                    color: finalColor,
+                    size: size,
+                    magnitude: 0,
+                    type: 'Earth',
+                    temperature: 5778 // Sun's temperature (Earth reference)
                 });
             }
 
@@ -257,7 +290,8 @@
                 0.1,
                 10000
             );
-            camera.position.set(0, 0, 1500);
+            camera.position.set(0, 200, 1400);
+            camera.lookAt(0, 0, 0);
 
             // Renderer setup
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -266,9 +300,9 @@
             document.getElementById('canvas-container').appendChild(renderer.domElement);
 
             // Generate star catalog
-            console.log('Generating star catalog...');
+            console.log('Generating Earth from particles...');
             stars = generateStarCatalog(50000);
-            document.getElementById('star-count').textContent = `Stars: ${stars.length.toLocaleString()}`;
+            document.getElementById('star-count').textContent = `Particles: ${stars.length.toLocaleString()}`;
 
             // Create particle system
             createParticleSystem();
@@ -377,6 +411,7 @@
 
             renderer.domElement.addEventListener('mousedown', (e) => {
                 isDragging = true;
+                autoRotate = false; // Stop auto-rotation when user interacts
                 document.body.classList.add('grabbing');
                 previousMousePosition = { x: e.clientX, y: e.clientY };
             });
@@ -441,8 +476,15 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
+        let autoRotate = true;
+
         function animate() {
             requestAnimationFrame(animate);
+
+            // Gentle auto-rotation of Earth
+            if (autoRotate) {
+                particleSystem.rotation.y += 0.001;
+            }
 
             // Update stats
             frameCount++;
