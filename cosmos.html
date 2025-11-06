@@ -298,6 +298,7 @@
         // Moving objects
         let sun, moon, satellites = [], rockets = [], airplanes = [];
         let sunLight, moonLight;
+        let earthSystem; // Group containing Earth and its orbiting objects
 
         function init() {
             // Scene setup
@@ -325,19 +326,32 @@
             stars = generateStarCatalog(50000);
             document.getElementById('star-count').textContent = `Particles: ${stars.length.toLocaleString()}`;
 
-            // Create particle system
+            // Create Earth system (group that will orbit the sun)
+            earthSystem = new THREE.Group();
+            scene.add(earthSystem);
+
+            // Create particle system and add to Earth system
             createParticleSystem();
+            earthSystem.add(particleSystem);
 
             // Add brighter ambient light for better visibility
             const ambientLight = new THREE.AmbientLight(0x606060);
             scene.add(ambientLight);
 
             // Create moving objects
-            createSun();
-            createMoon();
-            createSatellites();
-            createRockets();
-            createAirplanes();
+            createSun(); // Sun at center (stationary)
+            createMoon(); // Moon orbits Earth
+            createSatellites(); // Satellites orbit Earth
+            createRockets(); // Rockets orbit Earth
+            createAirplanes(); // Airplanes orbit Earth
+
+            // Position Earth system's initial orbit position
+            earthSystem.position.set(2500, 0, 0);
+            earthSystem.userData = {
+                orbitRadius: 2500,
+                orbitSpeed: 0.00005, // Earth's orbital speed around sun
+                angle: 0
+            };
 
             // Setup controls
             setupControls();
@@ -408,7 +422,7 @@
             });
 
             particleSystem = new THREE.Points(geometry, material);
-            scene.add(particleSystem);
+            // Don't add to scene here, will be added to earthSystem in init()
         }
 
         function createStarTexture() {
@@ -508,7 +522,8 @@
             const flares = new THREE.Points(flareGeometry, flareMaterial);
             sun.add(flares);
 
-            sun.position.set(2500, 500, 0);
+            // Sun stays at origin (0, 0, 0) - center of solar system
+            sun.position.set(0, 0, 0);
             scene.add(sun);
 
             // Store references for animation
@@ -523,7 +538,7 @@
 
             // Add dynamic directional light from sun
             sunLight = new THREE.DirectionalLight(0xFFFFFF, 1.2);
-            sunLight.position.copy(sun.position);
+            sunLight.position.set(0, 0, 0);
             scene.add(sunLight);
         }
 
@@ -536,13 +551,20 @@
                 metalness: 0.2
             });
             moon = new THREE.Mesh(moonGeometry, moonMaterial);
-            moon.position.set(-2000, 300, -500);
-            scene.add(moon);
+
+            // Moon orbits Earth at distance (relative to Earth's position)
+            moon.position.set(1200, 0, 0);
+            earthSystem.add(moon); // Add to Earth system so it orbits with Earth
+
+            moon.userData = {
+                orbitRadius: 1200,
+                orbitSpeed: 0.001, // Moon's orbit speed around Earth
+                angle: 0
+            };
 
             // Add subtle moon light
             moonLight = new THREE.DirectionalLight(0xB0C4DE, 0.3);
-            moonLight.position.copy(moon.position);
-            scene.add(moonLight);
+            earthSystem.add(moonLight);
         }
 
         function createSatellites() {
@@ -591,7 +613,7 @@
                     verticalAngle: angle * 1.5
                 };
 
-                scene.add(satelliteGroup);
+                earthSystem.add(satelliteGroup); // Add to Earth system
                 satellites.push(satelliteGroup);
             }
         }
@@ -653,7 +675,7 @@
                     trailPositions: []
                 };
 
-                scene.add(rocketGroup);
+                earthSystem.add(rocketGroup); // Add to Earth system
                 rockets.push(rocketGroup);
             }
         }
@@ -708,7 +730,7 @@
                     verticalAngle: angle * 2
                 };
 
-                scene.add(planeGroup);
+                earthSystem.add(planeGroup); // Add to Earth system
                 airplanes.push(planeGroup);
             }
         }
@@ -790,18 +812,21 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Gentle auto-rotation of Earth
-            if (autoRotate) {
+            // Earth rotates on its axis
+            if (autoRotate && particleSystem) {
                 particleSystem.rotation.y += 0.001;
             }
 
-            // Animate sun orbit and effects
-            if (sun && sun.userData) {
-                const sunTime = Date.now() * 0.0001;
-                sun.position.x = Math.cos(sunTime) * 2500;
-                sun.position.z = Math.sin(sunTime) * 2500;
-                sunLight.position.copy(sun.position);
+            // Earth system orbits the sun
+            if (earthSystem && earthSystem.userData) {
+                earthSystem.userData.angle += earthSystem.userData.orbitSpeed;
+                const newX = Math.cos(earthSystem.userData.angle) * earthSystem.userData.orbitRadius;
+                const newZ = Math.sin(earthSystem.userData.angle) * earthSystem.userData.orbitRadius;
+                earthSystem.position.set(newX, 0, newZ);
+            }
 
+            // Animate sun effects (sun stays stationary at origin)
+            if (sun && sun.userData) {
                 // Pulsing effect
                 sun.userData.pulsePhase += 0.02;
                 const pulse = Math.sin(sun.userData.pulsePhase) * 0.15 + 1.0;
@@ -832,12 +857,17 @@
                 sunLight.intensity = 1.1 + Math.sin(sun.userData.pulsePhase * 0.6) * 0.3;
             }
 
-            // Animate moon orbit (opposite to sun)
-            if (moon) {
-                const moonTime = Date.now() * 0.0001 + Math.PI;
-                moon.position.x = Math.cos(moonTime) * 2000;
-                moon.position.z = Math.sin(moonTime) * 2000;
-                moonLight.position.copy(moon.position);
+            // Animate moon orbit around Earth (moon is in earthSystem)
+            if (moon && moon.userData) {
+                moon.userData.angle += moon.userData.orbitSpeed;
+                const moonX = Math.cos(moon.userData.angle) * moon.userData.orbitRadius;
+                const moonZ = Math.sin(moon.userData.angle) * moon.userData.orbitRadius;
+                moon.position.set(moonX, 0, moonZ);
+
+                // Update moon light position
+                if (moonLight) {
+                    moonLight.position.copy(moon.position);
+                }
             }
 
             // Animate satellites
