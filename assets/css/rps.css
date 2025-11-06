@@ -82,3 +82,18 @@
 .rps-debug.show{display:block}
 .rps-debug small{display:block;opacity:0.8;font-size:12px;margin-top:6px}
 
+/* series message (for computer-win jokes or short messages) */
+.series-msg{
+  position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(.96);z-index:10001;min-width:320px;max-width:80vw;padding:18px 22px;border-radius:12px;background:linear-gradient(135deg,rgba(0,0,0,0.6),rgba(26,31,46,0.85));color:#fff;box-shadow:0 12px 40px rgba(2,6,23,0.6);text-align:center;opacity:0;transition:opacity .2s ease,transform .28s cubic-bezier(.2,.9,.3,1);
+}
+.series-msg.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.series-msg .title{font-size:20px;font-weight:700;margin-bottom:6px}
+.series-msg .body{font-size:15px;opacity:0.95}
+
+@keyframes popIn{
+  0%{transform:translate(-50%,-50%) scale(.9);opacity:0}
+  60%{transform:translate(-50%,-50%) scale(1.04);opacity:1}
+  100%{transform:translate(-50%,-50%) scale(1)}
+}
+.series-msg.pop{animation:popIn .45s cubic-bezier(.2,.9,.2,1) both}
+

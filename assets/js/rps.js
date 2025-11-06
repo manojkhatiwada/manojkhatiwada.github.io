@@ -158,7 +158,7 @@
           clearInterval(interval);
           // draw big text
           ctx.save();
-          const txt = winner === 'player' ? 'YOU WIN THE SERIES!' : 'COMPUTER WINS THE SERIES';
+          const txt = winner === 'player' ? 'YOU WON!!' : 'COMPUTER WON!!';
           ctx.font = `bold ${Math.max(36, Math.round(canvas.width/10))}px sans-serif`;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
@@ -185,6 +185,34 @@
       }, 90);
     } catch(e){
       // ignore
+    }
+  }
+
+  // show a short joke/message when computer wins the series
+  function showComputerWinJoke() {
+    try {
+      const jokes = [
+        "Computer: I only won because you let me practice in the cloud.",
+        "Computer: Don't worry — it's just a software update glitch.",
+        "Computer: I promise I won't gloat... much.",
+        "Computer: I used rock-paper-scissors AI (v0.1). Results: predictable.",
+        "Computer: You played well. My algorithms just had coffee."
+      ];
+      const text = jokes[Math.floor(Math.random()*jokes.length)];
+
+      const el = document.createElement('div');
+      el.className = 'series-msg pop';
+      el.innerHTML = `<div class="title">Computer wins the series</div><div class="body">${text}</div>`;
+      document.body.appendChild(el);
+      // show
+      requestAnimationFrame(()=> el.classList.add('show'));
+      // remove after short delay
+      setTimeout(()=>{
+        el.classList.remove('show');
+        setTimeout(()=> el.remove(), 350);
+      }, 2500);
+    } catch (e) {
+      console.warn('showComputerWinJoke failed', e);
     }
   }
 
@@ -263,18 +291,23 @@
     writeScore(score);
     updateScoreboardUI(score);
 
-    // update series (best of 3)
-    if (outcome === 'win') seriesWins += 1;
-    else if (outcome === 'loss') seriesLosses += 1;
-    updateSeriesUI();
+  // update series (best of 3)
+  if (outcome === 'win') { seriesWins += 1; console.log('seriesWins ->', seriesWins); }
+  else if (outcome === 'loss') { seriesLosses += 1; console.log('seriesLosses ->', seriesLosses); }
+  updateSeriesUI();
 
     // check for series winner (first to 2)
     if (seriesWins >= 2 || seriesLosses >= 2) {
       const winner = seriesWins >= 2 ? 'player' : 'computer';
-      // trigger graffiti
-      showGraffiti(winner);
-      // small celebratory confetti near center
-      showConfetti(50);
+      // Only show graffiti when the human player wins the series
+      if (winner === 'player') {
+        showGraffiti('player');
+        // small celebratory confetti near center
+        showConfetti(50);
+      } else {
+        // Computer won the series: no graffiti (per user request).
+        // You could add a subtle visual here if you like (e.g. a short message).
+      }
       // reset series after short delay
       setTimeout(()=>{
         seriesWins = 0; seriesLosses = 0; updateSeriesUI();
@@ -306,5 +339,12 @@
   // init UI from session
   const initial = readScore();
   updateScoreboardUI(initial);
+
+  // initialize series UI to ensure elements are populated
+  try{
+    updateSeriesUI();
+  }catch(e){
+    console.warn('Failed to initialize series UI', e);
+  }
 
 })();
