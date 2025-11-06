@@ -485,8 +485,10 @@
     /* === PROJECTS GRID === */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .project-card {
@@ -496,25 +498,19 @@
       overflow: hidden;
       backdrop-filter: blur(10px);
       transition: all 0.3s;
-      display: flex;
-      flex-direction: column;
     }
 
     .project-card:hover {
-      transform: translateY(-10px);
       border-color: var(--accent-blue);
       box-shadow: 0 20px 60px rgba(93, 169, 255, 0.2);
     }
 
     .project-content {
       padding: 2rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
     }
 
     .project-title {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-bottom: 1rem;
       color: var(--text-primary);
     }
@@ -523,13 +519,13 @@
       color: var(--text-secondary);
       line-height: 1.8;
       margin-bottom: 1.5rem;
-      flex: 1;
+      font-size: 1.05rem;
     }
 
     .project-links {
       display: flex;
       gap: 1rem;
-      margin-top: auto;
+      margin-bottom: 1.5rem;
     }
 
     .project-link {
@@ -538,7 +534,8 @@
       text-decoration: none;
       font-weight: 600;
       transition: all 0.3s;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      display: inline-block;
     }
 
     .project-link-primary {
@@ -548,12 +545,28 @@
 
     .project-link-primary:hover {
       background: var(--accent-green);
+      transform: translateY(-2px);
+    }
+
+    .project-embed-container {
+      width: 100%;
+      min-height: 500px;
+      margin-top: 1.5rem;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.2);
     }
 
     .project-embed {
       width: 100%;
-      height: 300px;
+      min-height: 500px;
       border: none;
+    }
+
+    .tableauPlaceholder {
+      width: 100%;
+      min-height: 600px;
+      margin-top: 1.5rem;
     }
 
     /* === AWARDS === */
@@ -1075,7 +1088,7 @@
             <p class="project-description">
               Explores the crops that have increased and decreased production in the state of Missouri over Years. Interactive Tableau dashboard with comprehensive agricultural data analysis.
             </p>
-            <div class='tableauPlaceholder' id='viz1715607817211' style='position: relative'>
+            <div class='tableauPlaceholder' id='viz1715607817211'>
               <noscript><a href='#'><img alt='Dashboard 1'
                     src='https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1_rss.png'
                     style='border: none' /></a></noscript>
@@ -1107,7 +1120,7 @@
             <p class="project-description">
               Enrollments Statistics in the state and private educational institutions in the state of Washington. Comprehensive data visualization dashboard.
             </p>
-            <div class='tableauPlaceholder' id='viz1715608141020' style='position: relative'>
+            <div class='tableauPlaceholder' id='viz1715608141020'>
               <noscript><a href='#'><img alt='Dashboard 1'
                     src='https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1_rss.png'
                     style='border: none' /></a></noscript>
@@ -1138,7 +1151,7 @@
             <p class="project-description">
               Exploring the library visits in the state of Oregon with comprehensive data analysis and visualization.
             </p>
-            <div class='tableauPlaceholder' id='viz1715608425367' style='position: relative'>
+            <div class='tableauPlaceholder' id='viz1715608425367'>
               <noscript><a href='#'><img alt='Combined Dashboard'
                     src='https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1_rss.png'
                     style='border: none' /></a></noscript>
@@ -1169,8 +1182,10 @@
             <p class="project-description">
               Community event organization and coordination project showcasing leadership and event management skills.
             </p>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1"
-              class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+            <div class="project-embed-container">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1"
+                class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+            </div>
           </div>
         </div>
 
@@ -1181,8 +1196,10 @@
             <p class="project-description">
               Comprehensive final project demonstrating full-stack development capabilities and project management.
             </p>
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1"
-              class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+            <div class="project-embed-container">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1"
+                class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+            </div>
           </div>
         </div>
       </div>
