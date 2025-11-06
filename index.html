@@ -44,25 +44,41 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -1;
+      z-index: 0;
       pointer-events: none;
+    }
+
+    #earth-background canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     /* Ensure content is visible over background */
     body {
       position: relative;
+      background: #040713 !important;
+    }
+
+    /* Layer content above background */
+    header, #hero, #main, footer, .mobile-nav-toggle, #preloader, .back-to-top {
+      position: relative;
+      z-index: 10;
     }
 
     /* Add subtle backdrop for better text readability */
-    #hero, #main section {
-      position: relative;
-    }
-
     #hero .container {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
       padding: 30px;
       border-radius: 15px;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Darken sections for readability */
+    #main section {
+      background: rgba(4, 7, 19, 0.85);
+      position: relative;
+      z-index: 10;
     }
   </style>
 </head>
@@ -1033,7 +1049,7 @@
 
       function generateEarthParticles(count) {
         const particles = [];
-        const earthRadius = 400; // Smaller for background
+        const earthRadius = 500; // Larger for better visibility
 
         const oceanColors = [0x5DA9FF, 0x7BC2FF, 0x99D5FF];
         const landColors = [0x8FBC6D, 0xB4D99E, 0xF5A577, 0xE4B888];
@@ -1073,7 +1089,7 @@
           particles.push({
             x, y, z,
             color: color,
-            size: 2.0 + Math.random() * 1.5
+            size: 2.5 + Math.random() * 2.0
           });
         }
 
@@ -1105,7 +1121,8 @@
 
         // Scene
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x1E1E1E, 0.0001);
+        scene.background = new THREE.Color(0x040713);
+        scene.fog = new THREE.FogExp2(0x040713, 0.00015);
 
         // Camera
         camera = new THREE.PerspectiveCamera(
@@ -1120,14 +1137,15 @@
         // Renderer
         renderer = new THREE.WebGLRenderer({
           antialias: true,
-          alpha: true
+          alpha: false
         });
+        renderer.setClearColor(0x040713);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit for performance
         container.appendChild(renderer.domElement);
 
         // Generate particles
-        stars = generateEarthParticles(25000); // Reduced for performance
+        stars = generateEarthParticles(30000); // More particles for better visibility
 
         // Create particle system
         const geometry = new THREE.BufferGeometry();
