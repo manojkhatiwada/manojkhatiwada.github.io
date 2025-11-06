@@ -278,6 +278,10 @@
         let frameCount = 0;
         let lastTime = Date.now();
 
+        // Moving objects
+        let sun, moon, satellites = [], rockets = [], airplanes = [];
+        let sunLight, moonLight;
+
         function init() {
             // Scene setup
             scene = new THREE.Scene();
@@ -310,6 +314,13 @@
             // Add brighter ambient light for better visibility
             const ambientLight = new THREE.AmbientLight(0x606060);
             scene.add(ambientLight);
+
+            // Create moving objects
+            createSun();
+            createMoon();
+            createSatellites();
+            createRockets();
+            createAirplanes();
 
             // Setup controls
             setupControls();
@@ -405,6 +416,220 @@
             return texture;
         }
 
+        function createSun() {
+            // Create sun sphere
+            const sunGeometry = new THREE.SphereGeometry(80, 32, 32);
+            const sunMaterial = new THREE.MeshBasicMaterial({
+                color: 0xFDB813,
+                emissive: 0xFDB813,
+                emissiveIntensity: 0.8
+            });
+            sun = new THREE.Mesh(sunGeometry, sunMaterial);
+            sun.position.set(2500, 500, 0);
+            scene.add(sun);
+
+            // Add sun glow
+            const glowGeometry = new THREE.SphereGeometry(120, 32, 32);
+            const glowMaterial = new THREE.MeshBasicMaterial({
+                color: 0xFFD700,
+                transparent: true,
+                opacity: 0.3
+            });
+            const sunGlow = new THREE.Mesh(glowGeometry, glowMaterial);
+            sun.add(sunGlow);
+
+            // Add directional light from sun
+            sunLight = new THREE.DirectionalLight(0xFFFFFF, 1.2);
+            sunLight.position.copy(sun.position);
+            scene.add(sunLight);
+        }
+
+        function createMoon() {
+            // Create moon sphere
+            const moonGeometry = new THREE.SphereGeometry(50, 32, 32);
+            const moonMaterial = new THREE.MeshStandardMaterial({
+                color: 0xC0C0C0,
+                roughness: 0.8,
+                metalness: 0.2
+            });
+            moon = new THREE.Mesh(moonGeometry, moonMaterial);
+            moon.position.set(-2000, 300, -500);
+            scene.add(moon);
+
+            // Add subtle moon light
+            moonLight = new THREE.DirectionalLight(0xB0C4DE, 0.3);
+            moonLight.position.copy(moon.position);
+            scene.add(moonLight);
+        }
+
+        function createSatellites() {
+            // Create 5 satellites at different orbits
+            for (let i = 0; i < 5; i++) {
+                const satelliteGroup = new THREE.Group();
+
+                // Satellite body
+                const bodyGeometry = new THREE.BoxGeometry(8, 8, 12);
+                const bodyMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xCCCCCC,
+                    metalness: 0.8,
+                    roughness: 0.2
+                });
+                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+                satelliteGroup.add(body);
+
+                // Solar panels
+                const panelGeometry = new THREE.BoxGeometry(20, 0.5, 8);
+                const panelMaterial = new THREE.MeshStandardMaterial({
+                    color: 0x1E3A8A,
+                    metalness: 0.5,
+                    roughness: 0.3
+                });
+                const leftPanel = new THREE.Mesh(panelGeometry, panelMaterial);
+                leftPanel.position.set(-14, 0, 0);
+                satelliteGroup.add(leftPanel);
+
+                const rightPanel = new THREE.Mesh(panelGeometry, panelMaterial);
+                rightPanel.position.set(14, 0, 0);
+                satelliteGroup.add(rightPanel);
+
+                // Position satellite in orbit
+                const orbitRadius = 1000 + i * 150;
+                const angle = (Math.PI * 2 / 5) * i;
+                satelliteGroup.position.set(
+                    Math.cos(angle) * orbitRadius,
+                    Math.sin(angle * 1.5) * 200,
+                    Math.sin(angle) * orbitRadius
+                );
+
+                satelliteGroup.userData = {
+                    orbitRadius: orbitRadius,
+                    orbitSpeed: 0.0005 + Math.random() * 0.0003,
+                    angle: angle,
+                    verticalAngle: angle * 1.5
+                };
+
+                scene.add(satelliteGroup);
+                satellites.push(satelliteGroup);
+            }
+        }
+
+        function createRockets() {
+            // Create 3 rockets
+            for (let i = 0; i < 3; i++) {
+                const rocketGroup = new THREE.Group();
+
+                // Rocket body (cone)
+                const bodyGeometry = new THREE.ConeGeometry(6, 30, 8);
+                const bodyMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xE8E8E8,
+                    metalness: 0.7,
+                    roughness: 0.3
+                });
+                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+                body.rotation.x = Math.PI / 2;
+                rocketGroup.add(body);
+
+                // Rocket nose (tip)
+                const tipGeometry = new THREE.ConeGeometry(6, 10, 8);
+                const tipMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xFF4500,
+                    metalness: 0.5,
+                    roughness: 0.4
+                });
+                const tip = new THREE.Mesh(tipGeometry, tipMaterial);
+                tip.rotation.x = Math.PI / 2;
+                tip.position.z = 20;
+                rocketGroup.add(tip);
+
+                // Exhaust trail particles
+                const trailGeometry = new THREE.BufferGeometry();
+                const trailMaterial = new THREE.PointsMaterial({
+                    color: 0xFF6600,
+                    size: 8,
+                    transparent: true,
+                    opacity: 0.6,
+                    blending: THREE.AdditiveBlending
+                });
+                const trail = new THREE.Points(trailGeometry, trailMaterial);
+                rocketGroup.add(trail);
+
+                // Position rocket
+                const orbitRadius = 900 + i * 100;
+                const angle = (Math.PI * 2 / 3) * i;
+                rocketGroup.position.set(
+                    Math.cos(angle) * orbitRadius,
+                    -300 + i * 150,
+                    Math.sin(angle) * orbitRadius
+                );
+
+                rocketGroup.userData = {
+                    orbitRadius: orbitRadius,
+                    orbitSpeed: 0.001 + Math.random() * 0.0005,
+                    angle: angle,
+                    trail: trail,
+                    trailPositions: []
+                };
+
+                scene.add(rocketGroup);
+                rockets.push(rocketGroup);
+            }
+        }
+
+        function createAirplanes() {
+            // Create 4 airplanes flying around Earth
+            for (let i = 0; i < 4; i++) {
+                const planeGroup = new THREE.Group();
+
+                // Fuselage
+                const fuselageGeometry = new THREE.CylinderGeometry(2, 2, 16, 8);
+                const fuselageMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xFFFFFF,
+                    metalness: 0.6,
+                    roughness: 0.4
+                });
+                const fuselage = new THREE.Mesh(fuselageGeometry, fuselageMaterial);
+                fuselage.rotation.z = Math.PI / 2;
+                planeGroup.add(fuselage);
+
+                // Wings
+                const wingGeometry = new THREE.BoxGeometry(30, 0.5, 8);
+                const wingMaterial = new THREE.MeshStandardMaterial({
+                    color: 0xE0E0E0,
+                    metalness: 0.5,
+                    roughness: 0.5
+                });
+                const wings = new THREE.Mesh(wingGeometry, wingMaterial);
+                wings.position.y = 0;
+                planeGroup.add(wings);
+
+                // Tail
+                const tailGeometry = new THREE.BoxGeometry(8, 0.5, 6);
+                const tail = new THREE.Mesh(tailGeometry, wingMaterial);
+                tail.position.set(-8, 3, 0);
+                tail.rotation.y = Math.PI / 2;
+                planeGroup.add(tail);
+
+                // Position airplane closer to Earth surface
+                const orbitRadius = 850 + i * 30;
+                const angle = (Math.PI * 2 / 4) * i;
+                planeGroup.position.set(
+                    Math.cos(angle) * orbitRadius,
+                    Math.sin(angle * 2) * 100,
+                    Math.sin(angle) * orbitRadius
+                );
+
+                planeGroup.userData = {
+                    orbitRadius: orbitRadius,
+                    orbitSpeed: 0.002 + Math.random() * 0.001,
+                    angle: angle,
+                    verticalAngle: angle * 2
+                };
+
+                scene.add(planeGroup);
+                airplanes.push(planeGroup);
+            }
+        }
+
         function setupControls() {
             let isDragging = false;
             let previousMousePosition = { x: 0, y: 0 };
@@ -486,6 +711,94 @@
             if (autoRotate) {
                 particleSystem.rotation.y += 0.001;
             }
+
+            // Animate sun orbit
+            if (sun) {
+                const sunTime = Date.now() * 0.0001;
+                sun.position.x = Math.cos(sunTime) * 2500;
+                sun.position.z = Math.sin(sunTime) * 2500;
+                sunLight.position.copy(sun.position);
+            }
+
+            // Animate moon orbit (opposite to sun)
+            if (moon) {
+                const moonTime = Date.now() * 0.0001 + Math.PI;
+                moon.position.x = Math.cos(moonTime) * 2000;
+                moon.position.z = Math.sin(moonTime) * 2000;
+                moonLight.position.copy(moon.position);
+            }
+
+            // Animate satellites
+            satellites.forEach(satellite => {
+                satellite.userData.angle += satellite.userData.orbitSpeed;
+                satellite.userData.verticalAngle += satellite.userData.orbitSpeed * 1.5;
+
+                satellite.position.x = Math.cos(satellite.userData.angle) * satellite.userData.orbitRadius;
+                satellite.position.y = Math.sin(satellite.userData.verticalAngle) * 200;
+                satellite.position.z = Math.sin(satellite.userData.angle) * satellite.userData.orbitRadius;
+
+                // Rotate satellite slowly
+                satellite.rotation.y += 0.01;
+            });
+
+            // Animate rockets
+            rockets.forEach(rocket => {
+                rocket.userData.angle += rocket.userData.orbitSpeed;
+
+                const newX = Math.cos(rocket.userData.angle) * rocket.userData.orbitRadius;
+                const newZ = Math.sin(rocket.userData.angle) * rocket.userData.orbitRadius;
+
+                // Point rocket in direction of travel
+                const dx = newX - rocket.position.x;
+                const dz = newZ - rocket.position.z;
+                rocket.rotation.y = Math.atan2(dx, dz);
+
+                rocket.position.x = newX;
+                rocket.position.z = newZ;
+
+                // Update exhaust trail
+                rocket.userData.trailPositions.push({
+                    x: rocket.position.x,
+                    y: rocket.position.y,
+                    z: rocket.position.z
+                });
+
+                // Keep trail length limited
+                if (rocket.userData.trailPositions.length > 30) {
+                    rocket.userData.trailPositions.shift();
+                }
+
+                // Update trail geometry
+                const positions = new Float32Array(rocket.userData.trailPositions.length * 3);
+                rocket.userData.trailPositions.forEach((pos, i) => {
+                    positions[i * 3] = pos.x - rocket.position.x;
+                    positions[i * 3 + 1] = pos.y - rocket.position.y;
+                    positions[i * 3 + 2] = pos.z - rocket.position.z;
+                });
+                rocket.userData.trail.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            });
+
+            // Animate airplanes
+            airplanes.forEach(plane => {
+                plane.userData.angle += plane.userData.orbitSpeed;
+                plane.userData.verticalAngle += plane.userData.orbitSpeed * 2;
+
+                const newX = Math.cos(plane.userData.angle) * plane.userData.orbitRadius;
+                const newY = Math.sin(plane.userData.verticalAngle) * 100;
+                const newZ = Math.sin(plane.userData.angle) * plane.userData.orbitRadius;
+
+                // Point plane in direction of travel
+                const dx = newX - plane.position.x;
+                const dy = newY - plane.position.y;
+                const dz = newZ - plane.position.z;
+
+                plane.rotation.y = Math.atan2(dx, dz);
+                plane.rotation.x = Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)) * 0.5;
+
+                plane.position.x = newX;
+                plane.position.y = newY;
+                plane.position.z = newZ;
+            });
 
             // Update stats
             frameCount++;
