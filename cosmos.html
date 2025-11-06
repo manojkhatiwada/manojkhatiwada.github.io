@@ -185,19 +185,19 @@
             const stars = [];
             const earthRadius = 800; // Base radius for Earth sphere
 
-            // Earth-inspired color palette
+            // Brighter Earth-inspired color palette
             const oceanColors = [
-                { color: 0x4A90E2, probability: 35 },  // Deep blue
-                { color: 0x5BA3E8, probability: 20 },  // Medium blue
-                { color: 0x6BB6FF, probability: 10 }   // Light blue
+                { color: 0x5DA9FF, probability: 35 },  // Bright blue
+                { color: 0x7BC2FF, probability: 20 },  // Light ocean blue
+                { color: 0x99D5FF, probability: 10 }   // Very light blue
             ];
 
             const landColors = [
-                { color: 0x788C5D, probability: 15 },  // Forest green
-                { color: 0x9DAA88, probability: 10 },  // Light green
-                { color: 0xD97757, probability: 5 },   // Desert terracotta
-                { color: 0xC9956B, probability: 3 },   // Sandy brown
-                { color: 0xFAF9F5, probability: 2 }    // Ice/snow white
+                { color: 0x8FBC6D, probability: 15 },  // Bright forest green
+                { color: 0xB4D99E, probability: 10 },  // Bright light green
+                { color: 0xF5A577, probability: 5 },   // Bright terracotta
+                { color: 0xE4B888, probability: 3 },   // Bright sandy
+                { color: 0xFFFFFF, probability: 2 }    // Pure white
             ];
 
             // Combine color palettes (70% ocean, 30% land - like Earth)
@@ -244,16 +244,16 @@
                 );
 
                 if (isLand) {
-                    const landColorOptions = [0x788C5D, 0x9DAA88, 0xD97757, 0xC9956B];
+                    const landColorOptions = [0x8FBC6D, 0xB4D99E, 0xF5A577, 0xE4B888];
                     finalColor = landColorOptions[Math.floor(Math.random() * landColorOptions.length)];
                 } else {
-                    const oceanColorOptions = [0x4A90E2, 0x5BA3E8, 0x6BB6FF];
+                    const oceanColorOptions = [0x5DA9FF, 0x7BC2FF, 0x99D5FF];
                     finalColor = oceanColorOptions[Math.floor(Math.random() * oceanColorOptions.length)];
                 }
 
-                // Add ice caps at poles
+                // Add bright ice caps at poles
                 if (latitude < 0.3 || latitude > 2.84) {
-                    finalColor = Math.random() > 0.3 ? 0xFAF9F5 : 0xE5F2FF; // White/light blue ice
+                    finalColor = Math.random() > 0.3 ? 0xFFFFFF : 0xF0FAFF; // Pure white/bright ice
                 }
 
                 // Particle size variation (larger for better visibility)
@@ -281,7 +281,7 @@
         function init() {
             // Scene setup
             scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x1E1E1E, 0.00012);
+            scene.fog = new THREE.FogExp2(0x1E1E1E, 0.00008);
 
             // Camera setup
             camera = new THREE.PerspectiveCamera(
@@ -307,8 +307,8 @@
             // Create particle system
             createParticleSystem();
 
-            // Add ambient light for atmosphere
-            const ambientLight = new THREE.AmbientLight(0x2A2A2A);
+            // Add brighter ambient light for better visibility
+            const ambientLight = new THREE.AmbientLight(0x404040);
             scene.add(ambientLight);
 
             // Setup controls
@@ -368,7 +368,8 @@
                     varying vec3 vColor;
                     void main() {
                         vec4 texColor = texture2D(pointTexture, gl_PointCoord);
-                        gl_FragColor = vec4(vColor * 0.9, 0.85) * texColor;
+                        // Brighter output with enhanced color vibrancy
+                        gl_FragColor = vec4(vColor * 1.15, 0.95) * texColor;
                     }
                 `,
                 blending: THREE.NormalBlending,
