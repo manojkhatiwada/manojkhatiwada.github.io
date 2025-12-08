@@ -18,9 +18,9 @@
     <link href="assets/img/favicon.png" rel="icon" />
     <link href="assets/img/favicon.png" rel="apple-touch-icon" />
 
-    <!-- Google Fonts (Outfit for UI, Syne for headings) -->
+    <!-- Google Fonts (Inter for UI, Space Grotesk for headings) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -68,9 +68,9 @@
         --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
 
         /* Typography */
-        --font-sans: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto,
+        --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
           "Helvetica Neue", Arial, sans-serif;
-        --font-display: "Syne", "Outfit", sans-serif;
+        --font-display: "Space Grotesk", "Inter", sans-serif;
       }
 
       /* Enhanced Glassmorphism */
@@ -693,25 +693,16 @@
         position: relative;
       }
 
-      .timeline-item:nth-child(odd) .timeline-content {
-        margin-left: auto;
-        text-align: left;
-      }
-
-      .timeline-item:nth-child(even) .timeline-content {
-        margin-right: auto;
-        text-align: right;
-      }
-
       .timeline-content {
         background: var(--card-bg);
         border: 1px solid var(--glass-border);
         border-radius: 15px;
         padding: 2rem;
-        width: 45%;
+        width: 100%;
         backdrop-filter: blur(10px);
         position: relative;
         box-shadow: var(--shadow-md);
+        text-align: left;
       }
 
       .timeline-marker {
