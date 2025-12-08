@@ -1,0 +1,27 @@
+/* Games listing styles */
+body{background:#1a1f2e;color:#FAF9F5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.games-container{max-width:1000px;margin:48px auto;padding:28px;background:rgba(26,31,46,0.6);border-radius:12px;box-shadow:0 12px 36px rgba(2,6,23,0.6)}
+.games-container h1{margin-bottom:6px}
+.games-container .lead{color:rgba(250,250,250,0.85);margin-bottom:18px}
+.tabs{display:flex;gap:10px;margin-bottom:18px}
+.tab{padding:8px 12px;border-radius:8px;border:none;background:rgba(255,255,255,0.03);color:#cfe9ff;cursor:pointer}
+.tab.active{background:linear-gradient(135deg,#5DA9FF,#2b8cff);color:#fff}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.game-card{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:rgba(255,255,255,0.02);text-decoration:none;color:inherit;transition:transform .14s ease,box-shadow .14s ease}
+.game-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(2,6,23,0.6)}
+.thumb{width:86px;height:86px;border-radius:10px;background:linear-gradient(135deg,#071024,#0b1220);box-shadow:inset 0 6px 14px rgba(255,255,255,0.02)}
+.snake-thumb{background-image:linear-gradient(135deg,#0b1220,#071024);border:4px solid rgba(96,165,250,0.12)}
+.rps-thumb{background-image:linear-gradient(135deg,#0b1220,#071024);border:4px solid rgba(93,169,255,0.12)}
+.meta h3{margin:0;font-size:18px}
+.meta p{margin:4px 0 0 0;color:rgba(250,250,250,0.75)}
+
+.game-card.hidden{display:none}
+
+/* modal for embedded game */
+.game-modal{position:fixed;left:0;top:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:10010;opacity:0;pointer-events:none;transition:opacity .18s ease}
+.game-modal.show{opacity:1;pointer-events:auto}
+.game-modal-inner{width:88vw;height:84vh;max-width:1200px;max-height:860px;background:rgba(10,14,26,0.95);border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,0.7);position:relative;display:flex;flex-direction:column}
+.game-close{position:absolute;right:12px;top:12px;background:transparent;border:none;color:#fff;font-size:20px;cursor:pointer;padding:8px}
+.game-modal iframe{flex:1;border-radius:8px;margin:22px;width:calc(100% - 44px);height:calc(100% - 88px);background:#000}
+.game-actions{padding:10px 18px;text-align:right}
+.game-actions a{color:#9fd1ff;text-decoration:none}

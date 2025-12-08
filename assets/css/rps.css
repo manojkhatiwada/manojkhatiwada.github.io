@@ -1,0 +1,99 @@
+/* Visuals and animations for Rock Paper Scissors page */
+
+.rps-buttons button{
+  border: none;
+  background: linear-gradient(135deg,#f0f4ff,#e6f0ff);
+  border-radius:10px;
+  box-shadow: 0 6px 12px rgba(24,39,75,0.08);
+  transition: transform .16s ease, box-shadow .16s ease, background .2s ease;
+}
+.rps-buttons button:hover{
+  transform: translateY(-4px) scale(1.03);
+  box-shadow:0 10px 20px rgba(24,39,75,0.12);
+}
+.rps-buttons button:active{
+  transform: translateY(0) scale(.99);
+}
+
+/* highlight winner/loser */
+.btn-win{
+  animation: winnerGlow 700ms ease both;
+  background: linear-gradient(135deg,#e9ffef,#d7ffe6);
+  box-shadow:0 12px 28px rgba(16,185,129,0.18);
+}
+.btn-lose{
+  animation: loserShake 700ms ease both;
+  background: linear-gradient(135deg,#fff6f6,#ffecec);
+  box-shadow:0 8px 18px rgba(220,38,38,0.06);
+}
+
+@keyframes winnerGlow{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+
+@keyframes loserShake{
+  0%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+  100%{transform:translateX(0)}
+}
+
+/* result animation */
+.result{
+  transition: transform .18s ease, color .18s ease;
+}
+.result.win{ color: #0ea5a4; transform: translateY(-4px); }
+.result.loss{ color: #dc2626; transform: translateY(-4px); }
+.result.tie{ color: #6b7280; }
+
+/* confetti pieces */
+.rps-confetti{
+  pointer-events:none;
+  position:fixed;
+  left:0;top:0;right:0;bottom:0;z-index:9999;overflow:visible;
+}
+.confetti-piece{
+  position:absolute; width:10px; height:16px; opacity:0.95; transform-origin:center;
+  animation: confetti-fall 900ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes confetti-fall{
+  0%{transform: translateY(-10vh) rotate(0deg); opacity:1}
+  100%{transform: translateY(100vh) rotate(540deg); opacity:0}
+}
+
+/* subtle scoreboard highlight */
+.scorebox{transition: transform .12s ease, box-shadow .12s ease}
+.scorebox.pulse{transform:scale(1.06);box-shadow:0 10px 22px rgba(14,165,164,0.08)}
+
+/* series display */
+.graffiti-canvas{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:9998;pointer-events:none;opacity:0;transition:opacity .25s ease}
+.graffiti-show{opacity:1}
+
+/* overlay text used by canvas drawing; fallback if canvas unsupported */
+.graffiti-fallback{position:fixed;left:0;top:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;z-index:9999;pointer-events:none}
+.graffiti-fallback .text{font-size:72px;color:#fff;text-shadow:0 6px 20px rgba(0,0,0,0.6);transform:rotate(-6deg);}
+
+/* debug banner */
+.rps-debug{position:fixed;right:12px;bottom:12px;z-index:10000;background:#fee2e2;color:#7f1d1d;padding:10px 14px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.12);font-family:monospace;display:none}
+.rps-debug.show{display:block}
+.rps-debug small{display:block;opacity:0.8;font-size:12px;margin-top:6px}
+
+/* series message (for computer-win jokes or short messages) */
+.series-msg{
+  position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(.96);z-index:10001;min-width:320px;max-width:80vw;padding:18px 22px;border-radius:12px;background:linear-gradient(135deg,rgba(0,0,0,0.6),rgba(26,31,46,0.85));color:#fff;box-shadow:0 12px 40px rgba(2,6,23,0.6);text-align:center;opacity:0;transition:opacity .2s ease,transform .28s cubic-bezier(.2,.9,.3,1);
+}
+.series-msg.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.series-msg .title{font-size:20px;font-weight:700;margin-bottom:6px}
+.series-msg .body{font-size:15px;opacity:0.95}
+
+@keyframes popIn{
+  0%{transform:translate(-50%,-50%) scale(.9);opacity:0}
+  60%{transform:translate(-50%,-50%) scale(1.04);opacity:1}
+  100%{transform:translate(-50%,-50%) scale(1)}
+}
+.series-msg.pop{animation:popIn .45s cubic-bezier(.2,.9,.2,1) both}
+

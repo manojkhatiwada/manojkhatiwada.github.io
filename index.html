@@ -2,725 +2,1741 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <title>Manoj Portfolio</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <title>Manoj Khatiwada - Portfolio</title>
+  <meta content="Manoj Khatiwada's Portfolio - Full-Stack Developer & Business Analyst" name="description" />
+  <meta content="Manoj Khatiwada, Full-Stack Developer, Business Analyst, Web Developer" name="keywords" />
 
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/favicon.png" rel="favicon-icon">
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon" />
+  <link href="assets/img/favicon.png" rel="apple-touch-icon" />
 
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+  <!-- Google Fonts (Inter for UI, Poppins for headings) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet" />
 
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
-  <link href="assets/css/style.css" rel="stylesheet">
+  <!-- Calendly -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
+  <style>
+    /* === RESET & BASE === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Colors */
+      --bg-dark: #0f1623;
+      --bg-darker: #0a1128;
+      --accent-blue: #5DA9FF;
+      --accent-green: #8FBC6D;
+      --accent-terracotta: #F5A577;
+      --text-primary: #ffffff;
+      --text-secondary: #a8b2d1;
+      --glass-bg: rgba(15, 23, 42, 0.7);
+      --glass-border: rgba(148, 163, 184, 0.1);
+      --card-bg: rgba(30, 41, 59, 0.5);
+
+      /* Typography */
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+      --font-display: 'Poppins', 'Space Grotesk', var(--font-sans);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-darker);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Headings use the display font (Poppins) for stronger visual hierarchy */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    /* === EARTH BACKGROUND === */
+    #earth-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* === NAVIGATION === */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 14, 26, 0.75);
+      backdrop-filter: blur(30px) saturate(180%);
+      border-bottom: 1px solid rgba(93, 169, 255, 0.1);
+      padding: 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 14, 26, 0.95);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 75px;
+    }
+
+    .nav-logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-logo::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+      transition: width 0.3s ease;
+    }
+
+    .nav-logo:hover::after {
+      width: 100%;
+    }
+
+    .nav-logo:hover {
+      transform: translateY(-2px);
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 0.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-menu li {
+      position: relative;
+    }
+
+    .nav-menu a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      position: relative;
+      display: block;
+      overflow: hidden;
+    }
+
+    .nav-menu a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(93, 169, 255, 0.1), rgba(143, 188, 109, 0.1));
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      border-radius: 8px;
+      z-index: -1;
+    }
+
+    .nav-menu a:hover::before {
+      transform: translateY(0);
+    }
+
+    .nav-menu a:hover {
+      color: var(--accent-blue);
+      transform: translateY(-2px);
+    }
+
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .nav-menu a:hover::after {
+      width: 60%;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .nav-toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--text-primary);
+      transition: 0.3s;
+    }
+
+    /* === HERO SECTION === */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 80px;
+      z-index: 1;
+    }
+
+    .hero-content {
+      text-align: center;
+      max-width: 900px;
+      padding: 2rem;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-greeting {
+      font-size: 1.2rem;
+      color: var(--accent-blue);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 2rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      line-height: 1.8;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-links a:hover {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      transform: translateY(-5px);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 1rem;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--text-secondary);
+      color: var(--text-secondary);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    /* === SECTIONS === */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 0;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .section-title .underline {
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+      margin: 0 auto;
+    }
+
+    /* === ABOUT SECTION === */
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    .about-image img {
+      width: 100%;
+      border-radius: 20px;
+      border: 2px solid var(--glass-border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .about-text h3 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-blue);
+    }
+
+    .about-text p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .info-item i {
+      color: var(--accent-blue);
+      font-size: 1.2rem;
+    }
+
+    /* === SKILLS SECTION === */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+    }
+
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent-blue);
+      box-shadow: 0 10px 40px rgba(93, 169, 255, 0.2);
+    }
+
+    .skill-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .skill-level {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .skill-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+      border-radius: 10px;
+      transition: width 1s ease;
+    }
+
+    /* === EXPERIENCE TIMELINE === */
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent-blue), var(--accent-green));
+    }
+
+    .timeline-item {
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-left: auto;
+      text-align: left;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-right: auto;
+      text-align: right;
+    }
+
+    .timeline-content {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      padding: 2rem;
+      width: 45%;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      border: 4px solid var(--bg-dark);
+      z-index: 2;
+    }
+
+    .timeline-date {
+      color: var(--accent-blue);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .timeline-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .timeline-company {
+      color: var(--accent-green);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .timeline-description {
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .timeline-description ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .timeline-description li {
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .timeline-description li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent-blue);
+    }
+
+    /* === PROJECTS GRID === */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 20px 60px rgba(93, 169, 255, 0.2);
+    }
+
+    .project-content {
+      padding: 2rem;
+    }
+
+    .project-title {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .project-description {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-link {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 0.95rem;
+      display: inline-block;
+    }
+
+    .project-link-primary {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .project-link-primary:hover {
+      background: var(--accent-green);
+      transform: translateY(-2px);
+    }
+
+    .project-embed-container {
+      width: 100%;
+      min-height: 500px;
+      margin-top: 1.5rem;
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .project-embed {
+      width: 100%;
+      min-height: 500px;
+      border: none;
+    }
+
+    .tableauPlaceholder {
+      width: 100%;
+      min-height: 600px;
+      margin-top: 1.5rem;
+    }
+
+    /* === AWARDS === */
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .award-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .award-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-green);
+    }
+
+    .award-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .award-date {
+      color: var(--accent-blue);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .award-org {
+      color: var(--accent-green);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .award-description {
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* === TESTIMONIALS === */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .quote-icon {
+      font-size: 3rem;
+      color: var(--accent-blue);
+      opacity: 0.3;
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+    }
+
+    .testimonial-text {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .testimonial-img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-blue);
+    }
+
+    .author-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .author-role {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg-darker);
+      border-top: 1px solid var(--glass-border);
+      padding: 3rem 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    footer p {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 968px) {
+      .nav-menu {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(10, 14, 26, 0.98);
+        flex-direction: column;
+        padding: 2rem;
+        transition: right 0.3s;
+        backdrop-filter: blur(20px);
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+      }
+
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline::before {
+        left: 0;
+      }
+
+      .timeline-content {
+        width: calc(100% - 40px);
+        margin-left: 40px !important;
+        text-align: left !important;
+      }
+
+      .timeline-marker {
+        left: 0;
+        transform: translateX(0);
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <header id="header">
-    <div class="container">
+  <!-- Earth Background -->
+  <div id="earth-background"></div>
 
-      <h1><a href="index.html">Manoj Khatiwada</a></h1>
-      <h2>I'm a passionate <span>web developer</span> from Kansas City.</h2>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="nav-logo">MK</a>
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#awards">Awards</a></li>
+        <li><a href="games.html">Games</a></li>
+      </ul>
+      <button class="nav-toggle" onclick="toggleNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link active" href="#header">Home</a></li>
-          <li><a class="nav-link" href="#about">About Me</a></li>
-          <li><a class="nav-link" href="#resume">Resume</a></li>
-          <!-- <li><a class="nav-link" href="#services">Services</a></li> -->
-          <li><a class="nav-link" href="#portfolio">Projects</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav>
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <p class="hero-greeting">Hello World! I'm</p>
+      <h1 class="hero-title">Manoj Khatiwada</h1>
+      <p class="hero-subtitle">Full-Stack Developer & Business Analyst</p>
+      <p class="hero-description">
+        Analytically-minded developer passionate about creating data-driven solutions, innovative visualizations, and seamless user experiences.
+      </p>
 
       <div class="social-links">
-        <a href="https://twitter.com/reckless_mk" class="twitter"><i class="fa-brands fa-x-twitter"></i></a>
-        <!-- <a href="https://www.linkedin.com/in/manoj-khatiwada" class="facebook"><i class="bi bi-facebook"></i></a> -->
-        <a href="https://www.linkedin.com/in/manoj-khatiwada" class="linkedin"><i class="bi bi-linkedin"></i></a>
-        <a href="https://github.com/manojkhatiwada" class="linkedin"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.hackerrank.com/manojkhatiwada" class="linkedin"><i class="fab fa-hackerrank"></i></a>
-        <!-- <a href="https://public.tableau.com/app/profile/manoj.khatiwada/vizzes" class="linkedin"><i class="fab fa-tableau"></i></a> -->
+        <a href="https://twitter.com/reckless_mk" target="_blank"><i class="bx bxl-twitter"></i></a>
+        <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank"><i class="bx bxl-linkedin"></i></a>
+        <a href="https://github.com/manojkhatiwada" target="_blank"><i class="bx bxl-github"></i></a>
+        <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank"><i class="bi bi-code-slash"></i></a>
       </div>
 
-    </div>
-  </header><!-- End Header -->
-
-  <!-- ======= About Section ======= -->
-  <section id="about" class="about">
-
-    <!-- ======= About Me ======= -->
-    <div class="about-me container">
-
-      <div class="section-title">
-        <h2>About Me</h2>
-        <!-- <p>Learn more about me</p> -->
-      </div>
-
-      <div class="row">
-        <div class="col-lg-4" data-aos="fade-right">
-          <img src="assets/img/me.jpg" class="img-fluid" alt="">
-        </div>
-        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-          <h3>Creating Web Experiences</h3>
-          <p class="fst-italic">
-            Hello World!
-          </p>
-          <div class="row">
-            <div class="col-lg-6">
-              <ul>
-                <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>June 19</span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>
-                    <a href="https://manojkhatiwada.github.io">manojkhatiwada.github.io</a>
-                  </span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>Kansas City, MO</span></li>
-              </ul>
-            </div>
-            <div class="col-lg-6">
-              <ul>
-                <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>24</span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Master</span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>
-                    <a href="mailto:khatiwadamanoj9@outlook.com">khatiwadamanoj9@outlook.com</a>
-
-                  </span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li>
-              </ul>
-            </div>
-          </div>
-          <!-- <p>
-            Officiis eligendi itaque labore et dolorum mollitia officiis optio vero. Quisquam sunt adipisci omnis et ut.
-            Nulla accusantium dolor incidunt officia tempore. Et eius omnis.
-            Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque.
-            Aliquid amet quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis culpa magni laudantium dolores.
-          </p> -->
-        </div>
-      </div>
-
-    </div><!-- End About Me -->
-
-    <!-- ======= Counts ======= -->
-    <!-- <div class="counts container">
-
-      <div class="row">
-        <div class="col-lg-3 col-md-6">
-          <div class="count-box">
-            <i class="bi bi-emoji-smile"></i>
-            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p>Happy Clients</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
-          <div class="count-box">
-            <i class="bi bi-journal-richtext"></i>
-            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p>Projects</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-          <div class="count-box">
-            <i class="bi bi-headset"></i>
-            <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p>Hours Of Support</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-          <div class="count-box">
-            <i class="bi bi-award"></i>
-            <span data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1"
-              class="purecounter"></span>
-            <p>Awards</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- ======= Skills  ======= -->
-    <div class="skills container">
-
-      <div class="section-title">
-        <h2>Skills</h2>
-      </div>
-
-      <div class="row skills-content">
-
-        <div class="col-lg-6">
-
-          <div class="progress">
-            <span class="skill">Java <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">Angular <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">TypeScript <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">HTML <i class="val">98%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">CSS <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-lg-6">
-
-          <div class="progress">
-            <span class="skill">JavaScript <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">Apex<i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">Python <i class="val">55%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">R <i class="val">50%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill">Excel <i class="val">70%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div><!-- End Skills -->
-
-    <!-- ======= Interests ======= -->
-    <div class="interests container">
-      <div class="section-title">
-        <h2>Interests</h2>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="bi-person-walking" style="color: #ffbb2c;"></i>
-            <h3>Hiking</h3>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="bi-bicycle" style="color: #50de5a;"></i>
-            <h3>Cycling</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="bi-people" style="color: #5578ff;"></i>
-            <h3>Volunteering</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="bi-car-front" style="color: #e80368;"></i>
-            <h3>Road Trips</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-headphone-line" style="color: #96e99c;"></i>
-            <h3>Lo-fi Music</h3>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-football-line" style="color: #47aeff;"></i>
-            <h3>Football (Soccer, lol 🤣)</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="bi-puzzle-fill" style="color: #ffbb2c;"></i>
-            <h3>Solving Puzzles</h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="bi-cup-hot" style="color: #9f580b;"></i>
-            <h3>Coffee</h3>
-          </div>
-        </div>
+      <div class="cta-buttons">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/1586602'});return false;" class="btn btn-secondary">Schedule a Call</a>
       </div>
     </div>
-
-    <div class="contact">
-      <div class="container">
-        <div class="section-title">
-          <h2>Contact</h2>
-          <p>Contact Me</p>
-        </div>
-
-        <div class="row mt-2">
-          <div class="col-md-6 d-flex align-items-stretch">
-            <div class="info-box">
-              <i class="bx bx-map"></i>
-              <h3>My Address</h3>
-              <p>Parkville, MO, 64152</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
-            <div class="info-box">
-              <i class="bx bx-share-alt"></i>
-              <h3>Social Profiles</h3>
-              <div class="social-links">
-                <a href="https://twitter.com/reckless_mk" class="twitter"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="https://www.linkedin.com/in/manoj-khatiwada" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                <a href="https://github.com/manojkhatiwada" class="linkedin"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.hackerrank.com/manojkhatiwada" class="linkedin"><i class="fab fa-hackerrank"></i></a>
-              </div>
-              <!-- <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="medium" data-theme="dark" data-type="VERTICAL" data-vanity="manoj-khatiwada" data-version="v1"><a class="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/manoj-khatiwada?trk=profile-badge">Manoj K.</a></div> -->
-                            
-            </div>
-          </div>
-
-          <div class="col-md-6 mt-4 d-flex align-items-stretch">
-            <div class="info-box">
-              <i class="bx bx-envelope"></i>
-              <h3>Email Me</h3>
-              <a href="mailto:khatiwadamanoj9@outlook.com">khatiwadamanoj9@outlook.com</a>
-            </div>
-          </div>
-
-          <!-- Calendly badge widget begin -->
-          <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-          <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-          <script
-            type="text/javascript">window.onload = function () { 
-              Calendly.initBadgeWidget({ url: 'https://calendly.com/1586602',
-               text: 'Schedule time with me', 
-               color: '#3a82f5', textColor: '#ffffff',
-                branding: false }); }</script>
-          <!-- Calendly badge widget end -->
-
-        </div>
-      </div>
-    </div>
-
-  </section><!-- End About Section -->
-
-  <!-- ======= Resume Section ======= -->
-  <section id="resume" class="resume">
-    <div class="container">
-
-      <div class="section-title">
-        <h2>Resume</h2>
-        <p>Check My Resume</p>
-      </div>
-
-      <div class="row">
-        <div class="row">
-          <h3 class="resume-title">Summary</h3>
-          <div class="resume-item pb-0">
-            <h4>Manoj Khatiwada</h4>
-            <p><em>A full stack developer with a strong foundation in driving innovative solutions and ability to adapt
-                into cross-functional teams.</em>
-            </p>
-          </div>
-
-          <h4 class="resume-title">Education</h4>
-          <div class="resume-item">
-            <h4>Master of Science in Information Systems & Business Analytics, Park University </h4>
-            <h5>2023 - 2025</h5>
-            <p><em>Park University, Parkville, MO</em></p>
-            <p>Information Systems and Business Analytics</p>
-          </div>
-          <div class="resume-item">
-            <h4>Bachelor of Science in Business Administration Management</h4>
-            <h5>2018 - 2022</h5>
-            <p><em>Park University, Parkville, MO</em></p>
-            <p>
-            <ul>
-              <li>Minor, Human Resources Management</li>
-              <li>Certificate in Project Management</li>
-              <li>Certificate in Entrepreneurship</li>
-            </ul>
-            </p>
-          </div>
-
-          <h4 class="resume-title">Professional Experience</h4>
-          <div class="resume-item">
-            <h4>Web Application Developer</h4>
-            <h5> May 2022 - Present</h5>
-            <p><em>UGA Finance, Kansas City, MO </em></p>
-            <p>
-            <ul>
-              <li>Designed features for high traffic web app with 450,000 monthly visits. </li>
-              <li>Revamped consumer payment portal to accommodate various payment plans aiming to boost revenue. </li>
-              <li>Connected RESTful API with vendors to pull credit reports, identification and sign contracts for the
-                credit application for a fin-tech offering consumer-friendly financing options.</li>
-              <li>Built features such as email/phone verification, email payment receipts, resolving consumer fraud
-                verification. </li>
-              <li>Optimized background search from a 20-minute manual process to a swift 50 seconds operation.</li>
-              <li>Built API and user-interface to support product/services return and refunds.</li>
-              <li>Conducted peer code reviews to maintain coding standards and high-quality code across various devices.
-              </li>
-            </ul>
-            </p>
-          </div>
-
-          <div class="resume-item">
-            <h4>Residence Hall Coordinator</h4>
-            <h5> June 2023 - Present</h5>
-            <p><em>Office of Residence Life, Park University, Parkville, MO </em></p>
-            <p>
-            <ul>
-              <li>
-                Pioneered strategic initiatives in residential life, shaping impactful onboarding and RA training
-                programs.</li>
-              <li>Oversaw a team of 14 Residence Assistants(RAs), 12 front desk assistants, and provided guidance to the
-                Hall Council.</li>
-              <li>Managed safety protocols and emergency response during on-call rotations for 2 dorms housing 400
-                students.</li>
-              <li>Orchestrated the execution of move-in day and move out days.</li>
-              <li>Managed the budget for the Residence Life department ranging from $10,000 - $15,000.</li>
-              <li>Developed and implemented a comprehensive residential life reporting model to create efficient and
-                transparent reporting mechanism.</li>
-              <li>Lead in the design, development, and implementation of the extra-curricular and co-curricular events
-                in the residence halls. </li>
-            </ul>
-            </p>
-          </div>
-
-          <div class="resume-item">
-            <h4>Associate Business Analyst </h4>
-            <h5>May 2022 - May 2023</h5>
-            <p><em>UGA Finance, Kansas City, MO </em></p>
-            <p>
-            <ul>
-              <li>Automated SMS/Call campaigns for a call center with 50+ agents and engineered speech analysis
-                pipelines.</li>
-              <li>Streamlined call routing process for inbound/outbound phone calls for newly established offshore call
-                center.</li>
-              <li>Documented credit origination process using flowcharts, business process diagram, and swimlane
-                diagrams.</li>
-              <li>Performed detailed unit testing, documented test cases for comprehensive system validation.</li>
-            </ul>
-            </p>
-          </div>
-
-          <div class="resume-item">
-            <h4>Office Support Specialist</h4>
-            <h5> June 2022 - December 2022 </h5>
-            <p><em>Office of Residence Life, Office of the Registrar, Parkville, MO </em></p>
-            <p>
-            <ul>
-              <li>
-                Managed student records updates, transcripts processing in CX, P8 and Salesforce.</li>
-              <li>Handled the preparation and mailing of 1000+ transcripts, diplomas, and certificates for graduates.
-              </li>
-            </ul>
-            </p>
-          </div>
-
-          <h4 class="resume-title">Awards</h4>
-          <div class="resume-item">
-            <h4>Louisa Davidson Hinde / Carolyn Hinde Zarkaryan Memorial Award </h4>
-            <h5>April 2022</h5>
-            <p><em>Park University, Parkville, MO</em></p>
-            <p>This award is given to students, faculty, staff, and/or alumni who best represent the spirit of Park
-              University by promoting in others that quality of excellence that has always been associated with a Park
-              education.
-              <a href="https://www.park.edu/news/honors-convocation-2022/">Details</a>
-            </p>
-          </div>
-          <div class="resume-item">
-            <h4>Outstanding Class Member Award - Non-Graduating Senior</h4>
-            <h5>April 2021</h5>
-            <p><em>Park University, Parkville, MO</em></p>
-            <p>This award honors two Parkville Campus Non-Graduating Seniors who best represent their class in service
-              to and participation in Park University.
-              <a href="https://www.park.edu/news/honors-convocation-2022/">Details</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- ======= Testimonials ======= -->
-      <div class="testimonials container">
-
-        <div class="section-title">
-          <h2>References</h2>
-        </div>
-
-        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  For Manoj, the dedication and hard work from day one helped us to have a smooth transition from
-                  summer into the busy Fall move-in season. Within Residential Life, Manoj is directly responsible for
-                  the supervision of 7 Resident Assistants (RAs) and indirectly responsible for the co-supervision
-                  another 6 RAs. Additionally, he has taken on rebuilding of the Residence Hall Council and serves as
-                  the advisor for those 6 student leaders. Manoj has been able to lead by coming along-side the RAs and
-                  student staff that he works with, which has contributed to the servant leader mindset within our
-                  area.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-reslife.jpg" class="testimonial-img" alt="">
-                <h3>Tonya Robbins</h3>
-                <h4> Director of Residence Life, Park University</h4>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <p>
-                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                  In 2014, Manoj interned at a radio station in Nepal during my tenure as station manager. Throughout
-                  his internship, he consistently demonstrated remarkable creativity alongside a strong work ethic
-                  characterized by responsibility and maturity. Manoj impressed me as a confident and articulate
-                  individual, showcasing not only his ability to communicate effectively but also his quick grasp of new
-                  concepts. His demonstrated potential marks him as a promising candidate for future success in his
-                  professional endeavors. I extend my best wishes to him for all his future pursuits.
-                  <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                </p>
-                <img src="assets/img/testimonials/testimonials-radio.jpg" class="testimonial-img" alt="">
-                <h3>CN Gautam</h3>
-                <h4>Station Manager, Radio Purvodaya</h4>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-        <div class="owl-carousel testimonials-carousel">
-        </div>
-      </div>
   </section>
 
-  <!-- ======= Portfolio Section ======= -->
-  <section id="portfolio" class="portfolio">
+  <!-- About Section -->
+  <section id="about">
     <div class="container">
-
       <div class="section-title">
-        <h2>Portfolio</h2>
-        <p>My Works</p>
+        <h2>About Me</h2>
+        <div class="underline"></div>
       </div>
-
-      <div class="row">
-        <div class="col-lg-12 d-flex justify-content-center">
-          <ul id="portfolio-flters">
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-java">Java</li>
-            <li data-filter=".filter-python">Python</li>
-            <li data-filter=".filter-tableau">Tableau</li>
-            <li data-filter=".filter-other">Other</li>
-          </ul>
+      <div class="about-content">
+        <div class="about-image">
+          <img src="assets/img/me-bkg.jpg" alt="Manoj Khatiwada">
         </div>
-      </div>
-
-      <div class="row portfolio-container">
-        <div class="col-lg-4 col-md-6 portfolio-item filter-python">
-          <div class="portfolio-wrap">
-            <img src="assets/img/projects/Python.png" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>PYTHON</h4>
-              <p>Coming Soon.....</p>
-              <div class="portfolio-links">
-                <a href="https://github.com/manojkhatiwada"><i class="bx bx-link"></i></a>
-              </div>
+        <div class="about-text">
+          <h3>Aspiring System Analyst from Kansas City</h3>
+          <p>
+         I am a full-stack web application developer, committed to engineering robust, scalable, and intuitive digital experiences. My expertise spans from designing performant front-end interfaces with modern frameworks to building resilient back-end services and integrating complex APIs, all fortified by a rigorous approach to testing and optimization. I excel at collaborating with cross-functional teams to translate intricate requirements into elegant, high-quality technical solutions, driven by a foundational impulse to unravel complex problems and derive actionable insights from system behaviors.</p>
+          <div class="about-info">
+            <div class="info-item">
+              <i class="bi bi-geo-alt"></i>
+              <span>Kansas City, MO</span>
             </div>
           </div>
         </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-java">
-          <div class="portfolio-wrap">
-            <img src="assets/img/projects/java.png" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>JAVA</h4>
-              <p>Coming Soon.....</p>
-              <div class="portfolio-links">
-                <a href="https://github.com/manojkhatiwada"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-tableau">
-          <div class="portfolio-wrap">
-            <img src="assets/img/projects/tableau.png" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Crops
-                in Missouri over years</h4>
-              <p>This Tableau project shows the Missouri Crop production over years.</p>
-              <div class="portfolio-links">
-                <a
-                  href="https://public.tableau.com/views/CropsinMOoveryears/Dashboard1?:language=en-US&publish=yes&:sid=&:display_count=n&:origin=viz_share_link"><i
-                    class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-tableau">
-          <div class="portfolio-wrap">
-            <img src="assets/img/projects/tableau.png" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Oregon Library Visits</h4>
-              <p>This Tableau project explores the public library visists in Oregon.</p>
-              <div class="portfolio-links">
-                <a
-                  href="https://public.tableau.com/views/ManojFinalprojectDashboard2/CombinedDashboard?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link"><i
-                    class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-tableau">
-          <div class="portfolio-wrap">
-            <img src="assets/img/projects/tableau.png" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Enrollment Data in Washington State Colleges</h4>
-              <p>This Tableau project explores enrollments in Washington.</p>
-              <div class="portfolio-links">
-                <a
-                  href="https://public.tableau.com/views/WashingtonStateEnrollmentDashboard/Dashboard1?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link"><i
-                    class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-other">
-          <div class="portfolio-wrap">
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1"
-              height="350" width="410" frameborder="0" allowfullscreen="true"
-              title="Upkey Final Project Manaoj"></iframe>
-            <div class="portfolio-info">
-              <h4>Upkey Internship Final Project</h4>
-              <p>This video was my final project incorporating the experiences of 20+ students from 7+ countries during
-                my virtual internship at Upkey.</p>
-              <div class="portfolio-links">
-                <a href="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?"><i
-                    class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-other">
-          <div class="portfolio-wrap">
-            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1"
-              height="350" width="410" frameborder="0" allowfullscreen="" title="Color Festival"></iframe>
-            <div class="portfolio-info">
-              <h4>Color Festival</h4>
-              <p>Park Rotaract Club and the International Club brought Color Festival to Park University’s Parkville
-                Campus. The event was all about embracing diversity and uniqueness where the participants put colors on
-                each other’s faces to signify new friendships and bonds.</p>
-              <div class="portfolio-links">
-                <a href="https://www.linkedin.com/feed/update/urn:li:activity:6916231835786096640/"><i
-                    class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-other">
-          <div class="portfolio-wrap">
-            <iframe
-              src="https://www.linkedin.com/posts/parkrotaract_care-packages-delivered-we-had-an-awesome-activity-6851636707977240576-yW6a?utm_source=share&utm_medium=member_desktop"
-              height="350" width="410" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
-            <div class="portfolio-info">
-              <h4>Care Packages for Firefighters</h4>
-              <p>Created care packages to the Southern Platte Fire Protection District Station 1 and getting to chat
-                with the firefighters! Thanks to them for their dedicated service! Also, thanks to various Park
-                University departments that helped us put together the packages.🧑‍🚒🤝🏴‍☠️</p>
-              <div class="portfolio-links">
-                <a
-                  href="https://www.linkedin.com/posts/parkrotaract_care-packages-delivered-we-had-an-awesome-activity-6851636707977240576-yW6a?utm_source=share&utm_medium=member_desktop"><i
-                    class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
-  </section><!-- End Portfolio Section -->
+  </section>
 
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/js/main.js"></script>
-  <script src="https://kit.fontawesome.com/7f79889e25.js" crossorigin="anonymous"></script>
+  <!-- Education Section -->
+  <section id="education" style="background: rgba(15, 23, 42, 0.3);">
+    <div class="container">
+      <div class="section-title">
+        <h2>Education</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">2023 - 2025</div>
+            <h3 class="timeline-title">Master of Science in Information Systems & Business Analytics</h3>
+            <div class="timeline-company">Park University, Parkville, MO</div>
+            <div class="timeline-description">
+              <strong>Relevant Courses:</strong> Web & Marketing Analytics, Data Analytics for Business Analytics, System Analysis and Design, Survey of Predictive Analytical Techniques, Applied Data Mining Analysis of Big Data, Data Visualization.
+            </div>
+          </div>
+        </div>
 
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">2018 - 2022</div>
+            <h3 class="timeline-title">Bachelor of Science in Business Administration Management</h3>
+            <div class="timeline-company">Park University, Parkville, MO</div>
+            <div class="timeline-description">
+              <ul>
+                <li>Minor in Human Resources Management</li>
+                <li>Certificate in Project Management</li>
+                <li>Certificate in Entrepreneurship</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-title">
+        <h2>Professional Experience</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Jan 2024 - Present</div>
+            <h3 class="timeline-title">Web Application Developer II</h3>
+            <div class="timeline-company">UGA Finance, Kansas City, MO</div>
+            <div class="timeline-description">
+              <ul>
+                <li>Developed and maintained web applications using modern frameworks and technologies</li>
+                <li>Collaborated with cross-functional teams to define, design, and ship new features</li>
+                <li>Ensured the performance, quality, and responsiveness of applications</li>
+                <li>Participated in code reviews and provided constructive feedback to peers</li>
+                <li>Stayed up-to-date with emerging trends and technologies in web development</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">June 2023 - July 2024</div>
+            <h3 class="timeline-title">Residence Hall Coordinator</h3>
+            <div class="timeline-company">Office of Residence Life, Park University</div>
+            <div class="timeline-description">
+              <ul>
+                <li>Pioneered strategic initiatives in residential life, shaping impactful onboarding and RA training programs</li>
+                <li>Oversaw a team of 14 Residence Assistants, 12 front desk assistants, and provided guidance to the Hall Council</li>
+                <li>Managed safety protocols and emergency response during on-call rotations for 2 dorms housing 400 students</li>
+                <li>Managed the budget for the Residence Life department ranging from $10,000 - $15,000</li>
+                <li>Developed and implemented a comprehensive residential life reporting model</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">May 2022 - Dec 2024</div>
+            <h3 class="timeline-title">Web Application Developer I</h3>
+            <div class="timeline-company">UGA Finance, Kansas City, MO</div>
+            <div class="timeline-description">
+              <ul>
+                <li>Designed features for high traffic web app with 450,000 monthly visits</li>
+                <li>Revamped consumer payment portal to accommodate various payment plans aiming to boost revenue</li>
+                <li>Connected RESTful API with vendors to pull credit reports, identification and sign contracts</li>
+                <li>Built features such as email/phone verification, email payment receipts, resolving consumer fraud verification</li>
+                <li>Optimized background search from a 20-minute manual process to a swift 50 seconds operation</li>
+                <li>Built API and user-interface to support product/services return and refunds</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">May 2022 - May 2023</div>
+            <h3 class="timeline-title">Associate Business Analyst</h3>
+            <div class="timeline-company">UGA Finance, Kansas City, MO</div>
+            <div class="timeline-description">
+              <ul>
+                <li>Automated SMS/Call campaigns for a call center with 50+ agents and engineered speech analysis pipelines</li>
+                <li>Streamlined call routing process for inbound/outbound phone calls for newly established offshore call center</li>
+                <li>Documented credit origination process using flowcharts, business process diagram, and swimlane diagrams</li>
+                <li>Performed detailed unit testing, documented test cases for comprehensive system validation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-title">
+        <h2>Featured Projects</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="projects-grid">
+        <!-- Earth From Stars -->
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">Earth From Stars</h3>
+            <p class="project-description">
+              Interactive particle Earth visualization created from 50,000+ particles. Features realistic Earth representation with oceans (blues), continents (greens/browns), and polar ice caps. Built with Three.js, automatically rotates and fully interactive - drag to explore all angles!
+            </p>
+            <div class="project-links">
+              <a href="cosmos.html" target="_blank" class="project-link project-link-primary">Launch Visualization</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Games -->
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">Fun Games</h3>
+            <p class="project-description">
+            Interactive and Fun Game
+            </p>
+            <div class="project-links">
+              <a href="games.html" target="_blank" class="project-link project-link-primary">Play Game</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crops in Missouri -->
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">Crops in Missouri Over Years</h3>
+            <p class="project-description">
+              Explores the crops that have increased and decreased production in the state of Missouri over Years. Interactive Tableau dashboard with comprehensive agricultural data analysis.
+            </p>
+            <div class='tableauPlaceholder' id='viz1715607817211'>
+              <noscript><a href='#'><img alt='Dashboard 1'
+                    src='https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1_rss.png'
+                    style='border: none' /></a></noscript>
+              <object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='CropsinMOoveryears/Dashboard1' />
+                <param name='tabs' value='no' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image'
+                  value='https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+                <param name='filter' value='publish=yes' />
+              </object>
+            </div>
+          </div>
+        </div>
+
+        <!-- Washington Enrollment -->
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">Enrollment Data in Washington</h3>
+            <p class="project-description">
+              Enrollments Statistics in the state and private educational institutions in the state of Washington. Comprehensive data visualization dashboard.
+            </p>
+            <div class='tableauPlaceholder' id='viz1715608141020'>
+              <noscript><a href='#'><img alt='Dashboard 1'
+                    src='https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1_rss.png'
+                    style='border: none' /></a></noscript>
+              <object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='WashingtonStateEnrollmentDashboard/Dashboard1' />
+                <param name='tabs' value='no' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image'
+                  value='https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+              </object>
+            </div>
+          </div>
+        </div>
+
+        <!-- Oregon Library Visits -->
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">Oregon Library Visits</h3>
+            <p class="project-description">
+              Exploring the library visits in the state of Oregon with comprehensive data analysis and visualization.
+            </p>
+            <div class='tableauPlaceholder' id='viz1715608425367'>
+              <noscript><a href='#'><img alt='Combined Dashboard'
+                    src='https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1_rss.png'
+                    style='border: none' /></a></noscript>
+              <object class='tableauViz' style='display:none;'>
+                <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                <param name='embed_code_version' value='3' />
+                <param name='site_root' value='' />
+                <param name='name' value='ManojFinalprojectDashboard2/CombinedDashboard' />
+                <param name='tabs' value='no' />
+                <param name='toolbar' value='yes' />
+                <param name='static_image'
+                  value='https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1.png' />
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' />
+                <param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+              </object>
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Festival -->
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">Color Festival</h3>
+            <p class="project-description">
+              Community event organization and coordination project showcasing leadership and event management skills.
+            </p>
+            <div class="project-embed-container">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1"
+                class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upkey Project -->
+        <div class="project-card">
+          <div class="project-content">
+            <h3 class="project-title">Final Project, Upkey</h3>
+            <p class="project-description">
+              Comprehensive final project demonstrating full-stack development capabilities and project management.
+            </p>
+            <div class="project-embed-container">
+              <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1"
+                class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align: center; color: var(--text-secondary); margin-top: 3rem; font-size: 1.1rem;">
+        More Projects Uploading Soon...
+      </p>
+    </div>
+  </section>
+
+    <!-- Skills Section -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-title">
+        <h2>Technical Skills</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-name">Java</div>
+          <div class="skill-level">80%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 80%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">Angular</div>
+          <div class="skill-level">75%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 75%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">TypeScript</div>
+          <div class="skill-level">75%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 75%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">HTML</div>
+          <div class="skill-level">98%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 98%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">CSS</div>
+          <div class="skill-level">90%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 90%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">JavaScript</div>
+          <div class="skill-level">80%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 80%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">Apex</div>
+          <div class="skill-level">90%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 90%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">Python</div>
+          <div class="skill-level">55%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 55%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">R</div>
+          <div class="skill-level">50%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 50%"></div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">Excel</div>
+          <div class="skill-level">70%</div>
+          <div class="skill-bar">
+            <div class="skill-progress" style="width: 70%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards Section -->
+  <section id="awards">
+    <div class="container">
+      <div class="section-title">
+        <h2>Awards & Recognition</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="awards-grid">
+        <div class="award-card">
+          <h3 class="award-title">20th Annual Gala AACC Scholarship Recipient</h3>
+          <div class="award-date">May 2024</div>
+          <div class="award-org">The Asian American Chamber of Commerce of Kansas City</div>
+          <p class="award-description">
+            This award recognizes the academic achievements from students in Kansas City metropolitan area.
+            <a href="https://www.asianchamberkc.com/gala/2024-gala" target="_blank" style="color: var(--accent-blue)">Details</a>
+          </p>
+        </div>
+
+        <div class="award-card">
+          <h3 class="award-title">International Student Ambassador</h3>
+          <div class="award-date">May 2023</div>
+          <div class="award-org">Park University</div>
+          <p class="award-description">
+            Represented Park University to prospective international students in the college admission process.
+            <a href="https://www.park.edu/admissions/international-student-admissions/office-international-students/international-student-ambassadors/" target="_blank" style="color: var(--accent-blue)">Details</a>
+          </p>
+        </div>
+
+        <div class="award-card">
+          <h3 class="award-title">Louisa Davidson Hinde / Carolyn Hinde Zarkaryan Memorial Award</h3>
+          <div class="award-date">April 2022</div>
+          <div class="award-org">Park University, Parkville, MO</div>
+          <p class="award-description">
+            This award is given to students, faculty, staff, and/or alumni who best represent the spirit of Park University by promoting in others that quality of excellence that has always been associated with a Park education.
+            <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color: var(--accent-blue)">Details</a>
+          </p>
+        </div>
+
+        <div class="award-card">
+          <h3 class="award-title">Outstanding Class Member Award - Non-Graduating Senior</h3>
+          <div class="award-date">April 2021</div>
+          <div class="award-org">Park University, Parkville, MO</div>
+          <p class="award-description">
+            This award honors two Parkville Campus Non-Graduating Seniors who best represent their class in service to and participation in Park University.
+            <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color: var(--accent-blue)">Details</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" style="background: rgba(15, 23, 42, 0.3);">
+    <div class="container">
+      <div class="section-title">
+        <h2>References</h2>
+        <div class="underline"></div>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <p class="testimonial-text">
+            For Manoj, the dedication and hard work from day one helped us to have a smooth transition from summer into the busy Fall move-in season. Within Residential Life, Manoj is directly responsible for the supervision of 7 Resident Assistants (RAs) and indirectly responsible for the co-supervision another 6 RAs. Additionally, he has taken on rebuilding of the Residence Hall Council and serves as the advisor for those 6 student leaders. Manoj has been able to lead by coming along-side the RAs and student staff that he works with, which has contributed to the servant leader mindset within our area.
+          </p>
+          <div class="testimonial-author">
+            <img src="assets/img/testimonials/testimonials-reslife.jpg" alt="Tonya Robbins" class="testimonial-img">
+            <div>
+              <div class="author-name">Tonya Robbins</div>
+              <div class="author-role">Director of Residence Life, Park University</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <i class="bx bxs-quote-alt-left quote-icon"></i>
+          <p class="testimonial-text">
+            In 2014, Manoj interned at a radio station in Nepal during my tenure as station manager. Throughout his internship, he consistently demonstrated remarkable creativity alongside a strong work ethic characterized by responsibility and maturity. Manoj impressed me as a confident and articulate individual, showcasing not only his ability to communicate effectively but also his quick grasp of new concepts. His demonstrated potential marks him as a promising candidate for future success in his professional endeavors. I extend my best wishes to him for all his future pursuits.
+          </p>
+          <div class="testimonial-author">
+            <img src="assets/img/testimonials/testimonials-radio.jpg" alt="CN Gautam" class="testimonial-img">
+            <div>
+              <div class="author-name">CN Gautam</div>
+              <div class="author-role">Station Manager, Radio Purvodaya</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <h3>Manoj Khatiwada</h3>
+      <p>Building digital experiences that make a difference</p>
+      <div class="footer-social social-links">
+        <a href="https://twitter.com/reckless_mk" target="_blank"><i class="bx bxl-twitter"></i></a>
+        <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank"><i class="bx bxl-linkedin"></i></a>
+        <a href="https://github.com/manojkhatiwada" target="_blank"><i class="bx bxl-github"></i></a>
+        <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank"><i class="bi bi-code-slash"></i></a>
+      </div>
+      <p style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+        &copy; 2025 Manoj Khatiwada. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Three.js for Earth Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Calendly Script -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+  <!-- Tableau Scripts -->
+  <script type='text/javascript'>
+    var divElement1 = document.getElementById('viz1715607817211');
+    var vizElement1 = divElement1.getElementsByTagName('object')[0];
+    if (divElement1.offsetWidth > 800) {
+      vizElement1.style.minWidth = '420px';
+      vizElement1.style.maxWidth = '650px';
+      vizElement1.style.width = '100%';
+      vizElement1.style.minHeight = '587px';
+      vizElement1.style.maxHeight = '887px';
+      vizElement1.style.height = (divElement1.offsetWidth * 0.75) + 'px';
+    } else if (divElement1.offsetWidth > 500) {
+      vizElement1.style.minWidth = '420px';
+      vizElement1.style.maxWidth = '650px';
+      vizElement1.style.width = '100%';
+      vizElement1.style.minHeight = '587px';
+      vizElement1.style.maxHeight = '887px';
+      vizElement1.style.height = (divElement1.offsetWidth * 0.75) + 'px';
+    } else {
+      vizElement1.style.width = '100%';
+      vizElement1.style.height = '777px';
+    }
+    var scriptElement1 = document.createElement('script');
+    scriptElement1.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement1.parentNode.insertBefore(scriptElement1, vizElement1);
+
+    var divElement2 = document.getElementById('viz1715608141020');
+    var vizElement2 = divElement2.getElementsByTagName('object')[0];
+    if (divElement2.offsetWidth > 800) {
+      vizElement2.style.minWidth = '1709px';
+      vizElement2.style.maxWidth = '1809px';
+      vizElement2.style.width = '100%';
+      vizElement2.style.minHeight = '1136px';
+      vizElement2.style.maxHeight = '1236px';
+      vizElement2.style.height = (divElement2.offsetWidth * 0.75) + 'px';
+    } else if (divElement2.offsetWidth > 500) {
+      vizElement2.style.minWidth = '1709px';
+      vizElement2.style.maxWidth = '1809px';
+      vizElement2.style.width = '100%';
+      vizElement2.style.minHeight = '1136px';
+      vizElement2.style.maxHeight = '1236px';
+      vizElement2.style.height = (divElement2.offsetWidth * 0.75) + 'px';
+    } else {
+      vizElement2.style.width = '100%';
+      vizElement2.style.height = '1377px';
+    }
+    var scriptElement2 = document.createElement('script');
+    scriptElement2.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement2.parentNode.insertBefore(scriptElement2, vizElement2);
+
+    var divElement3 = document.getElementById('viz1715608425367');
+    var vizElement3 = divElement3.getElementsByTagName('object')[0];
+    if (divElement3.offsetWidth > 800) {
+      vizElement3.style.width = '100%';
+      vizElement3.style.height = (divElement3.offsetWidth * 0.75) + 'px';
+    } else if (divElement3.offsetWidth > 500) {
+      vizElement3.style.width = '100%';
+      vizElement3.style.height = (divElement3.offsetWidth * 0.75) + 'px';
+    } else {
+      vizElement3.style.width = '100%';
+      vizElement3.style.height = '3277px';
+    }
+    var scriptElement3 = document.createElement('script');
+    scriptElement3.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement3.parentNode.insertBefore(scriptElement3, vizElement3);
+  </script>
+
+  <!-- Earth Background Script -->
+  <script>
+    (function() {
+      let scene, camera, renderer, particleSystem, stars;
+      let autoRotate = true;
+
+      function generateEarthParticles(count) {
+        const particles = [];
+        const earthRadius = 500;
+
+        const oceanColors = [0x6DB8FF, 0x8DCFFF, 0xADE0FF];
+        const landColors = [0xA0D67D, 0xC5E8AE, 0xFFB88F, 0xF0CC9F];
+        const iceColors = [0xFFFFFF, 0xFFFFFF];
+
+        for (let i = 0; i < count; i++) {
+          const phi = Math.acos(1 - 2 * (i + 0.5) / count);
+          const theta = Math.PI * (1 + Math.sqrt(5)) * i;
+          const radiusVariation = earthRadius + (Math.random() - 0.5) * 25;
+
+          const x = radiusVariation * Math.sin(phi) * Math.cos(theta);
+          const y = radiusVariation * Math.sin(phi) * Math.sin(theta);
+          const z = radiusVariation * Math.cos(phi);
+
+          const latitude = phi;
+          const longitude = theta % (2 * Math.PI);
+
+          let color;
+
+          if (latitude < 0.3 || latitude > 2.84) {
+            color = iceColors[Math.floor(Math.random() * iceColors.length)];
+          } else if (
+            (latitude > 1.0 && latitude < 2.2 && longitude > 0 && longitude < 2.5) ||
+            (latitude > 0.8 && latitude < 2.5 && longitude > 3.5 && longitude < 5.0) ||
+            (latitude > 0.7 && latitude < 2.0 && longitude > 2.5 && longitude < 4.5)
+          ) {
+            color = landColors[Math.floor(Math.random() * landColors.length)];
+          } else {
+            color = oceanColors[Math.floor(Math.random() * oceanColors.length)];
+          }
+
+          particles.push({
+            x, y, z,
+            color: color,
+            size: 3.0 + Math.random() * 2.5
+          });
+        }
+
+        return particles;
+      }
+
+      function createParticleTexture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+
+        const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+        gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.75)');
+        gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 64, 64);
+
+        const texture = new THREE.Texture(canvas);
+        texture.needsUpdate = true;
+        return texture;
+      }
+
+      function init() {
+        const container = document.getElementById('earth-background');
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0a1128);
+        scene.fog = new THREE.FogExp2(0x0a1128, 0.00012);
+
+        camera = new THREE.PerspectiveCamera(
+          60,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          5000
+        );
+        camera.position.set(0, 100, 800);
+        camera.lookAt(0, 0, 0);
+
+        renderer = new THREE.WebGLRenderer({
+          antialias: true,
+          alpha: false
+        });
+        renderer.setClearColor(0x0a1128);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        stars = generateEarthParticles(30000);
+
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(stars.length * 3);
+        const colors = new Float32Array(stars.length * 3);
+        const sizes = new Float32Array(stars.length);
+
+        for (let i = 0; i < stars.length; i++) {
+          const star = stars[i];
+          positions[i * 3] = star.x;
+          positions[i * 3 + 1] = star.y;
+          positions[i * 3 + 2] = star.z;
+
+          const color = new THREE.Color(star.color);
+          colors[i * 3] = color.r;
+          colors[i * 3 + 1] = color.g;
+          colors[i * 3 + 2] = color.b;
+
+          sizes[i] = star.size;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+        const material = new THREE.ShaderMaterial({
+          uniforms: {
+            pointTexture: { value: createParticleTexture() }
+          },
+          vertexShader: `
+            attribute float size;
+            varying vec3 vColor;
+            void main() {
+              vColor = color;
+              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+              gl_PointSize = size * (350.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+            uniform sampler2D pointTexture;
+            varying vec3 vColor;
+            void main() {
+              vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+              gl_FragColor = vec4(vColor * 1.3, 1.0) * texColor;
+            }
+          `,
+          blending: THREE.NormalBlending,
+          depthTest: true,
+          depthWrite: false,
+          transparent: true,
+          vertexColors: true
+        });
+
+        particleSystem = new THREE.Points(geometry, material);
+        scene.add(particleSystem);
+
+        const ambientLight = new THREE.AmbientLight(0x606060);
+        scene.add(ambientLight);
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        animate();
+      }
+
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (autoRotate && particleSystem) {
+          particleSystem.rotation.y += 0.0005;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+
+    // Navigation scroll effect
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+
+      lastScroll = currentScroll;
+    });
+
+    // Navigation toggle
+    function toggleNav() {
+      const navMenu = document.querySelector('.nav-menu');
+      navMenu.classList.toggle('active');
+    }
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          // Close mobile menu if open
+          document.querySelector('.nav-menu').classList.remove('active');
+        }
+      });
+    });
+
+    // Skill bar animation on scroll
+    const observerOptions = {
+      threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.skill-card, .project-card, .award-card, .testimonial-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease-out';
+      observer.observe(el);
+    });
+  </script>
 </body>
 
 </html>

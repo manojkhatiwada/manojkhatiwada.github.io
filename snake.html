@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Snake — Play</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/snake.css">
+  </head>
+  <body>
+    <a href="index.html" id="home-button">← Back to Portfolio</a>
+
+    <main class="snake-container">
+      <h1>Snake</h1>
+      <p class="lead">Control the snake with arrow keys or WASD. Eat food to grow — avoid walls and yourself.</p>
+
+      <div class="game-area">
+        <canvas id="snakeCanvas" width="520" height="520" aria-label="Snake game canvas"></canvas>
+        <div class="hud">
+          <div>Score: <span id="score">0</span></div>
+          <div>High: <span id="highscore">0</span></div>
+          <div>Speed: <span id="speedDisp">1.0x</span></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resetBtn">Reset</button>
+      </div>
+
+      <div class="legend">
+        <strong>Food types:</strong>
+        <span class="food normal">Normal +1</span>
+        <span class="food bonus">Bonus +3</span>
+        <span class="food speed">Speed +2 (faster)</span>
+        <span class="food poison">Poison -1</span>
+      </div>
+
+      <p class="note">Tip: First to collide loses the run. Enjoy!</p>
+    </main>
+
+    <script src="assets/js/snake.js"></script>
+  </body>
+</html>
