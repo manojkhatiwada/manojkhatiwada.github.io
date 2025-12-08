@@ -106,14 +106,6 @@
         min-height: 40px;
         transition: all 0.3s ease;
       }
-      .choice-display{
-        margin-top:16px;
-        text-align:center;
-        color:#475569;
-        font-size:18px;
-        min-height: 30px;
-        font-weight: 500;
-      }
 
       /* Battle Arena */
       .battle-arena{
@@ -155,7 +147,7 @@
       }
 
       .choice-icon.computer{
-        animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.3s;
+        animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
 
       .choice-icon.winner{
@@ -348,8 +340,6 @@
         <div class="choice-icon computer" id="computerIcon"></div>
       </div>
 
-      <div class="choice-display" id="choiceDisplay">Make a choice to start</div>
-
       <div class="result" id="result">—</div>
 
       <div class="scoreboard" aria-live="polite">
@@ -358,16 +348,9 @@
         <div class="scorebox">Ties: <span id="ties">0</span></div>
       </div>
 
-      <div style="text-align:center;margin-top:12px">
-        <div class="scorebox" style="display:inline-block">Series: <span id="seriesWins">0</span> — <span id="seriesLosses">0</span></div>
-      </div>
-
       <div style="text-align:center;margin-top:18px">
         <button id="resetScore">Reset Score</button>
       </div>
-
-      <p style="text-align:center;margin-top:18px;font-size:13px;color:#64748b">Tip: the scoreboard lives in sessionStorage so it resets when you close the tab.
-      </p>
     </main>
 
     <script src="assets/js/rps.js"></script>
