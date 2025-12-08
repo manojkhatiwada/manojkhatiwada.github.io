@@ -18,9 +18,9 @@
     <link href="assets/img/favicon.png" rel="icon" />
     <link href="assets/img/favicon.png" rel="apple-touch-icon" />
 
-    <!-- Google Fonts (Outfit for UI, Syne for headings) -->
+    <!-- Google Fonts (Inter for UI, Space Grotesk for headings) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -68,9 +68,9 @@
         --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
 
         /* Typography */
-        --font-sans: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto,
+        --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
           "Helvetica Neue", Arial, sans-serif;
-        --font-display: "Syne", "Outfit", sans-serif;
+        --font-display: "Space Grotesk", "Inter", sans-serif;
       }
 
       /* Enhanced Glassmorphism */
@@ -677,8 +677,7 @@
       .timeline::before {
         content: "";
         position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 10px;
         width: 2px;
         height: 100%;
         background: linear-gradient(
@@ -693,30 +692,22 @@
         position: relative;
       }
 
-      .timeline-item:nth-child(odd) .timeline-content {
-        margin-left: auto;
-        text-align: left;
-      }
-
-      .timeline-item:nth-child(even) .timeline-content {
-        margin-right: auto;
-        text-align: right;
-      }
-
       .timeline-content {
         background: var(--card-bg);
         border: 1px solid var(--glass-border);
         border-radius: 15px;
         padding: 2rem;
-        width: 45%;
+        width: 100%;
         backdrop-filter: blur(10px);
         position: relative;
         box-shadow: var(--shadow-md);
+        text-align: left;
+        margin-left: 50px;
       }
 
       .timeline-marker {
         position: absolute;
-        left: 50%;
+        left: 10px;
         transform: translateX(-50%);
         width: 20px;
         height: 20px;
@@ -1096,18 +1087,18 @@
         }
 
         .timeline::before {
-          left: 0;
+          left: 10px;
         }
 
         .timeline-content {
-          width: calc(100% - 40px);
-          margin-left: 40px !important;
+          width: calc(100% - 50px);
+          margin-left: 50px !important;
           text-align: left !important;
         }
 
         .timeline-marker {
-          left: 0;
-          transform: translateX(0);
+          left: 10px;
+          transform: translateX(-50%);
         }
 
         .projects-grid {
@@ -1272,10 +1263,15 @@
               </h3>
               <div class="timeline-company">Park University, Parkville, MO</div>
               <div class="timeline-description">
-                <strong>Relevant Courses:</strong> Web & Marketing Analytics,
-                Data Analytics for Business Analytics, System Analysis and
-                Design, Survey of Predictive Analytical Techniques, Applied Data
-                Mining Analysis of Big Data, Data Visualization.
+                <strong>Relevant Courses:</strong> 
+                <ul>
+                <li>Web & Marketing Analytics</li>
+                <li>Data Analytics for Business Analytics</li>
+                <li>System Analysis and Design</li>
+                <li>Survey of Predictive Analytical Techniques</li>
+                <li>Applied Data Mining Analysis of Big Data</li>
+                <li>Data Visualization</li>
+                </ul>
               </div>
             </div>
           </div>
