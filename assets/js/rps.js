@@ -35,14 +35,14 @@
   // DOM
   const btns = document.querySelectorAll('.rps-buttons button');
   const resultEl = document.getElementById('result');
-  const choiceDisplay = document.getElementById('choiceDisplay');
   const winsEl = document.getElementById('wins');
   const lossesEl = document.getElementById('losses');
   const tiesEl = document.getElementById('ties');
   const resetBtn = document.getElementById('resetScore');
-  const seriesWinsEl = document.getElementById('seriesWins');
-  const seriesLossesEl = document.getElementById('seriesLosses');
   const graffitiCanvas = document.getElementById('graffitiCanvas');
+  const playerIcon = document.getElementById('playerIcon');
+  const computerIcon = document.getElementById('computerIcon');
+  const vsText = document.getElementById('vsText');
 
   // scoreboard in sessionStorage under key 'rpsScore'
   function readScore() {
@@ -69,20 +69,6 @@
     tiesEl.textContent = score.ties;
   }
 
-  // series (best of 3) -- in-memory for current series
-  let seriesWins = 0;
-  let seriesLosses = 0;
-
-  function updateSeriesUI() {
-    if (!seriesWinsEl || !seriesLossesEl) {
-      // surface debug if elements are missing
-      showDebug('Series UI elements not found (seriesWins / seriesLosses).');
-      console.warn('seriesWinsEl or seriesLossesEl is null', {seriesWinsEl, seriesLossesEl});
-      return;
-    }
-    seriesWinsEl.textContent = seriesWins;
-    seriesLossesEl.textContent = seriesLosses;
-  }
 
   function computerPick() {
     const i = Math.floor(Math.random() * choices.length);
@@ -117,104 +103,6 @@
     }
   }
 
-  // graffiti painting on canvas when series is won
-  function showGraffiti(winner) {
-    try {
-      if (!graffitiCanvas) return;
-      const canvas = graffitiCanvas;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      canvas.classList.add('graffiti-show');
-
-      // paint colorful splashes
-      const colors = ['#ff3b30','#ff9500','#ffcc00','#34c759','#0aa5ff','#5856d6','#ff2d55'];
-      function splatter(x,y,r,color){
-        for(let i=0;i<30;i++){
-          const rx = x + (Math.random()-0.5)*r*3;
-          const ry = y + (Math.random()-0.5)*r*3;
-          const rr = Math.random()*r/2;
-          const g = ctx.createRadialGradient(rx,ry,0,rx,ry,rr*2);
-          g.addColorStop(0,color);
-          g.addColorStop(1,'rgba(0,0,0,0)');
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.arc(rx,ry,rr,0,Math.PI*2);
-          ctx.fill();
-        }
-      }
-
-      // animate splatters
-      let ticks = 0;
-      const interval = setInterval(()=>{
-        const x = Math.random()*canvas.width;
-        const y = Math.random()*canvas.height;
-        const r = 40 + Math.random()*140;
-        const c = colors[Math.floor(Math.random()*colors.length)];
-        splatter(x,y,r,c);
-        ticks++;
-        if(ticks>18){
-          clearInterval(interval);
-          // draw big text
-          ctx.save();
-          const txt = winner === 'player' ? 'YOU WON!!' : 'COMPUTER WON!!';
-          ctx.font = `bold ${Math.max(36, Math.round(canvas.width/10))}px sans-serif`;
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          // multi-layered stroke & fill for graffiti effect
-          ctx.lineWidth = Math.max(6, Math.round(canvas.width/200));
-          ctx.strokeStyle = '#111';
-          ctx.strokeText(txt, canvas.width/2, canvas.height/2);
-          // colorful fills
-          for(let i=0;i<6;i++){
-            ctx.fillStyle = colors[i%colors.length];
-            const dx = (Math.random()-0.5)*40;
-            const dy = (Math.random()-0.5)*40;
-            ctx.fillText(txt, canvas.width/2 + dx, canvas.height/2 + dy);
-          }
-          ctx.restore();
-
-          // remove after delay
-          setTimeout(()=>{
-            canvas.classList.remove('graffiti-show');
-            // clear with fade
-            setTimeout(()=>{ ctx.clearRect(0,0,canvas.width,canvas.height); }, 300);
-          }, 2200);
-        }
-      }, 90);
-    } catch(e){
-      // ignore
-    }
-  }
-
-  // show a short joke/message when computer wins the series
-  function showComputerWinJoke() {
-    try {
-      const jokes = [
-        "Computer: I only won because you let me practice in the cloud.",
-        "Computer: Don't worry — it's just a software update glitch.",
-        "Computer: I promise I won't gloat... much.",
-        "Computer: I used rock-paper-scissors AI (v0.1). Results: predictable.",
-        "Computer: You played well. My algorithms just had coffee."
-      ];
-      const text = jokes[Math.floor(Math.random()*jokes.length)];
-
-      const el = document.createElement('div');
-      el.className = 'series-msg pop';
-      el.innerHTML = `<div class="title">Computer wins the series</div><div class="body">${text}</div>`;
-      document.body.appendChild(el);
-      // show
-      requestAnimationFrame(()=> el.classList.add('show'));
-      // remove after short delay
-      setTimeout(()=>{
-        el.classList.remove('show');
-        setTimeout(()=> el.remove(), 350);
-      }, 2500);
-    } catch (e) {
-      console.warn('showComputerWinJoke failed', e);
-    }
-  }
 
   function decide(player, computer) {
     if (player === computer) return 'tie';
@@ -233,13 +121,65 @@
     return choice;
   }
 
+  function getChoiceEmoji(choice) {
+    if (choice === 'rock') return '🪨';
+    if (choice === 'paper') return '📄';
+    if (choice === 'scissors') return '✂️';
+    return '❓';
+  }
+
+  function showBattleAnimation(playerChoice, computerChoice, outcome) {
+    try {
+      // Reset previous animation
+      playerIcon.className = 'choice-icon player';
+      computerIcon.className = 'choice-icon computer';
+      vsText.classList.remove('show');
+
+      // Show player choice immediately
+      playerIcon.textContent = getChoiceEmoji(playerChoice);
+
+      // Show computer choice after 2 seconds
+      setTimeout(() => {
+        computerIcon.textContent = getChoiceEmoji(computerChoice);
+      }, 2000);
+
+      // Show VS text after computer choice appears
+      setTimeout(() => {
+        vsText.classList.add('show');
+      }, 2500);
+
+      // Apply winner/loser animations after both choices appear
+      setTimeout(() => {
+        if (outcome === 'win') {
+          playerIcon.classList.add('winner');
+          computerIcon.classList.add('loser');
+        } else if (outcome === 'loss') {
+          playerIcon.classList.add('loser');
+          computerIcon.classList.add('winner');
+        }
+        // For tie, both stay neutral
+      }, 3000);
+
+      // Reset arena after animation completes
+      setTimeout(() => {
+        playerIcon.textContent = '';
+        computerIcon.textContent = '';
+        playerIcon.className = 'choice-icon player';
+        computerIcon.className = 'choice-icon computer';
+        vsText.classList.remove('show');
+      }, 5000);
+    } catch (e) {
+      console.warn('Battle animation failed', e);
+    }
+  }
+
   // main handler
   function play(playerChoice, playerBtn) {
     const computerChoice = computerPick();
     const outcome = decide(playerChoice, computerChoice);
 
-    // update display
-    choiceDisplay.textContent = `You: ${niceChoiceLabel(playerChoice)} — Computer: ${niceChoiceLabel(computerChoice)}`;
+    // Show battle animation
+    showBattleAnimation(playerChoice, computerChoice, outcome);
 
     let message = '';
     if (outcome === 'win') message = 'You win! 🎉';
@@ -291,29 +231,6 @@
     writeScore(score);
     updateScoreboardUI(score);
 
-  // update series (best of 3)
-  if (outcome === 'win') { seriesWins += 1; console.log('seriesWins ->', seriesWins); }
-  else if (outcome === 'loss') { seriesLosses += 1; console.log('seriesLosses ->', seriesLosses); }
-  updateSeriesUI();
-
-    // check for series winner (first to 2)
-    if (seriesWins >= 2 || seriesLosses >= 2) {
-      const winner = seriesWins >= 2 ? 'player' : 'computer';
-      // Only show graffiti when the human player wins the series
-      if (winner === 'player') {
-        showGraffiti('player');
-        // small celebratory confetti near center
-        showConfetti(50);
-      } else {
-        // Computer won the series: no graffiti (per user request).
-        // You could add a subtle visual here if you like (e.g. a short message).
-      }
-      // reset series after short delay
-      setTimeout(()=>{
-        seriesWins = 0; seriesLosses = 0; updateSeriesUI();
-      }, 2600);
-    }
-
     // pulse scoreboard briefly
     const winsBox = winsEl.parentElement;
     winsBox.classList.add('pulse');
@@ -333,18 +250,10 @@
     writeScore(score);
     updateScoreboardUI(score);
     resultEl.textContent = 'Score reset.';
-    choiceDisplay.textContent = 'Make a choice to start';
   });
 
   // init UI from session
   const initial = readScore();
   updateScoreboardUI(initial);
-
-  // initialize series UI to ensure elements are populated
-  try{
-    updateSeriesUI();
-  }catch(e){
-    console.warn('Failed to initialize series UI', e);
-  }
 
 })();

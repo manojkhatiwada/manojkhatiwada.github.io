@@ -2,10 +2,6 @@
 (function(){
   const tabs = document.querySelectorAll('.tab');
   const cards = document.querySelectorAll('.game-card');
-  const modal = document.getElementById('gameModal');
-  const iframe = document.getElementById('gameFrame');
-  const closeBtn = document.getElementById('closeGame');
-  const openNewTab = document.getElementById('openNewTab');
 
   function setFilter(filter){
     tabs.forEach(t=> t.classList.toggle('active', t.getAttribute('data-filter')===filter));
@@ -16,29 +12,26 @@
   }
 
   tabs.forEach(t=> t.addEventListener('click', ()=> setFilter(t.getAttribute('data-filter'))));
-  // initial
+
+  // initial filter
   setFilter('all');
 
-  // open game in embedded iframe
-  cards.forEach(c => {
-    c.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = c.getAttribute('href') || c.dataset.link;
-      if(!href) return;
-      iframe.src = href;
-      openNewTab.href = href;
-      modal.classList.add('show');
-      modal.setAttribute('aria-hidden', 'false');
+  // Add smooth scroll animation for cards
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, index * 100);
+      }
     });
+  }, { threshold: 0.1 });
+
+  cards.forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(card);
   });
-
-  function closeModal(){
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden', 'true');
-    // stop running content
-    try{ iframe.src = 'about:blank'; }catch(e){}
-  }
-
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (ev)=>{ if(ev.target===modal) closeModal(); });
 })();
