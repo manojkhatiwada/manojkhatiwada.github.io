@@ -43,6 +43,9 @@
   const seriesWinsEl = document.getElementById('seriesWins');
   const seriesLossesEl = document.getElementById('seriesLosses');
   const graffitiCanvas = document.getElementById('graffitiCanvas');
+  const playerIcon = document.getElementById('playerIcon');
+  const computerIcon = document.getElementById('computerIcon');
+  const vsText = document.getElementById('vsText');
 
   // scoreboard in sessionStorage under key 'rpsScore'
   function readScore() {
@@ -233,10 +236,61 @@
     return choice;
   }
 
+  function getChoiceEmoji(choice) {
+    if (choice === 'rock') return '🪨';
+    if (choice === 'paper') return '📄';
+    if (choice === 'scissors') return '✂️';
+    return '❓';
+  }
+
+  function showBattleAnimation(playerChoice, computerChoice, outcome) {
+    try {
+      // Reset previous animation
+      playerIcon.className = 'choice-icon player';
+      computerIcon.className = 'choice-icon computer';
+      vsText.classList.remove('show');
+
+      // Set emojis
+      playerIcon.textContent = getChoiceEmoji(playerChoice);
+      computerIcon.textContent = getChoiceEmoji(computerChoice);
+
+      // Show VS text
+      setTimeout(() => {
+        vsText.classList.add('show');
+      }, 500);
+
+      // Apply winner/loser animations after choices appear
+      setTimeout(() => {
+        if (outcome === 'win') {
+          playerIcon.classList.add('winner');
+          computerIcon.classList.add('loser');
+        } else if (outcome === 'loss') {
+          playerIcon.classList.add('loser');
+          computerIcon.classList.add('winner');
+        }
+        // For tie, both stay neutral
+      }, 1000);
+
+      // Reset arena after animation completes
+      setTimeout(() => {
+        playerIcon.textContent = '';
+        computerIcon.textContent = '';
+        playerIcon.className = 'choice-icon player';
+        computerIcon.className = 'choice-icon computer';
+        vsText.classList.remove('show');
+      }, 3000);
+    } catch (e) {
+      console.warn('Battle animation failed', e);
+    }
+  }
+
   // main handler
   function play(playerChoice, playerBtn) {
     const computerChoice = computerPick();
     const outcome = decide(playerChoice, computerChoice);
+
+    // Show battle animation
+    showBattleAnimation(playerChoice, computerChoice, outcome);
 
     // update display
     choiceDisplay.textContent = `You: ${niceChoiceLabel(playerChoice)} — Computer: ${niceChoiceLabel(computerChoice)}`;

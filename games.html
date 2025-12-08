@@ -11,7 +11,7 @@
     <a href="index.html" id="home-button">← Back to Portfolio</a>
     <main class="games-container">
       <h1>Games</h1>
-      <p class="lead">Play the games — click a card to open a game in a new tab.</p>
+      <p class="lead">Click any game card below to play in a new tab</p>
 
       <div class="tabs" role="tablist" aria-label="Game categories">
         <button class="tab active" data-filter="all">All</button>
@@ -20,25 +20,16 @@
       </div>
 
       <div class="games-grid">
-        <a class="game-card" href="snake.html" data-category="arcade">
+        <a class="game-card" href="snake.html" target="_blank" data-category="arcade">
           <div class="thumb snake-thumb"></div>
           <div class="meta"><h3>Snake</h3><p>Classic snake with multiple food types.</p></div>
         </a>
 
-        <a class="game-card" href="rps.html" data-category="casual">
+        <a class="game-card" href="rps.html" target="_blank" data-category="casual">
           <div class="thumb rps-thumb"></div>
           <div class="meta"><h3>Rock Paper Scissors</h3><p>Best-of-3 series with celebratory graphics.</p></div>
         </a>
 
-      </div>
-
-      <!-- Embedded game modal (iframe) -->
-      <div id="gameModal" class="game-modal" aria-hidden="true">
-        <div class="game-modal-inner">
-          <button id="closeGame" class="game-close" aria-label="Close game">✕</button>
-          <iframe id="gameFrame" src="" frameborder="0" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
-          <div class="game-actions"><a id="openNewTab" href="#" target="_blank">Open in new tab</a></div>
-        </div>
       </div>
 
       <p class="note">Want a game added here? Add the HTML page to the repo and I’ll include it on this page.</p>
