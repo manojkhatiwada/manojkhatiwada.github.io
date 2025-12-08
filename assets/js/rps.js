@@ -135,20 +135,16 @@
       computerIcon.className = 'choice-icon computer';
       vsText.classList.remove('show');
 
-      // Show player choice immediately
+      // Show both choices immediately
       playerIcon.textContent = getChoiceEmoji(playerChoice);
+      computerIcon.textContent = getChoiceEmoji(computerChoice);
 
-      // Show computer choice after 2 seconds
-      setTimeout(() => {
-        computerIcon.textContent = getChoiceEmoji(computerChoice);
-      }, 2000);
-
-      // Show VS text after computer choice appears
+      // Show VS text after a brief moment
       setTimeout(() => {
         vsText.classList.add('show');
-      }, 2500);
+      }, 500);
 
-      // Apply winner/loser animations after both choices appear
+      // Apply winner/loser animations
       setTimeout(() => {
         if (outcome === 'win') {
           playerIcon.classList.add('winner');
@@ -158,7 +154,7 @@
           computerIcon.classList.add('winner');
         }
         // For tie, both stay neutral
-      }, 3000);
+      }, 1000);
 
       // Reset arena after animation completes
       setTimeout(() => {
@@ -167,7 +163,7 @@
         playerIcon.className = 'choice-icon player';
         computerIcon.className = 'choice-icon computer';
         vsText.classList.remove('show');
-      }, 5000);
+      }, 3000);
     } catch (e) {
       console.warn('Battle animation failed', e);
     }
@@ -175,66 +171,76 @@
 
   // main handler
   function play(playerChoice, playerBtn) {
-    const computerChoice = computerPick();
-    const outcome = decide(playerChoice, computerChoice);
+    // Show player choice immediately in battle arena
+    playerIcon.textContent = getChoiceEmoji(playerChoice);
+    playerIcon.className = 'choice-icon player';
+    computerIcon.textContent = '';
+    computerIcon.className = 'choice-icon computer';
+    vsText.classList.remove('show');
 
-    // Show battle animation
-    showBattleAnimation(playerChoice, computerChoice, outcome);
-
-    let message = '';
-    if (outcome === 'win') message = 'You win! 🎉';
-    else if (outcome === 'loss') message = 'You lose. 😕';
-    else message = "It's a tie. 🤝";
-
-    // set result class for color/animation
-    resultEl.textContent = message;
-    resultEl.classList.remove('win','loss','tie');
-    resultEl.classList.add(outcome === 'win' ? 'win' : outcome === 'loss' ? 'loss' : 'tie');
-
-    // animate player button and computer button
-    try {
-      // find the button for computer choice
-      const compBtn = document.querySelector(`.rps-buttons button[data-choice="${computerChoice}"]`);
-      if (outcome === 'win') {
-        playerBtn.classList.add('btn-win');
-        if (compBtn) compBtn.classList.add('btn-lose');
-        // show confetti roughly near player's button (use button center)
-        const rect = playerBtn.getBoundingClientRect();
-        const xPercent = ((rect.left + rect.width/2) / window.innerWidth) * 100;
-        showConfetti(xPercent);
-      } else if (outcome === 'loss') {
-        if (playerBtn) playerBtn.classList.add('btn-lose');
-        if (compBtn) compBtn.classList.add('btn-win');
-        const rect = compBtn ? compBtn.getBoundingClientRect() : playerBtn.getBoundingClientRect();
-        const xPercent = ((rect.left + rect.width/2) / window.innerWidth) * 100;
-        showConfetti(xPercent);
-      } else {
-        // tie pulse both
-        if (playerBtn) playerBtn.classList.add('btn-win');
-        if (compBtn) compBtn.classList.add('btn-win');
-      }
-    } catch (e) {
-      // ignore animation errors
-    }
-
-    // cleanup animation classes after they finish
+    // Wait 2 seconds before computer makes decision
     setTimeout(() => {
-      btns.forEach(b => b.classList.remove('btn-win','btn-lose'));
+      const computerChoice = computerPick();
+      const outcome = decide(playerChoice, computerChoice);
+
+      // Show battle animation with computer choice
+      showBattleAnimation(playerChoice, computerChoice, outcome);
+
+      let message = '';
+      if (outcome === 'win') message = 'You win! 🎉';
+      else if (outcome === 'loss') message = 'You lose. 😕';
+      else message = "It's a tie. 🤝";
+
+      // set result class for color/animation
+      resultEl.textContent = message;
       resultEl.classList.remove('win','loss','tie');
-    }, 900);
+      resultEl.classList.add(outcome === 'win' ? 'win' : outcome === 'loss' ? 'loss' : 'tie');
 
-    // update score
-    const score = readScore();
-    if (outcome === 'win') score.wins += 1;
-    else if (outcome === 'loss') score.losses += 1;
-    else score.ties += 1;
-    writeScore(score);
-    updateScoreboardUI(score);
+      // animate player button and computer button
+      try {
+        // find the button for computer choice
+        const compBtn = document.querySelector(`.rps-buttons button[data-choice="${computerChoice}"]`);
+        if (outcome === 'win') {
+          playerBtn.classList.add('btn-win');
+          if (compBtn) compBtn.classList.add('btn-lose');
+          // show confetti roughly near player's button (use button center)
+          const rect = playerBtn.getBoundingClientRect();
+          const xPercent = ((rect.left + rect.width/2) / window.innerWidth) * 100;
+          showConfetti(xPercent);
+        } else if (outcome === 'loss') {
+          if (playerBtn) playerBtn.classList.add('btn-lose');
+          if (compBtn) compBtn.classList.add('btn-win');
+          const rect = compBtn ? compBtn.getBoundingClientRect() : playerBtn.getBoundingClientRect();
+          const xPercent = ((rect.left + rect.width/2) / window.innerWidth) * 100;
+          showConfetti(xPercent);
+        } else {
+          // tie pulse both
+          if (playerBtn) playerBtn.classList.add('btn-win');
+          if (compBtn) compBtn.classList.add('btn-win');
+        }
+      } catch (e) {
+        // ignore animation errors
+      }
 
-    // pulse scoreboard briefly
-    const winsBox = winsEl.parentElement;
-    winsBox.classList.add('pulse');
-    setTimeout(() => winsBox.classList.remove('pulse'), 400);
+      // cleanup animation classes after they finish
+      setTimeout(() => {
+        btns.forEach(b => b.classList.remove('btn-win','btn-lose'));
+        resultEl.classList.remove('win','loss','tie');
+      }, 900);
+
+      // update score
+      const score = readScore();
+      if (outcome === 'win') score.wins += 1;
+      else if (outcome === 'loss') score.losses += 1;
+      else score.ties += 1;
+      writeScore(score);
+      updateScoreboardUI(score);
+
+      // pulse scoreboard briefly
+      const winsBox = winsEl.parentElement;
+      winsBox.classList.add('pulse');
+      setTimeout(() => winsBox.classList.remove('pulse'), 400);
+    }, 2000);
   }
 
   // wire buttons
