@@ -3,1142 +3,689 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
     <title>Manoj Khatiwada - Portfolio</title>
-    <meta
-      content="Manoj Khatiwada's Portfolio - Full-Stack Developer & Business Analyst"
-      name="description"
-    />
-    <meta
-      content="Manoj Khatiwada, Full-Stack Developer, Business Analyst, Web Developer"
-      name="keywords"
-    />
+    <meta content="Manoj Khatiwada's Portfolio - Full-Stack Developer & Business Analyst" name="description" />
+    <meta content="Manoj Khatiwada, Full-Stack Developer, Business Analyst, Web Developer" name="keywords" />
 
-    <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon" />
     <link href="assets/img/favicon.png" rel="apple-touch-icon" />
 
-    <!-- Google Fonts (Inter for UI, Space Grotesk for headings) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Bootstrap Icons -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-
-    <!-- Calendly -->
-    <link
-      href="https://assets.calendly.com/assets/external/widget.css"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
 
     <style>
-      /* === RESET & BASE === */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
       :root {
-        /* Colors - Light, professional theme */
-        --bg-light: #f8fafc;
-        --bg-lighter: #ffffff;
-        --bg-section: #f1f5f9;
-        --accent-blue: #3b82f6;
-        --accent-green: #10b981;
-        --accent-terracotta: #f97316;
-        --accent-purple: #8b5cf6;
-        --accent-pink: #ec4899;
-        --text-primary: #0f172a;
-        --text-secondary: #475569;
-        --glass-bg: rgba(255, 255, 255, 0.8);
-        --glass-border: rgba(148, 163, 184, 0.2);
-        --card-bg: rgba(255, 255, 255, 0.9);
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
-
-        /* Typography */
-        --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-        --font-display: "Space Grotesk", "Inter", sans-serif;
+        --bg: #06060a;
+        --bg-elevated: #0d0d14;
+        --bg-card: rgba(255,255,255,0.03);
+        --bg-card-hover: rgba(255,255,255,0.07);
+        --accent: #6c63ff;
+        --accent2: #00d4aa;
+        --accent3: #ff6b9d;
+        --accent4: #f59e0b;
+        --text: #eaeaea;
+        --text-dim: #8b8b9e;
+        --border: rgba(255,255,255,0.06);
+        --font: 'Inter', system-ui, -apple-system, sans-serif;
+        --font-display: 'Space Grotesk', 'Inter', sans-serif;
       }
 
-      /* Enhanced Glassmorphism */
-      .glass-effect {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      }
+      html { scroll-behavior: smooth; }
 
       body {
-        font-family: var(--font-sans);
-        background: linear-gradient(
-          135deg,
-          #f0f9ff 0%,
-          #e0f2fe 50%,
-          #dbeafe 100%
-        );
-        background-attachment: fixed;
-        color: var(--text-primary);
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
         line-height: 1.6;
         overflow-x: hidden;
+        cursor: none;
       }
 
-      /* Headings use the display font (Syne) for stronger visual hierarchy */
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
+      h1,h2,h3,h4,h5,h6 {
         font-family: var(--font-display);
         font-weight: 700;
         letter-spacing: -0.03em;
       }
 
-      /* === NAVIGATION === */
-      nav {
+      a { text-decoration: none; color: inherit; cursor: none; }
+      button { cursor: none; }
+
+      /* ===== CUSTOM CURSOR ===== */
+      .cursor-dot {
+        width: 8px; height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
         position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(30px) saturate(180%);
-        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-        padding: 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
+        pointer-events: none;
+        z-index: 99999;
+        transition: transform 0.1s ease;
+        mix-blend-mode: difference;
+      }
+      .cursor-ring {
+        width: 40px; height: 40px;
+        border: 2px solid rgba(108,99,255,0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99998;
+        transition: width 0.3s, height 0.3s, border-color 0.3s;
+      }
+      .cursor-ring.hovering {
+        width: 60px; height: 60px;
+        border-color: var(--accent2);
       }
 
-      nav.scrolled {
-        background: rgba(255, 255, 255, 0.98);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      /* ===== THREE.JS ===== */
+      #scene-container {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0; pointer-events: none;
       }
 
-      .nav-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 75px;
+      /* ===== GRADIENT MESH BACKGROUND ===== */
+      .gradient-mesh {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0; pointer-events: none;
+        opacity: 0.4;
+        background:
+          radial-gradient(ellipse at 20% 50%, rgba(108,99,255,0.15) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 20%, rgba(0,212,170,0.1) 0%, transparent 50%),
+          radial-gradient(ellipse at 60% 80%, rgba(255,107,157,0.08) 0%, transparent 50%);
+        animation: meshShift 20s ease-in-out infinite alternate;
+      }
+      @keyframes meshShift {
+        0% { background-position: 0% 0%, 100% 0%, 50% 100%; }
+        100% { background-position: 100% 100%, 0% 100%, 50% 0%; }
       }
 
-      .nav-logo {
-        font-size: 1.75rem;
-        font-weight: 800;
-        background: linear-gradient(
-          135deg,
-          var(--accent-blue) 0%,
-          var(--accent-purple) 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-decoration: none;
-        font-family: var(--font-display);
-        letter-spacing: -0.02em;
-        position: relative;
-        transition: transform 0.3s ease;
+      /* ===== SCROLL PROGRESS ===== */
+      #scroll-progress {
+        position: fixed; top: 0; left: 0;
+        width: 0%; height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+        z-index: 9999;
       }
 
-      .nav-logo::after {
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          var(--accent-blue),
-          var(--accent-green)
-        );
-        transition: width 0.3s ease;
-      }
-
-      .nav-logo:hover::after {
-        width: 100%;
-      }
-
-      .nav-logo:hover {
-        transform: translateY(-2px);
-      }
-
-      .nav-menu {
-        display: flex;
-        gap: 0.5rem;
-        list-style: none;
-        align-items: center;
-      }
-
-      .nav-menu li {
-        position: relative;
-      }
-
-      .nav-menu a {
-        color: var(--text-secondary);
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        font-size: 0.95rem;
-        padding: 0.6rem 1.2rem;
-        border-radius: 8px;
-        position: relative;
-        display: block;
-        overflow: hidden;
-      }
-
-      .nav-menu a:hover {
-        color: var(--accent-blue);
-      }
-
-      .nav-menu a::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          135deg,
-          rgba(93, 169, 255, 0.1),
-          rgba(143, 188, 109, 0.1)
-        );
-        transform: translateY(100%);
-        transition: transform 0.3s ease;
-        border-radius: 8px;
-        z-index: -1;
-      }
-
-      .nav-menu a:hover::before {
-        transform: translateY(0);
-      }
-
-      .nav-menu a:hover {
-        color: var(--accent-blue);
-        transform: translateY(-2px);
-      }
-
-      .nav-menu a::after {
-        content: "";
-        position: absolute;
-        bottom: 8px;
-        left: 50%;
+      /* ===== NAVIGATION ===== */
+      nav {
+        position: fixed; top: 20px; left: 50%;
         transform: translateX(-50%);
-        width: 0;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          var(--accent-blue),
-          var(--accent-green)
-        );
-        transition: width 0.3s ease;
-        border-radius: 2px;
+        z-index: 1000;
+        background: rgba(13,13,20,0.6);
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 0 0.5rem;
+        transition: all 0.4s ease;
       }
-
-      .nav-menu a:hover::after {
-        width: 60%;
+      nav.scrolled {
+        background: rgba(13,13,20,0.9);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
       }
-
+      .nav-container {
+        display: flex; align-items: center;
+        gap: 0.5rem; height: 56px;
+        padding: 0 1rem;
+      }
+      .nav-logo {
+        font-size: 1.4rem; font-weight: 800;
+        font-family: var(--font-display);
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-right: 1rem;
+      }
+      .nav-menu {
+        display: flex; gap: 0.15rem;
+        list-style: none; align-items: center;
+      }
+      .nav-menu a {
+        color: var(--text-dim); font-weight: 500;
+        font-size: 0.85rem; padding: 0.4rem 0.8rem;
+        border-radius: 10px; transition: all 0.3s;
+      }
+      .nav-menu a:hover, .nav-menu a.active {
+        color: #fff;
+        background: rgba(108,99,255,0.15);
+      }
       .nav-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
-        background: none;
-        border: none;
+        display: none; flex-direction: column;
+        gap: 4px; cursor: none; background: none; border: none;
       }
-
       .nav-toggle span {
-        width: 25px;
-        height: 3px;
-        background: var(--text-primary);
-        transition: 0.3s;
+        width: 20px; height: 2px;
+        background: var(--text); border-radius: 2px; transition: 0.3s;
       }
 
-      /* === HERO SECTION === */
+      /* ===== HERO ===== */
       .hero {
-        position: relative;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-top: 80px;
-        z-index: 1;
+        position: relative; min-height: 100vh;
+        display: grid; grid-template-columns: 1fr 1fr;
+        align-items: center; z-index: 1;
+        padding: 100px 0;
+        max-width: 1200px; margin: 0 auto;
+        gap: 4rem;
+      }
+      .hero-left { padding: 0 2rem; }
+      .hero-right {
+        position: relative; display: flex;
+        align-items: center; justify-content: center;
+        height: 500px;
       }
 
-      .hero-content {
-        text-align: center;
-        max-width: 900px;
-        padding: 2rem;
-        animation: fadeInUp 1s ease-out;
+      .hero-badge {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.4rem 1rem; border-radius: 50px;
+        background: rgba(108,99,255,0.1);
+        border: 1px solid rgba(108,99,255,0.2);
+        color: var(--accent); font-size: 0.8rem; font-weight: 600;
+        margin-bottom: 1.5rem;
+        animation: fadeInDown 0.8s ease-out;
       }
-
-      .hero-greeting {
-        font-size: 1.2rem;
-        color: var(--accent-blue);
-        margin-bottom: 1rem;
-        font-weight: 500;
+      .hero-badge .dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--accent2);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.8); }
       }
 
       .hero-title {
-        font-size: 5rem;
-        margin-bottom: 1rem;
-        background: linear-gradient(
-          135deg,
-          #0f172a 0%,
-          var(--accent-blue) 50%,
-          var(--accent-purple) 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        line-height: 1.2;
-        background-size: 200% auto;
-        animation: gradientShift 8s ease infinite;
+        font-size: clamp(3rem, 6vw, 4.5rem);
+        line-height: 1.05; margin-bottom: 1.5rem;
+        color: #fff; position: relative;
+      }
+      .hero-title .gradient-text {
+        background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text; background-size: 200% auto;
+        animation: shimmer 4s linear infinite;
+      }
+      @keyframes shimmer {
+        0% { background-position: 0% center; }
+        100% { background-position: 200% center; }
       }
 
-      @keyframes gradientShift {
-        0%,
-        100% {
-          background-position: 0% center;
-        }
-        50% {
-          background-position: 100% center;
-        }
+      /* Glitch effect */
+      .glitch {
+        position: relative; display: inline-block;
+      }
+      .glitch::before, .glitch::after {
+        content: attr(data-text);
+        position: absolute; top: 0; left: 0;
+        width: 100%; height: 100%;
+        opacity: 0;
+      }
+      .glitch:hover::before {
+        animation: glitch1 0.3s infinite;
+        color: var(--accent); opacity: 0.8;
+        clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+      }
+      .glitch:hover::after {
+        animation: glitch2 0.3s infinite;
+        color: var(--accent3); opacity: 0.8;
+        clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+      }
+      @keyframes glitch1 {
+        0% { transform: translate(0); }
+        20% { transform: translate(-3px, 3px); }
+        40% { transform: translate(3px, -3px); }
+        60% { transform: translate(-2px, 1px); }
+        80% { transform: translate(2px, -2px); }
+        100% { transform: translate(0); }
+      }
+      @keyframes glitch2 {
+        0% { transform: translate(0); }
+        20% { transform: translate(3px, -2px); }
+        40% { transform: translate(-3px, 2px); }
+        60% { transform: translate(1px, -3px); }
+        80% { transform: translate(-2px, 3px); }
+        100% { transform: translate(0); }
       }
 
       .hero-subtitle {
-        font-size: 2rem;
-        color: var(--text-secondary);
-        margin-bottom: 2rem;
-        font-weight: 400;
-      }
-
-      .hero-description {
-        font-size: 1.2rem;
-        color: var(--text-secondary);
-        margin-bottom: 3rem;
-        line-height: 1.8;
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
+        font-size: 1.1rem; color: var(--text-dim);
+        margin-bottom: 2rem; line-height: 1.8;
       }
 
       .social-links {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
-        margin-bottom: 2rem;
+        display: flex; gap: 0.75rem; margin-bottom: 2rem;
       }
-
       .social-links a {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-primary);
-        font-size: 1.5rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        backdrop-filter: blur(10px);
-        position: relative;
-        overflow: hidden;
+        width: 44px; height: 44px; border-radius: 12px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--text-dim); font-size: 1.2rem;
+        transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
       }
-
-      .social-links a::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          135deg,
-          var(--accent-blue),
-          var(--accent-purple)
-        );
-        border-radius: 50%;
-        transform: scale(0);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: -1;
-      }
-
-      .social-links a:hover::before {
-        transform: scale(1);
-      }
-
       .social-links a:hover {
-        border-color: transparent;
-        transform: translateY(-8px) rotate(360deg);
-        box-shadow: 0 10px 25px rgba(93, 169, 255, 0.5);
+        color: #fff; background: var(--accent);
+        border-color: var(--accent);
+        transform: translateY(-4px) scale(1.1);
+        box-shadow: 0 8px 25px rgba(108,99,255,0.4);
       }
 
-      .social-links a:nth-child(1):hover {
-        animation: float 2s ease-in-out infinite;
-      }
-      .social-links a:nth-child(2):hover {
-        animation: float 2s ease-in-out infinite 0.2s;
-      }
-      .social-links a:nth-child(3):hover {
-        animation: float 2s ease-in-out infinite 0.4s;
-      }
-      .social-links a:nth-child(4):hover {
-        animation: float 2s ease-in-out infinite 0.6s;
-      }
-
-      .cta-buttons {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
+      .cta-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
 
       .btn {
-        padding: 1rem 2.5rem;
-        border-radius: 50px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        font-size: 1rem;
-        border: 2px solid transparent;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
+        padding: 0.8rem 1.8rem; border-radius: 12px;
+        font-weight: 600; font-size: 0.9rem;
+        border: none; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        position: relative; overflow: hidden; display: inline-block;
       }
-
-      .btn::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.1);
-        transform: translate(-50%, -50%);
-        transition: width 0.6s, height 0.6s;
-      }
-
-      .btn:hover::before {
-        width: 300px;
-        height: 300px;
-      }
-
       .btn-primary {
-        background: linear-gradient(
-          135deg,
-          var(--accent-blue),
-          var(--accent-purple)
-        );
-        color: white;
-        box-shadow: 0 4px 15px rgba(93, 169, 255, 0.4);
+        background: linear-gradient(135deg, var(--accent), #8b5cf6);
+        color: white; box-shadow: 0 4px 20px rgba(108,99,255,0.4);
       }
-
       .btn-primary:hover {
-        box-shadow: 0 8px 25px rgba(93, 169, 255, 0.6);
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(108,99,255,0.6);
       }
-
       .btn-secondary {
         background: transparent;
-        border: 2px solid var(--text-secondary);
-        color: var(--text-secondary);
+        border: 1px solid var(--border); color: var(--text);
       }
-
       .btn-secondary:hover {
-        border-color: var(--accent-green);
-        color: var(--accent-green);
-        box-shadow: 0 4px 15px rgba(143, 188, 109, 0.3);
-        transform: translateY(-2px);
+        border-color: var(--accent2); color: var(--accent2);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 20px rgba(0,212,170,0.2);
       }
 
-      /* === SECTIONS === */
-      section {
-        position: relative;
-        z-index: 1;
-        padding: 10px 0;
-      }
-
-      .container {
-        max-width: 1400px;
-        margin: 0 auto;
+      /* ===== STATS STRIP ===== */
+      .stats-strip {
+        position: relative; z-index: 1;
+        max-width: 1200px; margin: -40px auto 0;
         padding: 0 2rem;
       }
-
-      .section-title {
-        text-align: center;
-        margin-bottom: 4rem;
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      .stats-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 1px; background: var(--border); border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       }
-
-      .section-title.visible {
-        opacity: 1;
-        transform: translateY(0);
+      .stat-item {
+        background: var(--bg-elevated);
+        padding: 2rem; text-align: center;
+        transition: background 0.3s;
       }
-
-      .section-title h2 {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        color: var(--text-primary);
-        position: relative;
-        display: inline-block;
-      }
-
-      .section-title h2::after {
-        content: attr(data-text);
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: -1;
-        background: linear-gradient(
-          90deg,
-          var(--accent-blue),
-          var(--accent-purple)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+      .stat-item:hover { background: rgba(108,99,255,0.05); }
+      .stat-number {
+        font-size: 2.5rem; font-weight: 800;
+        font-family: var(--font-display);
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         background-clip: text;
-        opacity: 0.3;
-        transform: translate(3px, 3px);
+      }
+      .stat-label {
+        font-size: 0.85rem; color: var(--text-dim);
+        margin-top: 0.25rem; font-weight: 500;
       }
 
-      .section-title .underline {
-        width: 0;
-        height: 4px;
-        background: linear-gradient(
-          90deg,
-          var(--accent-blue),
-          var(--accent-green),
-          var(--accent-purple)
-        );
-        margin: 0 auto;
-        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
-      }
+      /* ===== SECTIONS ===== */
+      section { position: relative; z-index: 1; padding: 120px 0; }
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
-      .section-title.visible .underline {
-        width: 100px;
+      .section-header { margin-bottom: 4rem; }
+      .section-header .label {
+        display: inline-block; font-size: 0.8rem;
+        font-weight: 600; color: var(--accent);
+        text-transform: uppercase; letter-spacing: 0.15em;
+        margin-bottom: 0.75rem;
       }
-
-      /* === ABOUT SECTION === */
-      .about-content {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 4rem;
-        align-items: center;
-      }
-
-      .about-image {
-        position: relative;
-      }
-
-      .about-image img {
-        width: 100%;
-        border-radius: 20px;
-        border: 2px solid var(--glass-border);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      }
-
-      .about-text h3 {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-        color: var(--accent-blue);
-      }
-
-      .about-text p {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        line-height: 1.8;
-        margin-bottom: 1.5rem;
-      }
-
-      .about-info {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 2rem;
-      }
-
-      .info-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--text-secondary);
-      }
-
-      .info-item i {
-        color: var(--accent-blue);
-        font-size: 1.2rem;
-      }
-
-      /* === SKILLS SECTION === */
-      .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 2rem;
-      }
-
-      .skill-card {
-        background: var(--card-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 15px;
-        padding: 2rem;
-        text-align: center;
-        backdrop-filter: blur(10px);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-      }
-
-      .skill-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.05),
-          rgba(139, 92, 246, 0.05)
-        );
-        opacity: 0;
-        transition: opacity 0.4s;
-      }
-
-      .skill-card:hover {
-        transform: translateY(-10px) scale(1.02);
-        border-color: var(--accent-blue);
-        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
-      }
-
-      .skill-card:hover::before {
-        opacity: 1;
-      }
-
-      .skill-name {
-        font-size: 1.1rem;
-        font-weight: 600;
+      .section-header h2 {
+        font-size: clamp(2rem, 4vw, 3rem); color: #fff;
         margin-bottom: 1rem;
-        color: var(--text-primary);
+      }
+      .section-header p {
+        color: var(--text-dim); max-width: 550px;
+        font-size: 1rem; line-height: 1.7;
       }
 
-      .skill-level {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--accent-blue);
+      /* ===== REVEAL ===== */
+      .reveal {
+        opacity: 0; transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1),
+                    transform 0.8s cubic-bezier(0.4,0,0.2,1);
+      }
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+      .stagger { opacity: 0; transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .stagger.visible { opacity: 1; transform: translateY(0); }
+
+      /* ===== GLASS CARD ===== */
+      .glass {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        backdrop-filter: blur(12px);
+        transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        position: relative; overflow: hidden;
+      }
+      .glass::before {
+        content: ""; position: absolute;
+        top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      }
+      .glass:hover {
+        background: var(--bg-card-hover);
+        border-color: rgba(108,99,255,0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      }
+
+      /* ===== TILT ===== */
+      .tilt { transform-style: preserve-3d; perspective: 1000px; }
+
+      /* ===== ABOUT — BENTO GRID ===== */
+      .about-bento {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 1.25rem;
+      }
+      .about-photo {
+        grid-row: 1 / 3; position: relative;
+      }
+      .about-photo img {
+        width: 100%; height: 100%;
+        object-fit: cover; border-radius: 16px;
+        border: 1px solid var(--border);
+      }
+      .about-photo::after {
+        content: ""; position: absolute; inset: -3px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        z-index: -1; opacity: 0.25; filter: blur(20px);
+      }
+      .about-bio { grid-column: 2 / 4; padding: 2rem; }
+      .about-bio h3 {
+        font-size: 1.4rem; margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .about-bio p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; margin-bottom: 0.75rem; }
+      .about-detail { padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+      .about-detail .detail-icon {
+        font-size: 1.5rem; color: var(--accent);
         margin-bottom: 0.5rem;
       }
-
-      .skill-bar {
-        width: 100%;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        overflow: hidden;
-        margin-top: 1rem;
+      .about-detail h4 {
+        font-size: 1rem; color: #fff; margin-bottom: 0.3rem;
       }
+      .about-detail p { color: var(--text-dim); font-size: 0.85rem; }
 
-      .skill-progress {
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          var(--accent-blue),
-          var(--accent-green)
-        );
-        border-radius: 10px;
-        transition: width 1s ease;
-      }
-
-      /* === EXPERIENCE TIMELINE === */
-      .timeline {
-        position: relative;
-        max-width: 1000px;
-        margin: 0 auto;
-      }
-
+      /* ===== TIMELINE ===== */
+      .timeline { position: relative; max-width: 900px; margin: 0 auto; }
       .timeline::before {
-        content: "";
-        position: absolute;
-        left: 10px;
-        width: 2px;
-        height: 100%;
-        background: linear-gradient(
-          180deg,
-          var(--accent-blue),
-          var(--accent-green)
-        );
+        content: ""; position: absolute;
+        left: 0; top: 0; width: 2px; height: 100%;
+        background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+        border-radius: 2px;
       }
-
-      .timeline-item {
-        margin-bottom: 3rem;
-        position: relative;
+      .tl-item {
+        position: relative; margin-bottom: 2rem; padding-left: 40px;
       }
-
-      .timeline-content {
-        background: var(--card-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 15px;
-        padding: 2rem;
-        width: 100%;
-        backdrop-filter: blur(10px);
-        position: relative;
-        box-shadow: var(--shadow-md);
-        text-align: left;
-        margin-left: 50px;
-      }
-
-      .timeline-marker {
-        position: absolute;
-        left: 10px;
-        transform: translateX(-50%);
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: var(--accent-blue);
-        border: 4px solid var(--bg-light);
+      .tl-dot {
+        position: absolute; left: -5px; top: 10px;
+        width: 12px; height: 12px; border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(108,99,255,0.15), 0 0 20px rgba(108,99,255,0.3);
         z-index: 2;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
       }
-
-      .timeline-date {
-        color: var(--accent-blue);
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        font-size: 0.95rem;
+      .tl-card { padding: 1.5rem; }
+      .tl-date {
+        color: var(--accent); font-weight: 600;
+        font-size: 0.8rem; text-transform: uppercase;
+        letter-spacing: 0.05em; margin-bottom: 0.4rem;
       }
+      .tl-title { font-size: 1.2rem; color: #fff; margin-bottom: 0.2rem; }
+      .tl-company { color: var(--accent2); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.6rem; }
+      .tl-desc { color: var(--text-dim); font-size: 0.9rem; line-height: 1.8; }
+      .tl-desc ul { list-style: none; padding: 0; }
+      .tl-desc li { margin-bottom: 0.3rem; padding-left: 1.1rem; position: relative; }
+      .tl-desc li::before { content: "▹"; position: absolute; left: 0; color: var(--accent); }
 
-      .timeline-title {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-        color: var(--text-primary);
+      /* ===== PROJECTS — HORIZONTAL SCROLL ===== */
+      .projects-scroll-wrapper {
+        overflow-x: auto; overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
+        scrollbar-width: none;
       }
-
-      .timeline-company {
-        color: var(--accent-green);
-        margin-bottom: 1rem;
-        font-weight: 500;
+      .projects-scroll-wrapper::-webkit-scrollbar { display: none; }
+      .projects-track {
+        display: flex; gap: 1.5rem;
+        padding: 0 2rem;
+        width: max-content;
       }
-
-      .timeline-description {
-        color: var(--text-secondary);
-        line-height: 1.8;
-      }
-
-      .timeline-description ul {
-        list-style: none;
-        padding-left: 0;
-      }
-
-      .timeline-description li {
-        margin-bottom: 0.5rem;
-        padding-left: 1.5rem;
-        position: relative;
-      }
-
-      .timeline-description li::before {
-        content: "▹";
-        position: absolute;
-        left: 0;
-        color: var(--accent-blue);
-      }
-
-      /* === PROJECTS GRID === */
-      .projects-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
       .project-card {
-        background: var(--card-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        overflow: hidden;
-        backdrop-filter: blur(10px);
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        transform-style: preserve-3d;
-        box-shadow: var(--shadow-md);
+        width: 420px; flex-shrink: 0;
+        scroll-snap-align: start;
       }
-
-      .project-card::after {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-          circle,
-          rgba(59, 130, 246, 0.1) 0%,
-          transparent 70%
-        );
-        opacity: 0;
-        transition: opacity 0.5s;
-        pointer-events: none;
+      .project-card .p-content { padding: 1.75rem; }
+      .p-tag {
+        display: inline-block; padding: 0.2rem 0.7rem;
+        border-radius: 6px; font-size: 0.7rem; font-weight: 600;
+        margin-bottom: 0.75rem; text-transform: uppercase;
+        letter-spacing: 0.05em;
       }
-
-      .project-card:hover {
-        border-color: var(--accent-blue);
-        box-shadow: 0 25px 50px rgba(59, 130, 246, 0.2);
-        transform: translateY(-8px);
-      }
-
-      .project-card:hover::after {
-        opacity: 1;
-      }
-
-      .project-content {
-        padding: 2rem;
-      }
-
-      .project-title {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-        color: var(--text-primary);
-      }
-
-      .project-description {
-        color: var(--text-secondary);
-        line-height: 1.8;
-        margin-bottom: 1.5rem;
-        font-size: 1.05rem;
-      }
-
-      .project-links {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .project-link {
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
+      .p-tag.viz { background: rgba(108,99,255,0.15); color: var(--accent); }
+      .p-tag.game { background: rgba(255,107,157,0.15); color: var(--accent3); }
+      .p-tag.data { background: rgba(0,212,170,0.15); color: var(--accent2); }
+      .p-tag.event { background: rgba(245,158,11,0.15); color: var(--accent4); }
+      .p-title { font-size: 1.25rem; color: #fff; margin-bottom: 0.6rem; }
+      .p-desc { color: var(--text-dim); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1rem; }
+      .p-link {
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        padding: 0.5rem 1rem; border-radius: 8px;
+        font-weight: 600; font-size: 0.85rem;
+        background: var(--accent); color: white;
         transition: all 0.3s;
-        font-size: 0.95rem;
-        display: inline-block;
       }
+      .p-link:hover { background: var(--accent2); transform: translateY(-2px); }
 
-      .project-link-primary {
-        background: var(--accent-blue);
-        color: white;
+      /* Tableau detail projects (full-width) */
+      .projects-detail { margin-top: 3rem; }
+      .projects-detail .project-full {
+        margin-bottom: 2rem; padding: 2rem;
       }
-
-      .project-link-primary:hover {
-        background: var(--accent-green);
-        transform: translateY(-2px);
-      }
-
+      .project-full .p-title { font-size: 1.3rem; margin-bottom: 0.6rem; }
+      .project-full .p-desc { margin-bottom: 1rem; }
+      .tableauPlaceholder { width: 100%; min-height: 600px; margin-top: 1rem; }
       .project-embed-container {
-        width: 100%;
-        min-height: 500px;
-        margin-top: 1.5rem;
-        border-radius: 10px;
-        overflow: hidden;
-        background: rgba(0, 0, 0, 0.2);
+        width: 100%; min-height: 500px; margin-top: 1rem;
+        border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.3);
       }
+      .project-embed { width: 100%; min-height: 500px; border: none; }
 
-      .project-embed {
-        width: 100%;
-        min-height: 500px;
-        border: none;
+      /* ===== SKILLS — ORBITING GRID ===== */
+      .skills-orbit-container {
+        display: flex; align-items: center; justify-content: center;
+        gap: 4rem; flex-wrap: wrap;
       }
-
-      .tableauPlaceholder {
-        width: 100%;
-        min-height: 600px;
-        margin-top: 1.5rem;
+      .skills-rings-visual {
+        position: relative; width: 320px; height: 320px;
+        flex-shrink: 0;
       }
+      .orbit-ring {
+        position: absolute; border-radius: 50%;
+        border: 1px solid var(--border);
+        animation: orbitSpin linear infinite;
+      }
+      .orbit-ring.r1 { width: 200px; height: 200px; top: 60px; left: 60px; animation-duration: 20s; }
+      .orbit-ring.r2 { width: 280px; height: 280px; top: 20px; left: 20px; animation-duration: 30s; animation-direction: reverse; }
+      .orbit-ring.r3 { width: 320px; height: 320px; top: 0; left: 0; animation-duration: 40s; }
+      @keyframes orbitSpin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+      .orbit-node {
+        position: absolute; width: 44px; height: 44px;
+        border-radius: 12px; background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.7rem; font-weight: 700; color: var(--accent);
+        transition: all 0.3s;
+      }
+      .orbit-node:hover {
+        background: var(--accent); color: #fff;
+        box-shadow: 0 0 20px rgba(108,99,255,0.5);
+        transform: scale(1.2);
+      }
+      .skills-center-label {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+      .skills-center-label .num {
+        font-size: 2.5rem; font-weight: 800;
+        font-family: var(--font-display);
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .skills-center-label span { display: block; font-size: 0.75rem; color: var(--text-dim); }
 
-      /* === AWARDS === */
+      .skills-list { flex: 1; min-width: 280px; }
+      .skill-row {
+        display: flex; align-items: center; gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .skill-row:last-child { border-bottom: none; }
+      .skill-name { font-size: 0.9rem; font-weight: 600; color: #fff; width: 100px; }
+      .skill-bar-wrap {
+        flex: 1; height: 6px; background: rgba(255,255,255,0.05);
+        border-radius: 6px; overflow: hidden;
+      }
+      .skill-bar-fill {
+        height: 100%; border-radius: 6px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        width: 0%; transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+      }
+      .skill-pct { font-size: 0.85rem; font-weight: 700; color: var(--accent); width: 40px; text-align: right; }
+
+      /* ===== AWARDS ===== */
       .awards-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.25rem;
       }
+      .award-card { padding: 1.5rem; }
+      .award-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+      .award-title { font-size: 1.05rem; color: #fff; margin-bottom: 0.4rem; }
+      .award-date { color: var(--accent); font-weight: 600; font-size: 0.8rem; margin-bottom: 0.2rem; }
+      .award-org { color: var(--accent2); font-weight: 500; font-size: 0.85rem; margin-bottom: 0.6rem; }
+      .award-desc { color: var(--text-dim); font-size: 0.85rem; line-height: 1.7; }
 
-      .award-card {
-        background: var(--card-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 15px;
-        padding: 2rem;
-        backdrop-filter: blur(10px);
-        transition: all 0.3s;
-      }
-
-      .award-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--accent-green);
-      }
-
-      .award-title {
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-        color: var(--text-primary);
-      }
-
-      .award-date {
-        color: var(--accent-blue);
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-
-      .award-org {
-        color: var(--accent-green);
-        margin-bottom: 1rem;
-        font-weight: 500;
-      }
-
-      .award-description {
-        color: var(--text-secondary);
-        line-height: 1.8;
-      }
-
-      /* === TESTIMONIALS === */
+      /* ===== TESTIMONIALS ===== */
       .testimonials-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        gap: 1.25rem;
       }
+      .test-card { padding: 2rem; }
+      .quote-icon { font-size: 2rem; color: var(--accent); opacity: 0.2; margin-bottom: 1rem; }
+      .test-text { color: var(--text-dim); font-style: italic; line-height: 1.8; margin-bottom: 1.5rem; font-size: 0.9rem; }
+      .test-author { display: flex; align-items: center; gap: 1rem; }
+      .test-img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); }
+      .author-name { font-weight: 600; color: #fff; font-size: 0.9rem; }
+      .author-role { color: var(--text-dim); font-size: 0.8rem; }
 
-      .testimonial-card {
-        background: var(--card-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 2.5rem;
-        backdrop-filter: blur(10px);
-        position: relative;
-      }
-
-      .quote-icon {
-        font-size: 3rem;
-        color: var(--accent-blue);
-        opacity: 0.3;
-        position: absolute;
-        top: 1rem;
-        left: 1.5rem;
-      }
-
-      .testimonial-text {
-        color: var(--text-secondary);
-        line-height: 1.8;
-        margin-bottom: 2rem;
-        font-style: italic;
-        position: relative;
-        z-index: 1;
-      }
-
-      .testimonial-author {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .testimonial-img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        border: 2px solid var(--accent-blue);
-      }
-
-      .author-name {
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 0.25rem;
-      }
-
-      .author-role {
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-      }
-
-      /* === FOOTER === */
+      /* ===== FOOTER ===== */
       footer {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(20px);
-        border-top: 1px solid var(--glass-border);
-        padding: 3rem 0;
-        text-align: center;
-        position: relative;
-        z-index: 1;
+        position: relative; z-index: 1;
+        border-top: 1px solid var(--border);
+        padding: 4rem 0 2rem; text-align: center;
       }
-
       footer h3 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
+        font-size: 1.6rem; margin-bottom: 0.75rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
+      footer p { color: var(--text-dim); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
 
-      footer p {
-        color: var(--text-secondary);
-        margin-bottom: 2rem;
+      /* ===== FAB ===== */
+      #scrollToTop {
+        position: fixed; bottom: 2rem; right: 2rem;
+        width: 44px; height: 44px; border-radius: 12px;
+        background: var(--accent); color: white;
+        border: none; display: flex;
+        align-items: center; justify-content: center;
+        font-size: 1.1rem; z-index: 999;
+        opacity: 0; transform: translateY(20px);
+        transition: all 0.3s; cursor: none;
+        box-shadow: 0 4px 20px rgba(108,99,255,0.4);
       }
+      #scrollToTop.visible { opacity: 1; transform: translateY(0); }
+      #scrollToTop:hover { background: #8b5cf6; transform: translateY(-3px); }
 
-      .footer-social {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-bottom: 2rem;
+      /* ===== KEYFRAMES ===== */
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; padding: 120px 2rem 60px; gap: 2rem; }
+        .hero-right { height: 300px; }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .about-bento { grid-template-columns: 1fr; }
+        .about-photo { grid-row: auto; max-width: 300px; margin: 0 auto; }
+        .about-bio { grid-column: auto; }
+        .skills-orbit-container { flex-direction: column; }
+        nav { left: 1rem; right: 1rem; transform: none; }
       }
-
-      /* === SCROLL PROGRESS INDICATOR === */
-      #scroll-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 4px;
-        background: linear-gradient(
-          90deg,
-          var(--accent-blue),
-          var(--accent-purple),
-          var(--accent-pink)
-        );
-        z-index: 9999;
-        transition: width 0.1s ease-out;
-      }
-
-      /* === ANIMATIONS === */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.6;
-        }
-      }
-
-      /* === RESPONSIVE === */
-      @media (max-width: 968px) {
+      @media (max-width: 768px) {
         .nav-menu {
-          position: fixed;
-          top: 70px;
-          right: -100%;
-          width: 100%;
-          height: calc(100vh - 70px);
-          background: rgba(255, 255, 255, 0.98);
-          flex-direction: column;
-          padding: 2rem;
-          transition: right 0.3s;
+          display: none; position: fixed;
+          top: 80px; left: 1rem; right: 1rem;
+          background: rgba(13,13,20,0.98);
           backdrop-filter: blur(20px);
+          flex-direction: column; padding: 1rem;
+          border-radius: 16px; border: 1px solid var(--border);
         }
-
-        .nav-menu.active {
-          right: 0;
-        }
-
-        .nav-toggle {
-          display: flex;
-        }
-
-        .hero-title {
-          font-size: 3rem;
-        }
-
-        .hero-subtitle {
-          font-size: 1.5rem;
-        }
-
-        .about-content {
-          grid-template-columns: 1fr;
-        }
-
-        .timeline::before {
-          left: 10px;
-        }
-
-        .timeline-content {
-          width: calc(100% - 50px);
-          margin-left: 50px !important;
-          text-align: left !important;
-        }
-
-        .timeline-marker {
-          left: 10px;
-          transform: translateX(-50%);
-        }
-
-        .projects-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .testimonials-grid {
-          grid-template-columns: 1fr;
-        }
+        .nav-menu.active { display: flex; }
+        .nav-toggle { display: flex; }
+        .testimonials-grid { grid-template-columns: 1fr; }
+        body { cursor: auto; }
+        a, button { cursor: auto; }
+        .cursor-dot, .cursor-ring { display: none; }
+        .project-card { width: 320px; }
       }
-
-      @media (max-width: 576px) {
-        .hero-title {
-          font-size: 2rem;
-        }
-
-        .section-title h2 {
-          font-size: 2rem;
-        }
-
-        .cta-buttons {
-          flex-direction: column;
-        }
-
-        .btn {
-          width: 100%;
-        }
+      @media (max-width: 480px) {
+        section { padding: 80px 0; }
+        .stats-grid { grid-template-columns: 1fr 1fr; }
+        .awards-grid { grid-template-columns: 1fr; }
+        .project-card { width: 280px; }
       }
     </style>
   </head>
-
   <body>
-    <!-- Scroll Progress Indicator -->
+
+    <!-- Custom cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Backgrounds -->
+    <div class="gradient-mesh"></div>
+    <div id="scene-container"></div>
+
+    <!-- Scroll progress -->
     <div id="scroll-progress"></div>
 
     <!-- Navigation -->
     <nav>
       <div class="nav-container">
         <a href="#" class="nav-logo">MK</a>
-        <ul class="nav-menu">
+        <ul class="nav-menu" id="navMenu">
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#education">Education</a></li>
@@ -1148,143 +695,146 @@
           <li><a href="#awards">Awards</a></li>
           <li><a href="games.html">Games</a></li>
         </ul>
-        <button class="nav-toggle" onclick="toggleNav()">
-          <span></span>
-          <span></span>
-          <span></span>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
         </button>
       </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <p class="hero-greeting">Hello World! I'm</p>
-        <h1 class="hero-title">Manoj Khatiwada</h1>
-        <p class="hero-subtitle">Full-Stack Developer</p>
-        <p class="hero-description">
-          Transforming complex data into actionable insights and building
-          scalable web applications that drive business growth. Specializing in
-          full-stack development, data analytics, and creating intuitive user
-          experiences that solve real-world problems.
-        </p>
-
-        <div class="social-links">
-          <a href="https://twitter.com/reckless_mk" target="_blank"
-            ><i class="bx bxl-twitter"></i
-          ></a>
-          <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank"
-            ><i class="bx bxl-linkedin"></i
-          ></a>
-          <a href="https://github.com/manojkhatiwada" target="_blank"
-            ><i class="bx bxl-github"></i
-          ></a>
-          <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank"
-            ><i class="bi bi-code-slash"></i
-          ></a>
+    <!-- ===== HERO ===== -->
+    <section id="home">
+      <div class="hero">
+        <div class="hero-left">
+          <div class="hero-badge"><span class="dot"></span> Available for work</div>
+          <h1 class="hero-title">
+            Hi, I'm<br>
+            <span class="glitch gradient-text" data-text="Manoj Khatiwada">Manoj Khatiwada</span>
+          </h1>
+          <p class="hero-subtitle">
+            Full-Stack Developer &amp; Business Analyst crafting scalable apps and
+            turning complex data into actionable insights. Specializing in modern
+            web technologies, data analytics, and intuitive UX.
+          </p>
+          <div class="social-links">
+            <a href="https://twitter.com/reckless_mk" target="_blank" aria-label="Twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
+            <a href="https://github.com/manojkhatiwada" target="_blank" aria-label="GitHub"><i class="bx bxl-github"></i></a>
+            <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank" aria-label="HackerRank"><i class="bi bi-code-slash"></i></a>
+          </div>
+          <div class="cta-buttons">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/1586602'});return false;" class="btn btn-secondary">Schedule a Call</a>
+          </div>
         </div>
-
-        <div class="cta-buttons">
-          <a href="#projects" class="btn btn-primary">View My Work</a>
-          <a
-            href="#"
-            onclick="Calendly.initPopupWidget({url: 'https://calendly.com/1586602'});return false;"
-            class="btn btn-secondary"
-            >Schedule a Call</a
-          >
-        </div>
+        <div class="hero-right" id="heroGlobe"></div>
       </div>
     </section>
 
-    <!-- About Section -->
+    <!-- Stats Strip -->
+    <div class="stats-strip reveal">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" data-count="450000">0</div>
+          <div class="stat-label">Monthly Users Served</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="3">0</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="500">0</div>
+          <div class="stat-label">Data Records Migrated</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="4">0</div>
+          <div class="stat-label">Awards Earned</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ABOUT ===== -->
     <section id="about">
       <div class="container">
-        <div class="section-title">
-          <h2>About Me</h2>
-          <div class="underline"></div>
+        <div class="section-header reveal">
+          <div class="label">About</div>
+          <h2>Crafting Digital Solutions</h2>
+          <p>Bridging the gap between technical innovation and business objectives.</p>
         </div>
-        <div class="about-content">
-          <div class="about-image">
+        <div class="about-bento">
+          <div class="about-photo glass tilt stagger">
             <img src="assets/img/me-bkg.jpg" alt="Manoj Khatiwada" />
           </div>
-          <div class="about-text">
-            <h3>Crafting Digital Solutions with Data-Driven Precision</h3>
+          <div class="about-bio glass stagger">
+            <h3>Data-Driven Precision</h3>
             <p>
               As a full-stack developer with a strong foundation in business
               analytics, I bridge the gap between technical innovation and
               business objectives. My journey combines rigorous academic
               training in Information Systems and hands-on experience building
-              production-grade applications that serve hundreds of thousands of
-              users.
+              production-grade applications that serve hundreds of thousands of users.
             </p>
             <p>
               I thrive in environments where data meets design, creating
               solutions that are not only technically sound but also
               strategically aligned with organizational goals. From optimizing
               payment portals that boost revenue to engineering speech analysis
-              pipelines for call centers, I focus on delivering measurable
-              impact.
+              pipelines for call centers, I focus on delivering measurable impact.
             </p>
             <p>
               What drives me is the challenge of transforming complex
-              requirements into elegant, scalable solutions—whether that's
+              requirements into elegant, scalable solutions&mdash;whether that's
               reducing a 20-minute process to 50 seconds or visualizing
               agricultural data to uncover meaningful trends.
             </p>
-            <div class="about-info">
-              <div class="info-item">
-                <i class="bi bi-geo-alt"></i>
-                <span>Kansas City, MO</span>
-              </div>
-              <div class="info-item">
-                <i class="bi bi-envelope"></i>
-                <span>Open to opportunities</span>
-              </div>
-            </div>
+          </div>
+          <div class="about-detail glass stagger">
+            <div class="detail-icon"><i class="bi bi-geo-alt"></i></div>
+            <h4>Kansas City, MO</h4>
+            <p>Based in the heart of the Midwest</p>
+          </div>
+          <div class="about-detail glass stagger">
+            <div class="detail-icon"><i class="bi bi-briefcase"></i></div>
+            <h4>Open to Opportunities</h4>
+            <p>Full-time &amp; contract roles</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Education Section -->
-    <section id="education" style="background: rgba(241, 245, 249, 0.6)">
+    <!-- ===== EDUCATION ===== -->
+    <section id="education">
       <div class="container">
-        <div class="section-title">
-          <h2>Education</h2>
-          <div class="underline"></div>
+        <div class="section-header reveal">
+          <div class="label">Education</div>
+          <h2>Academic Background</h2>
         </div>
         <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">2023 - 2025</div>
-              <h3 class="timeline-title">
-                Master of Science in Information Systems & Business Analytics
-              </h3>
-              <div class="timeline-company">Park University, Parkville, MO</div>
-              <div class="timeline-description">
-                <strong>Relevant Courses:</strong> 
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">2023 &ndash; 2025</div>
+              <h3 class="tl-title">M.S. Information Systems &amp; Business Analytics</h3>
+              <div class="tl-company">Park University, Parkville, MO</div>
+              <div class="tl-desc">
+                <strong>Relevant Courses:</strong>
                 <ul>
-                <li>Web & Marketing Analytics</li>
-                <li>Data Analytics for Business Analytics</li>
-                <li>System Analysis and Design</li>
-                <li>Survey of Predictive Analytical Techniques</li>
-                <li>Applied Data Mining Analysis of Big Data</li>
-                <li>Data Visualization</li>
+                  <li>Web &amp; Marketing Analytics</li>
+                  <li>Data Analytics for Business Analytics</li>
+                  <li>System Analysis and Design</li>
+                  <li>Survey of Predictive Analytical Techniques</li>
+                  <li>Applied Data Mining Analysis of Big Data</li>
+                  <li>Data Visualization</li>
                 </ul>
               </div>
             </div>
           </div>
-
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">2018 - 2022</div>
-              <h3 class="timeline-title">
-                Bachelor of Science in Business Administration Management
-              </h3>
-              <div class="timeline-company">Park University, Parkville, MO</div>
-              <div class="timeline-description">
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">2018 &ndash; 2022</div>
+              <h3 class="tl-title">B.S. Business Administration Management</h3>
+              <div class="tl-company">Park University, Parkville, MO</div>
+              <div class="tl-desc">
                 <ul>
                   <li>Minor in Human Resources Management</li>
                   <li>Certificate in Project Management</li>
@@ -1297,674 +847,343 @@
       </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- ===== EXPERIENCE ===== -->
     <section id="experience">
       <div class="container">
-        <div class="section-title">
-          <h2>Professional Experience</h2>
-          <div class="underline"></div>
+        <div class="section-header reveal">
+          <div class="label">Experience</div>
+          <h2>Professional Journey</h2>
+          <p>Building impactful products across web development and business analysis.</p>
         </div>
         <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">Jan 2024 - Present</div>
-              <h3 class="timeline-title">Web Application Developer II</h3>
-              <div class="timeline-company">UGA Finance, Kansas City, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>
-                    Developed and maintained web applications using modern
-                    frameworks and technologies
-                  </li>
-                  <li>
-                    Collaborated with cross-functional teams to define, design,
-                    and ship new features
-                  </li>
-                  <li>
-                    Ensured the performance, quality, and responsiveness of
-                    applications
-                  </li>
-                  <li>
-                    Participated in code reviews and provided constructive
-                    feedback to peers
-                  </li>
-                  <li>
-                    Stayed up-to-date with emerging trends and technologies in
-                    web development
-                  </li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">Jan 2024 &ndash; Present</div>
+              <h3 class="tl-title">Web Application Developer II</h3>
+              <div class="tl-company">UGA Finance, Kansas City, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Developed and maintained web applications using modern frameworks and technologies</li>
+                <li>Collaborated with cross-functional teams to define, design, and ship new features</li>
+                <li>Ensured the performance, quality, and responsiveness of applications</li>
+                <li>Participated in code reviews and provided constructive feedback to peers</li>
+                <li>Stayed up-to-date with emerging trends and technologies in web development</li>
+              </ul></div>
             </div>
           </div>
-
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">June 2023 - July 2025</div>
-              <h3 class="timeline-title">Graduate Research Assistant</h3>
-              <div class="timeline-company">Park University, Parkville, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>
-                    Pioneered strategic initiatives in residential life, shaping
-                    impactful onboarding and RA training programs
-                  </li>
-                  <li>
-                    Oversaw a team of 14 Residence Assistants, 12 front desk
-                    assistants, and provided guidance to the Hall Council
-                  </li>
-                  <li>
-                    Managed safety protocols and emergency response during
-                    on-call rotations for 2 dorms housing 400 students
-                  </li>
-                  <li>
-                    Managed the budget for the Residence Life department ranging
-                    from $10,000 - $15,000
-                  </li>
-                  <li>
-                    Developed and implemented a comprehensive residential life
-                    reporting model
-                  </li>
-                  <li>
-                    Represented as student lead in Workday implementation.
-                  </li>
-                  <li>
-                    Facilitated data migration of 500+ faculty credentials and
-                    records from CX to Workday.
-                  </li>
-                  <li>
-                    Audited syllabus and textbook on 1,245 courses for courses.
-                  </li>
-                  <li>
-                    Led onboarding and training for a team of 14 Resident
-                    Assistants and oversaw safety protocols for 400 residential
-                    students.
-                  </li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">June 2023 &ndash; July 2025</div>
+              <h3 class="tl-title">Graduate Research Assistant</h3>
+              <div class="tl-company">Park University, Parkville, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Pioneered strategic initiatives in residential life, shaping impactful onboarding and RA training programs</li>
+                <li>Oversaw a team of 14 Residence Assistants, 12 front desk assistants, and provided guidance to the Hall Council</li>
+                <li>Managed safety protocols and emergency response during on-call rotations for 2 dorms housing 400 students</li>
+                <li>Managed the budget for the Residence Life department ranging from $10,000 - $15,000</li>
+                <li>Developed and implemented a comprehensive residential life reporting model</li>
+                <li>Represented as student lead in Workday implementation</li>
+                <li>Facilitated data migration of 500+ faculty credentials and records from CX to Workday</li>
+                <li>Audited syllabus and textbook on 1,245 courses</li>
+              </ul></div>
             </div>
           </div>
-
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">May 2022 - Dec 2024</div>
-              <h3 class="timeline-title">Web Application Developer I</h3>
-              <div class="timeline-company">UGA Finance, Kansas City, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>
-                    Designed features for high traffic web app with 450,000
-                    monthly visits
-                  </li>
-                  <li>
-                    Revamped consumer payment portal to accommodate various
-                    payment plans aiming to boost revenue
-                  </li>
-                  <li>
-                    Connected RESTful API with vendors to pull credit reports,
-                    identification and sign contracts
-                  </li>
-                  <li>
-                    Built features such as email/phone verification, email
-                    payment receipts, resolving consumer fraud verification
-                  </li>
-                  <li>
-                    Optimized background search from a 20-minute manual process
-                    to a swift 50 seconds operation
-                  </li>
-                  <li>
-                    Built API and user-interface to support product/services
-                    return and refunds
-                  </li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">May 2022 &ndash; Dec 2024</div>
+              <h3 class="tl-title">Web Application Developer I</h3>
+              <div class="tl-company">UGA Finance, Kansas City, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Designed features for high traffic web app with 450,000 monthly visits</li>
+                <li>Revamped consumer payment portal to accommodate various payment plans aiming to boost revenue</li>
+                <li>Connected RESTful API with vendors to pull credit reports, identification and sign contracts</li>
+                <li>Built features such as email/phone verification, email payment receipts, resolving consumer fraud verification</li>
+                <li>Optimized background search from a 20-minute manual process to a swift 50 seconds operation</li>
+                <li>Built API and user-interface to support product/services return and refunds</li>
+              </ul></div>
             </div>
           </div>
-
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-date">May 2022 - May 2023</div>
-              <h3 class="timeline-title">Associate Business Analyst</h3>
-              <div class="timeline-company">UGA Finance, Kansas City, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>
-                    Automated SMS/Call campaigns for a call center with 50+
-                    agents and engineered speech analysis pipelines
-                  </li>
-                  <li>
-                    Streamlined call routing process for inbound/outbound phone
-                    calls for newly established offshore call center
-                  </li>
-                  <li>
-                    Documented credit origination process using flowcharts,
-                    business process diagram, and swimlane diagrams
-                  </li>
-                  <li>
-                    Performed detailed unit testing, documented test cases for
-                    comprehensive system validation
-                  </li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">May 2022 &ndash; May 2023</div>
+              <h3 class="tl-title">Associate Business Analyst</h3>
+              <div class="tl-company">UGA Finance, Kansas City, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Automated SMS/Call campaigns for a call center with 50+ agents and engineered speech analysis pipelines</li>
+                <li>Streamlined call routing process for inbound/outbound phone calls for newly established offshore call center</li>
+                <li>Documented credit origination process using flowcharts, business process diagram, and swimlane diagrams</li>
+                <li>Performed detailed unit testing, documented test cases for comprehensive system validation</li>
+              </ul></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- ===== PROJECTS ===== -->
     <section id="projects">
       <div class="container">
-        <div class="section-title">
-          <h2>Featured Projects</h2>
-          <div class="underline"></div>
+        <div class="section-header reveal">
+          <div class="label">Projects</div>
+          <h2>Featured Work</h2>
+          <p>Scroll horizontally to explore my projects.</p>
         </div>
-        <div class="projects-grid">
-          <!-- Earth From Stars -->
-          <div class="project-card">
-            <div class="project-content">
-              <h3 class="project-title">
-                🌍 Earth From Stars - 3D Particle Visualization
-              </h3>
-              <p class="project-description">
-                An immersive 3D visualization rendering Earth using 50,000+
-                individually positioned particles. Built with Three.js and
-                WebGL, this interactive experience features realistic geographic
-                representation with color-coded oceans, continents, and polar
-                ice caps. The visualization supports full 360° rotation and
-                real-time interaction, demonstrating advanced graphics
-                programming and spatial data visualization techniques.
-              </p>
-              <div class="project-links">
-                <a
-                  href="cosmos.html"
-                  target="_blank"
-                  class="project-link project-link-primary"
-                  >🚀 Launch Experience</a
-                >
-              </div>
+      </div>
+      <div class="projects-scroll-wrapper">
+        <div class="projects-track">
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag viz">3D / WebGL</span>
+              <h3 class="p-title">Earth From Stars</h3>
+              <p class="p-desc">Immersive 3D visualization rendering Earth using 50,000+ particles with Three.js. Supports full 360&deg; rotation and real-time interaction with color-coded geography.</p>
+              <a href="cosmos.html" target="_blank" class="p-link">Launch Experience <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
-
-          <!-- Games -->
-          <div class="project-card">
-            <div class="project-content">
-              <h3 class="project-title">🎮 Interactive Game Collection</h3>
-              <p class="project-description">
-                A curated collection of browser-based games showcasing
-                JavaScript fundamentals, canvas manipulation, and game state
-                management. Features classic games like Snake with multiple food
-                types and Rock-Paper-Scissors with celebratory graphics. Built
-                with vanilla JavaScript to demonstrate core programming concepts
-                including collision detection, score tracking, and responsive
-                design.
-              </p>
-              <div class="project-links">
-                <a
-                  href="games.html"
-                  target="_blank"
-                  class="project-link project-link-primary"
-                  >🎯 Play Games</a
-                >
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag game">Games</span>
+              <h3 class="p-title">Interactive Game Collection</h3>
+              <p class="p-desc">Browser-based games showcasing JavaScript fundamentals, canvas manipulation, and game state management. Features Snake and Rock-Paper-Scissors.</p>
+              <a href="games.html" target="_blank" class="p-link">Play Games <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
-
-          <!-- Crops in Missouri -->
-          <div class="project-card">
-            <div class="project-content">
-              <h3 class="project-title">
-                📊 Missouri Agricultural Trends Dashboard
-              </h3>
-              <p class="project-description">
-                A comprehensive data visualization analyzing multi-year
-                agricultural production trends across Missouri. This interactive
-                Tableau dashboard reveals patterns in crop yield variations,
-                helping stakeholders identify growth opportunities and
-                production challenges. Features time-series analysis,
-                comparative metrics, and geographic distribution of crop types,
-                demonstrating proficiency in business intelligence and
-                agricultural data analytics.
-              </p>
-              <div class="tableauPlaceholder" id="viz1715607817211">
-                <noscript
-                  ><a href="#"
-                    ><img
-                      alt="Dashboard 1"
-                      src="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1_rss.png"
-                      style="border: none" /></a
-                ></noscript>
-                <object class="tableauViz" style="display: none">
-                  <param
-                    name="host_url"
-                    value="https%3A%2F%2Fpublic.tableau.com%2F"
-                  />
-                  <param name="embed_code_version" value="3" />
-                  <param name="site_root" value="" />
-                  <param name="name" value="CropsinMOoveryears/Dashboard1" />
-                  <param name="tabs" value="no" />
-                  <param name="toolbar" value="yes" />
-                  <param
-                    name="static_image"
-                    value="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1.png"
-                  />
-                  <param name="animate_transition" value="yes" />
-                  <param name="display_static_image" value="yes" />
-                  <param name="display_spinner" value="yes" />
-                  <param name="display_overlay" value="yes" />
-                  <param name="display_count" value="yes" />
-                  <param name="language" value="en-US" />
-                  <param name="filter" value="publish=yes" />
-                </object>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag data">Data Analytics</span>
+              <h3 class="p-title">Missouri Agricultural Trends</h3>
+              <p class="p-desc">Interactive Tableau dashboard analyzing multi-year agricultural production trends across Missouri, revealing patterns in crop yield variations.</p>
             </div>
           </div>
-
-          <!-- Washington Enrollment -->
-          <div class="project-card">
-            <div class="project-content">
-              <h3 class="project-title">
-                🎓 Washington Education Analytics Dashboard
-              </h3>
-              <p class="project-description">
-                An insightful analysis of enrollment trends across public and
-                private educational institutions in Washington State. This
-                dashboard aggregates complex enrollment data to reveal
-                demographic patterns, institutional capacity, and educational
-                accessibility metrics. The visualization supports data-driven
-                decision-making for educational planning and resource
-                allocation, showcasing advanced data aggregation and statistical
-                analysis skills.
-              </p>
-              <div class="tableauPlaceholder" id="viz1715608141020">
-                <noscript
-                  ><a href="#"
-                    ><img
-                      alt="Dashboard 1"
-                      src="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1_rss.png"
-                      style="border: none" /></a
-                ></noscript>
-                <object class="tableauViz" style="display: none">
-                  <param
-                    name="host_url"
-                    value="https%3A%2F%2Fpublic.tableau.com%2F"
-                  />
-                  <param name="embed_code_version" value="3" />
-                  <param name="site_root" value="" />
-                  <param
-                    name="name"
-                    value="WashingtonStateEnrollmentDashboard/Dashboard1"
-                  />
-                  <param name="tabs" value="no" />
-                  <param name="toolbar" value="yes" />
-                  <param
-                    name="static_image"
-                    value="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1.png"
-                  />
-                  <param name="animate_transition" value="yes" />
-                  <param name="display_static_image" value="yes" />
-                  <param name="display_spinner" value="yes" />
-                  <param name="display_overlay" value="yes" />
-                  <param name="display_count" value="yes" />
-                  <param name="language" value="en-US" />
-                </object>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag data">Data Analytics</span>
+              <h3 class="p-title">Washington Education Analytics</h3>
+              <p class="p-desc">Analysis of enrollment trends across educational institutions in Washington State, revealing demographic patterns and accessibility metrics.</p>
             </div>
           </div>
-
-          <!-- Oregon Library Visits -->
-          <div class="project-card">
-            <div class="project-content">
-              <h3 class="project-title">📚 Oregon Library Usage Analytics</h3>
-              <p class="project-description">
-                A data-driven exploration of public library engagement across
-                Oregon, analyzing visitor patterns, resource utilization, and
-                community impact. This comprehensive dashboard combines multiple
-                data sources to provide insights into library system
-                performance, helping administrators optimize services and
-                demonstrate value to stakeholders. Highlights expertise in
-                public sector data analysis and storytelling through
-                visualization.
-              </p>
-              <div class="tableauPlaceholder" id="viz1715608425367">
-                <noscript
-                  ><a href="#"
-                    ><img
-                      alt="Combined Dashboard"
-                      src="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1_rss.png"
-                      style="border: none" /></a
-                ></noscript>
-                <object class="tableauViz" style="display: none">
-                  <param
-                    name="host_url"
-                    value="https%3A%2F%2Fpublic.tableau.com%2F"
-                  />
-                  <param name="embed_code_version" value="3" />
-                  <param name="site_root" value="" />
-                  <param
-                    name="name"
-                    value="ManojFinalprojectDashboard2/CombinedDashboard"
-                  />
-                  <param name="tabs" value="no" />
-                  <param name="toolbar" value="yes" />
-                  <param
-                    name="static_image"
-                    value="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1.png"
-                  />
-                  <param name="animate_transition" value="yes" />
-                  <param name="display_static_image" value="yes" />
-                  <param name="display_spinner" value="yes" />
-                  <param name="display_overlay" value="yes" />
-                  <param name="display_count" value="yes" />
-                  <param name="language" value="en-US" />
-                </object>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag data">Data Analytics</span>
+              <h3 class="p-title">Oregon Library Usage</h3>
+              <p class="p-desc">Data-driven exploration of public library engagement across Oregon, analyzing visitor patterns and community impact.</p>
             </div>
           </div>
-
-          <!-- Color Festival -->
-          <div class="project-card">
-            <div class="project-content">
-              <h3 class="project-title">
-                🎨 Color Festival - Community Event Leadership
-              </h3>
-              <p class="project-description">
-                Successfully organized and executed a large-scale cultural
-                celebration bringing together diverse communities. Demonstrated
-                project management, stakeholder coordination, and event
-                logistics expertise. This initiative showcased leadership skills
-                in cross-functional team management, budget oversight, and
-                community engagement—transferable skills essential for technical
-                project management and agile team environments.
-              </p>
-              <div class="project-embed-container">
-                <iframe
-                  src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1"
-                  class="project-embed"
-                  frameborder="0"
-                  allowfullscreen=""
-                  title="Embedded post"
-                ></iframe>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag event">Leadership</span>
+              <h3 class="p-title">Color Festival</h3>
+              <p class="p-desc">Organized a large-scale cultural celebration bringing together diverse communities. Showcased project management and stakeholder coordination.</p>
             </div>
           </div>
-
-          <!-- Upkey Project -->
-          <div class="project-card">
-            <div class="project-content">
-              <h3 class="project-title">
-                💼 Upkey Career Development Platform
-              </h3>
-              <p class="project-description">
-                Capstone project developing a comprehensive career development
-                solution integrating multiple technologies and APIs. This
-                end-to-end implementation demonstrates full software development
-                lifecycle proficiency—from requirements gathering and system
-                design to deployment and user testing. The project showcases
-                ability to translate business requirements into technical
-                solutions while maintaining focus on user experience and
-                scalability.
-              </p>
-              <div class="project-embed-container">
-                <iframe
-                  src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1"
-                  class="project-embed"
-                  frameborder="0"
-                  allowfullscreen=""
-                  title="Embedded post"
-                ></iframe>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag event">Capstone</span>
+              <h3 class="p-title">Upkey Career Platform</h3>
+              <p class="p-desc">End-to-end career development solution integrating multiple technologies and APIs, demonstrating full SDLC proficiency.</p>
             </div>
           </div>
         </div>
-        <p
-          style="
-            text-align: center;
-            color: var(--text-secondary);
-            margin-top: 3rem;
-            font-size: 1.1rem;
-          "
-        >
-          <strong>More innovative projects in development...</strong><br />
-          <span style="font-size: 0.95rem; opacity: 0.8"
-            >Each project represents a commitment to continuous learning and
-            technical excellence</span
-          >
-        </p>
+      </div>
+
+      <!-- Full-width Tableau dashboards & embeds -->
+      <div class="container projects-detail">
+        <div class="project-full glass stagger">
+          <span class="p-tag data">Tableau Dashboard</span>
+          <h3 class="p-title">Missouri Agricultural Trends Dashboard</h3>
+          <p class="p-desc">Comprehensive data visualization analyzing multi-year agricultural production trends across Missouri.</p>
+          <div class="tableauPlaceholder" id="viz1715607817211">
+            <noscript><a href="#"><img alt="Dashboard 1" src="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1_rss.png" style="border: none" /></a></noscript>
+            <object class="tableauViz" style="display: none">
+              <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="CropsinMOoveryears/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="static_image" value="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1.png" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+              <param name="language" value="en-US" />
+              <param name="filter" value="publish=yes" />
+            </object>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag data">Tableau Dashboard</span>
+          <h3 class="p-title">Washington Education Analytics Dashboard</h3>
+          <p class="p-desc">Enrollment trends across public and private educational institutions in Washington State.</p>
+          <div class="tableauPlaceholder" id="viz1715608141020">
+            <noscript><a href="#"><img alt="Dashboard 1" src="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1_rss.png" style="border: none" /></a></noscript>
+            <object class="tableauViz" style="display: none">
+              <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="WashingtonStateEnrollmentDashboard/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="static_image" value="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1.png" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+              <param name="language" value="en-US" />
+            </object>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag data">Tableau Dashboard</span>
+          <h3 class="p-title">Oregon Library Usage Analytics</h3>
+          <p class="p-desc">Library engagement analytics across Oregon analyzing visitor patterns and community impact.</p>
+          <div class="tableauPlaceholder" id="viz1715608425367">
+            <noscript><a href="#"><img alt="Combined Dashboard" src="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1_rss.png" style="border: none" /></a></noscript>
+            <object class="tableauViz" style="display: none">
+              <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="ManojFinalprojectDashboard2/CombinedDashboard" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="static_image" value="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1.png" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+              <param name="language" value="en-US" />
+            </object>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag event">LinkedIn Embed</span>
+          <h3 class="p-title">Color Festival - Community Event Leadership</h3>
+          <p class="p-desc">Successfully organized a large-scale cultural celebration bringing together diverse communities.</p>
+          <div class="project-embed-container">
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1" class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag event">LinkedIn Embed</span>
+          <h3 class="p-title">Upkey Career Development Platform</h3>
+          <p class="p-desc">Capstone project integrating multiple technologies and APIs demonstrating full SDLC proficiency.</p>
+          <div class="project-embed-container">
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1" class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- ===== SKILLS ===== -->
     <section id="skills">
       <div class="container">
-        <div class="section-title">
-          <h2>Technical Skills</h2>
-          <div class="underline"></div>
+        <div class="section-header reveal">
+          <div class="label">Skills</div>
+          <h2>Technical Toolkit</h2>
+          <p>Technologies and tools I work with daily.</p>
         </div>
-        <div class="skills-grid">
-          <div class="skill-card">
-            <div class="skill-name">Java</div>
-            <div class="skill-level">80%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 80%"></div>
+        <div class="skills-orbit-container reveal">
+          <div class="skills-rings-visual">
+            <div class="orbit-ring r1"></div>
+            <div class="orbit-ring r2"></div>
+            <div class="orbit-ring r3"></div>
+            <!-- Nodes positioned via JS -->
+            <div class="skills-center-label">
+              <div class="num">11</div>
+              <span>Core Skills</span>
             </div>
           </div>
-          <div class="skill-card">
-            <div class="skill-name">Angular</div>
-            <div class="skill-level">75%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 75%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">TypeScript</div>
-            <div class="skill-level">75%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 75%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">HTML</div>
-            <div class="skill-level">98%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 98%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">CSS</div>
-            <div class="skill-level">90%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 90%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">JavaScript</div>
-            <div class="skill-level">80%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 80%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">Apex</div>
-            <div class="skill-level">90%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 90%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">Python</div>
-            <div class="skill-level">55%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 55%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">R</div>
-            <div class="skill-level">50%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 50%"></div>
-            </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-name">Excel</div>
-            <div class="skill-level">70%</div>
-            <div class="skill-bar">
-              <div class="skill-progress" style="width: 70%"></div>
-            </div>
-          </div>
+          <div class="skills-list" id="skillsList"></div>
         </div>
       </div>
     </section>
 
-    <!-- Awards Section -->
+    <!-- ===== AWARDS ===== -->
     <section id="awards">
       <div class="container">
-        <div class="section-title">
-          <h2>Awards & Recognition</h2>
-          <div class="underline"></div>
+        <div class="section-header reveal">
+          <div class="label">Recognition</div>
+          <h2>Awards &amp; Honors</h2>
         </div>
         <div class="awards-grid">
-          <div class="award-card">
-            <h3 class="award-title">
-              20th Annual Gala AACC Scholarship Recipient
-            </h3>
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#127942;</div>
+            <h3 class="award-title">20th Annual Gala AACC Scholarship Recipient</h3>
             <div class="award-date">May 2024</div>
-            <div class="award-org">
-              The Asian American Chamber of Commerce of Kansas City
-            </div>
-            <p class="award-description">
-              This award recognizes the academic achievements from students in
-              Kansas City metropolitan area.
-              <a
-                href="https://www.asianchamberkc.com/gala/2024-gala"
-                target="_blank"
-                style="color: var(--accent-blue)"
-                >Details</a
-              >
-            </p>
+            <div class="award-org">The Asian American Chamber of Commerce of Kansas City</div>
+            <p class="award-desc">Recognizes academic achievements from students in the Kansas City metropolitan area. <a href="https://www.asianchamberkc.com/gala/2024-gala" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
-
-          <div class="award-card">
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#127760;</div>
             <h3 class="award-title">International Student Ambassador</h3>
             <div class="award-date">May 2023</div>
             <div class="award-org">Park University</div>
-            <p class="award-description">
-              Represented Park University to prospective international students
-              in the college admission process.
-              <a
-                href="https://www.park.edu/admissions/international-student-admissions/office-international-students/international-student-ambassadors/"
-                target="_blank"
-                style="color: var(--accent-blue)"
-                >Details</a
-              >
-            </p>
+            <p class="award-desc">Represented Park University to prospective international students in the college admission process. <a href="https://www.park.edu/admissions/international-student-admissions/office-international-students/international-student-ambassadors/" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
-
-          <div class="award-card">
-            <h3 class="award-title">
-              Louisa Davidson Hinde / Carolyn Hinde Zarkaryan Memorial Award
-            </h3>
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#11088;</div>
+            <h3 class="award-title">Louisa Davidson Hinde / Carolyn Hinde Zarkaryan Memorial Award</h3>
             <div class="award-date">April 2022</div>
             <div class="award-org">Park University, Parkville, MO</div>
-            <p class="award-description">
-              This award is given to students, faculty, staff, and/or alumni who
-              best represent the spirit of Park University by promoting in
-              others that quality of excellence that has always been associated
-              with a Park education.
-              <a
-                href="https://www.park.edu/news/honors-convocation-2022/"
-                target="_blank"
-                style="color: var(--accent-blue)"
-                >Details</a
-              >
-            </p>
+            <p class="award-desc">Given to those who best represent the spirit of Park University by promoting quality of excellence. <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
-
-          <div class="award-card">
-            <h3 class="award-title">
-              Outstanding Class Member Award - Non-Graduating Senior
-            </h3>
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#127941;</div>
+            <h3 class="award-title">Outstanding Class Member Award - Non-Graduating Senior</h3>
             <div class="award-date">April 2021</div>
             <div class="award-org">Park University, Parkville, MO</div>
-            <p class="award-description">
-              This award honors two Parkville Campus Non-Graduating Seniors who
-              best represent their class in service to and participation in Park
-              University.
-              <a
-                href="https://www.park.edu/news/honors-convocation-2022/"
-                target="_blank"
-                style="color: var(--accent-blue)"
-                >Details</a
-              >
-            </p>
+            <p class="award-desc">Honors two Parkville Campus Non-Graduating Seniors who best represent their class. <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" style="background: rgba(241, 245, 249, 0.6)">
+    <!-- ===== TESTIMONIALS ===== -->
+    <section id="testimonials">
       <div class="container">
-        <div class="section-title">
-          <h2>References</h2>
-          <div class="underline"></div>
+        <div class="section-header reveal">
+          <div class="label">Testimonials</div>
+          <h2>What People Say</h2>
         </div>
         <div class="testimonials-grid">
-          <div class="testimonial-card">
-            <i class="bx bxs-quote-alt-left quote-icon"></i>
-            <p class="testimonial-text">
+          <div class="test-card glass tilt stagger">
+            <div class="quote-icon"><i class="bx bxs-quote-alt-left"></i></div>
+            <p class="test-text">
               For Manoj, the dedication and hard work from day one helped us to
               have a smooth transition from summer into the busy Fall move-in
               season. Within Residential Life, Manoj is directly responsible for
-              the supervision of 7 Resident Assistants (RAs) and indirectly
-              responsible for the co-supervision another 6 RAs. Additionally, he
-              has taken on rebuilding of the Residence Hall Council and serves
-              as the advisor for those 6 student leaders. Manoj has been able to
-              lead by coming along-side the RAs and student staff that he works
-              with, which has contributed to the servant leader mindset within
-              our area.
+              the supervision of 7 Resident Assistants and indirectly responsible
+              for the co-supervision another 6 RAs. Additionally, he is
+              responsible for supporting and guiding 5 Front Desk Assistants and
+              supervising our Community Assistants.
             </p>
-            <div class="testimonial-author">
-              <img
-                src="assets/img/testimonials/testimonials-reslife.jpg"
-                alt="Tonya Robbins"
-                class="testimonial-img"
-              />
+            <div class="test-author">
+              <img src="assets/img/testimonials/testimonials-reslife.jpg" alt="Sean" class="test-img" />
               <div>
-                <div class="author-name">Tonya Robbins</div>
-                <div class="author-role">
-                  Director of Residence Life, Park University
-                </div>
+                <div class="author-name">Sean Dillon</div>
+                <div class="author-role">Director of Residential Life, Park University</div>
               </div>
             </div>
           </div>
-
-          <div class="testimonial-card">
-            <i class="bx bxs-quote-alt-left quote-icon"></i>
-            <p class="testimonial-text">
-              In 2014, Manoj interned at a radio station in Nepal during my
-              tenure as station manager. Throughout his internship, he
-              consistently demonstrated remarkable creativity alongside a strong
-              work ethic characterized by responsibility and maturity. Manoj
-              impressed me as a confident and articulate individual, showcasing
-              not only his ability to communicate effectively but also his quick
-              grasp of new concepts. His demonstrated potential marks him as a
-              promising candidate for future success in his professional
-              endeavors. I extend my best wishes to him for all his future
-              pursuits.
+          <div class="test-card glass tilt stagger">
+            <div class="quote-icon"><i class="bx bxs-quote-alt-left"></i></div>
+            <p class="test-text">
+              Manoj has worked tirelessly as a student volunteer in KPKR Radio
+              Station, assisting with operations, event planning and community
+              outreach. His dedication and proactive approach have made a
+              significant impact on the station's growth. I highly recommend him
+              for his work ethic and commitment to excellence.
             </p>
-            <div class="testimonial-author">
-              <img
-                src="assets/img/testimonials/testimonials-radio.jpg"
-                alt="CN Gautam"
-                class="testimonial-img"
-              />
+            <div class="test-author">
+              <img src="assets/img/testimonials/testimonials-radio.jpg" alt="Kyle" class="test-img" />
               <div>
-                <div class="author-name">CN Gautam</div>
-                <div class="author-role">Station Manager, Radio Purvodaya</div>
+                <div class="author-name">Kyle Burns</div>
+                <div class="author-role">Director of Student Life, Park University</div>
               </div>
             </div>
           </div>
@@ -1972,440 +1191,316 @@
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ===== FOOTER ===== -->
     <footer>
       <div class="container">
-        <h3>Let's Build Something Amazing Together</h3>
-        <p>
-          Passionate about leveraging technology to solve complex problems and
-          create meaningful impact.<br />Always open to discussing new
-          opportunities, collaborations, and innovative ideas.
-        </p>
-        <div class="footer-social social-links">
-          <a href="https://twitter.com/reckless_mk" target="_blank"
-            ><i class="bx bxl-twitter"></i
-          ></a>
-          <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank"
-            ><i class="bx bxl-linkedin"></i
-          ></a>
-          <a href="https://github.com/manojkhatiwada" target="_blank"
-            ><i class="bx bxl-github"></i
-          ></a>
-          <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank"
-            ><i class="bi bi-code-slash"></i
-          ></a>
+        <h3>Let's Build Something Amazing</h3>
+        <p>Always open to discussing new opportunities, collaborations, and innovative ideas.</p>
+        <div class="social-links" style="justify-content: center; margin-bottom: 2rem;">
+          <a href="https://twitter.com/reckless_mk" target="_blank" aria-label="Twitter"><i class="bx bxl-twitter"></i></a>
+          <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
+          <a href="https://github.com/manojkhatiwada" target="_blank" aria-label="GitHub"><i class="bx bxl-github"></i></a>
+          <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank" aria-label="HackerRank"><i class="bi bi-code-slash"></i></a>
         </div>
-        <p
-          style="
-            margin-top: 2rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-          "
-        >
-          &copy; 2025 Manoj Khatiwada. All rights reserved.
-        </p>
+        <p style="font-size:0.8rem;color:var(--text-dim);">&copy; 2025 Manoj Khatiwada. All rights reserved.</p>
       </div>
     </footer>
 
-    <!-- Three.js for Earth Background -->
+    <button id="scrollToTop" aria-label="Scroll to top"><i class="bi bi-arrow-up"></i></button>
+
+    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Calendly -->
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
-    <!-- Calendly Script -->
-    <script
-      src="https://assets.calendly.com/assets/external/widget.js"
-      type="text/javascript"
-      async
-    ></script>
-
-    <!-- Tableau Scripts -->
-    <script type="text/javascript">
-      var divElement1 = document.getElementById("viz1715607817211");
-      var vizElement1 = divElement1.getElementsByTagName("object")[0];
-      if (divElement1.offsetWidth > 800) {
-        vizElement1.style.minWidth = "420px";
-        vizElement1.style.maxWidth = "650px";
-        vizElement1.style.width = "100%";
-        vizElement1.style.minHeight = "587px";
-        vizElement1.style.maxHeight = "887px";
-        vizElement1.style.height = divElement1.offsetWidth * 0.75 + "px";
-      } else if (divElement1.offsetWidth > 500) {
-        vizElement1.style.minWidth = "420px";
-        vizElement1.style.maxWidth = "650px";
-        vizElement1.style.width = "100%";
-        vizElement1.style.minHeight = "587px";
-        vizElement1.style.maxHeight = "887px";
-        vizElement1.style.height = divElement1.offsetWidth * 0.75 + "px";
-      } else {
-        vizElement1.style.width = "100%";
-        vizElement1.style.height = "777px";
-      }
-      var scriptElement1 = document.createElement("script");
-      scriptElement1.src =
-        "https://public.tableau.com/javascripts/api/viz_v1.js";
-      vizElement1.parentNode.insertBefore(scriptElement1, vizElement1);
-
-      var divElement2 = document.getElementById("viz1715608141020");
-      var vizElement2 = divElement2.getElementsByTagName("object")[0];
-      if (divElement2.offsetWidth > 800) {
-        vizElement2.style.minWidth = "1709px";
-        vizElement2.style.maxWidth = "1809px";
-        vizElement2.style.width = "100%";
-        vizElement2.style.minHeight = "1136px";
-        vizElement2.style.maxHeight = "1236px";
-        vizElement2.style.height = divElement2.offsetWidth * 0.75 + "px";
-      } else if (divElement2.offsetWidth > 500) {
-        vizElement2.style.minWidth = "1709px";
-        vizElement2.style.maxWidth = "1809px";
-        vizElement2.style.width = "100%";
-        vizElement2.style.minHeight = "1136px";
-        vizElement2.style.maxHeight = "1236px";
-        vizElement2.style.height = divElement2.offsetWidth * 0.75 + "px";
-      } else {
-        vizElement2.style.width = "100%";
-        vizElement2.style.height = "1377px";
-      }
-      var scriptElement2 = document.createElement("script");
-      scriptElement2.src =
-        "https://public.tableau.com/javascripts/api/viz_v1.js";
-      vizElement2.parentNode.insertBefore(scriptElement2, vizElement2);
-
-      var divElement3 = document.getElementById("viz1715608425367");
-      var vizElement3 = divElement3.getElementsByTagName("object")[0];
-      if (divElement3.offsetWidth > 800) {
-        vizElement3.style.width = "100%";
-        vizElement3.style.height = divElement3.offsetWidth * 0.75 + "px";
-      } else if (divElement3.offsetWidth > 500) {
-        vizElement3.style.width = "100%";
-        vizElement3.style.height = divElement3.offsetWidth * 0.75 + "px";
-      } else {
-        vizElement3.style.width = "100%";
-        vizElement3.style.height = "3277px";
-      }
-      var scriptElement3 = document.createElement("script");
-      scriptElement3.src =
-        "https://public.tableau.com/javascripts/api/viz_v1.js";
-      vizElement3.parentNode.insertBefore(scriptElement3, vizElement3);
+    <!-- Tableau -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      [
+        {id:"viz1715607817211", mW:"420px", xW:"650px", mH:"587px", xH:"887px", fH:"777px"},
+        {id:"viz1715608141020", mW:"1709px", xW:"1809px", mH:"1136px", xH:"1236px", fH:"1377px"},
+        {id:"viz1715608425367", mW:null, xW:null, mH:null, xH:null, fH:"3277px"}
+      ].forEach(function(c){
+        var el=document.getElementById(c.id); if(!el) return;
+        var v=el.getElementsByTagName("object")[0]; if(!v) return;
+        if(el.offsetWidth>500){ if(c.mW){v.style.minWidth=c.mW;v.style.maxWidth=c.xW;} v.style.width="100%"; if(c.mH){v.style.minHeight=c.mH;v.style.maxHeight=c.xH;} v.style.height=el.offsetWidth*0.75+"px"; }
+        else { v.style.width="100%"; v.style.height=c.fH; }
+        var s=document.createElement("script"); s.src="https://public.tableau.com/javascripts/api/viz_v1.js"; v.parentNode.insertBefore(s,v);
+      });
+    });
     </script>
 
-    <!-- Earth Background Script -->
     <script>
-      (function () {
-        let scene, camera, renderer, particleSystem, stars;
-        let autoRotate = true;
+    (function(){
+      "use strict";
 
-        function generateEarthParticles(count) {
-          const particles = [];
-          const earthRadius = 500;
+      /* ===== CUSTOM CURSOR ===== */
+      var dot=document.getElementById("cursorDot"), ring=document.getElementById("cursorRing");
+      var mx=0,my=0,rx=0,ry=0;
+      document.addEventListener("mousemove",function(e){ mx=e.clientX; my=e.clientY; dot.style.left=mx-4+"px"; dot.style.top=my-4+"px"; });
+      function animateRing(){ rx+=(mx-rx)*0.15; ry+=(my-ry)*0.15; ring.style.left=rx-20+"px"; ring.style.top=ry-20+"px"; requestAnimationFrame(animateRing); }
+      animateRing();
+      document.querySelectorAll("a, button, .btn, .glass").forEach(function(el){
+        el.addEventListener("mouseenter",function(){ ring.classList.add("hovering"); });
+        el.addEventListener("mouseleave",function(){ ring.classList.remove("hovering"); });
+      });
 
-          const oceanColors = [0x0066cc, 0x0077dd, 0x1e88e5];
-          const landColors = [0x2e7d32, 0x388e3c, 0x8b6914, 0xa0764b];
-          const iceColors = [0xcccccc, 0xdddddd];
+      /* ===== THREE.JS — HERO GLOBE ===== */
+      var scene,camera,renderer,globeMesh,particles;
+      function initGlobe(){
+        var container=document.getElementById("heroGlobe"); if(!container) return;
+        scene=new THREE.Scene();
+        camera=new THREE.PerspectiveCamera(60,container.clientWidth/container.clientHeight,0.1,2000);
+        camera.position.z=300;
+        renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+        renderer.setSize(container.clientWidth,container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+        renderer.setClearColor(0x000000,0);
+        container.appendChild(renderer.domElement);
 
-          for (let i = 0; i < count; i++) {
-            const phi = Math.acos(1 - (2 * (i + 0.5)) / count);
-            const theta = Math.PI * (1 + Math.sqrt(5)) * i;
-            const radiusVariation = earthRadius + (Math.random() - 0.5) * 25;
+        // Wireframe globe
+        var sphereGeo=new THREE.IcosahedronGeometry(120,4);
+        var wireMat=new THREE.MeshBasicMaterial({color:0x6c63ff,wireframe:true,transparent:true,opacity:0.12});
+        globeMesh=new THREE.Mesh(sphereGeo,wireMat);
+        scene.add(globeMesh);
 
-            const x = radiusVariation * Math.sin(phi) * Math.cos(theta);
-            const y = radiusVariation * Math.sin(phi) * Math.sin(theta);
-            const z = radiusVariation * Math.cos(phi);
-
-            const latitude = phi;
-            const longitude = theta % (2 * Math.PI);
-
-            let color;
-
-            if (latitude < 0.3 || latitude > 2.84) {
-              color = iceColors[Math.floor(Math.random() * iceColors.length)];
-            } else if (
-              (latitude > 1.0 &&
-                latitude < 2.2 &&
-                longitude > 0 &&
-                longitude < 2.5) ||
-              (latitude > 0.8 &&
-                latitude < 2.5 &&
-                longitude > 3.5 &&
-                longitude < 5.0) ||
-              (latitude > 0.7 &&
-                latitude < 2.0 &&
-                longitude > 2.5 &&
-                longitude < 4.5)
-            ) {
-              color = landColors[Math.floor(Math.random() * landColors.length)];
-            } else {
-              color =
-                oceanColors[Math.floor(Math.random() * oceanColors.length)];
-            }
-
-            particles.push({
-              x,
-              y,
-              z,
-              color: color,
-              size: 3.0 + Math.random() * 2.5,
-            });
-          }
-
-          return particles;
+        // Dots on globe surface
+        var dotGeo=new THREE.BufferGeometry();
+        var count=3000, positions=new Float32Array(count*3), colors=new Float32Array(count*3);
+        var palette=[new THREE.Color(0x6c63ff),new THREE.Color(0x00d4aa),new THREE.Color(0xff6b9d)];
+        for(var i=0;i<count;i++){
+          var phi=Math.acos(1-2*(i+0.5)/count);
+          var theta=Math.PI*(1+Math.sqrt(5))*i;
+          var r=122;
+          positions[i*3]=r*Math.sin(phi)*Math.cos(theta);
+          positions[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+          positions[i*3+2]=r*Math.cos(phi);
+          var c=palette[Math.floor(Math.random()*palette.length)];
+          colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b;
         }
+        dotGeo.setAttribute("position",new THREE.BufferAttribute(positions,3));
+        dotGeo.setAttribute("color",new THREE.BufferAttribute(colors,3));
+        var dotMat=new THREE.PointsMaterial({size:2,vertexColors:true,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false});
+        particles=new THREE.Points(dotGeo,dotMat);
+        scene.add(particles);
 
-        function createParticleTexture() {
-          const canvas = document.createElement("canvas");
-          canvas.width = 64;
-          canvas.height = 64;
-          const ctx = canvas.getContext("2d");
+        // Ambient ring
+        var ringGeo=new THREE.TorusGeometry(150,0.5,16,100);
+        var ringMat=new THREE.MeshBasicMaterial({color:0x6c63ff,transparent:true,opacity:0.15});
+        var ringMesh=new THREE.Mesh(ringGeo,ringMat);
+        ringMesh.rotation.x=Math.PI/2.5;
+        scene.add(ringMesh);
 
-          const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-          gradient.addColorStop(0, "rgba(200, 200, 200, 1.0)");
-          gradient.addColorStop(0.2, "rgba(180, 180, 180, 0.9)");
-          gradient.addColorStop(0.5, "rgba(150, 150, 150, 0.6)");
-          gradient.addColorStop(1, "rgba(100, 100, 100, 0)");
+        // Second ring
+        var ring2=new THREE.Mesh(new THREE.TorusGeometry(170,0.3,16,100),new THREE.MeshBasicMaterial({color:0x00d4aa,transparent:true,opacity:0.08}));
+        ring2.rotation.x=Math.PI/3; ring2.rotation.y=Math.PI/4;
+        scene.add(ring2);
 
-          ctx.fillStyle = gradient;
-          ctx.fillRect(0, 0, 64, 64);
-
-          const texture = new THREE.Texture(canvas);
-          texture.needsUpdate = true;
-          return texture;
-        }
-
-        function init() {
-          const container = document.getElementById("earth-background");
-
-          scene = new THREE.Scene();
-          scene.background = new THREE.Color(0xe0f2fe);
-          scene.fog = new THREE.FogExp2(0xe0f2fe, 0.00005);
-
-          camera = new THREE.PerspectiveCamera(
-            60,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            5000
-          );
-          camera.position.set(0, 100, 800);
-          camera.lookAt(0, 0, 0);
-
-          renderer = new THREE.WebGLRenderer({
-            antialias: true,
-            alpha: false,
-          });
-          renderer.setClearColor(0xe0f2fe);
-          renderer.setSize(window.innerWidth, window.innerHeight);
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-          container.appendChild(renderer.domElement);
-
-          stars = generateEarthParticles(30000);
-
-          const geometry = new THREE.BufferGeometry();
-          const positions = new Float32Array(stars.length * 3);
-          const colors = new Float32Array(stars.length * 3);
-          const sizes = new Float32Array(stars.length);
-
-          for (let i = 0; i < stars.length; i++) {
-            const star = stars[i];
-            positions[i * 3] = star.x;
-            positions[i * 3 + 1] = star.y;
-            positions[i * 3 + 2] = star.z;
-
-            const color = new THREE.Color(star.color);
-            colors[i * 3] = color.r;
-            colors[i * 3 + 1] = color.g;
-            colors[i * 3 + 2] = color.b;
-
-            sizes[i] = star.size;
-          }
-
-          geometry.setAttribute(
-            "position",
-            new THREE.BufferAttribute(positions, 3)
-          );
-          geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-          geometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
-
-          const material = new THREE.ShaderMaterial({
-            uniforms: {
-              pointTexture: { value: createParticleTexture() },
-            },
-            vertexShader: `
-            attribute float size;
-            varying vec3 vColor;
-            void main() {
-              vColor = color;
-              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-              gl_PointSize = size * (350.0 / -mvPosition.z);
-              gl_Position = projectionMatrix * mvPosition;
-            }
-          `,
-            fragmentShader: `
-            uniform sampler2D pointTexture;
-            varying vec3 vColor;
-            void main() {
-              vec4 texColor = texture2D(pointTexture, gl_PointCoord);
-              gl_FragColor = vec4(vColor, texColor.a * 0.9);
-            }
-          `,
-            blending: THREE.NormalBlending,
-            depthTest: true,
-            depthWrite: false,
-            transparent: true,
-            vertexColors: true,
-          });
-
-          particleSystem = new THREE.Points(geometry, material);
-          scene.add(particleSystem);
-
-          const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-          scene.add(ambientLight);
-
-          const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-          directionalLight.position.set(1, 1, 1);
-          scene.add(directionalLight);
-
-          window.addEventListener("resize", onWindowResize, false);
-
-          animate();
-        }
-
-        function onWindowResize() {
-          camera.aspect = window.innerWidth / window.innerHeight;
+        window.addEventListener("resize",function(){
+          camera.aspect=container.clientWidth/container.clientHeight;
           camera.updateProjectionMatrix();
-          renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function animate() {
-          requestAnimationFrame(animate);
-
-          if (autoRotate && particleSystem) {
-            particleSystem.rotation.y += 0.0005;
-          }
-
-          renderer.render(scene, camera);
-        }
-
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", init);
-        } else {
-          init();
-        }
-      })();
-
-      // ===== SCROLL PROGRESS INDICATOR =====
-      window.addEventListener("scroll", () => {
-        const scrollProgress = document.getElementById("scroll-progress");
-        const scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-        const scrollHeight =
-          document.documentElement.scrollHeight -
-          document.documentElement.clientHeight;
-        const scrollPercentage = (scrollTop / scrollHeight) * 100;
-        scrollProgress.style.width = scrollPercentage + "%";
-      });
-
-      // ===== NAVIGATION SCROLL EFFECT =====
-      let lastScroll = 0;
-      window.addEventListener("scroll", () => {
-        const nav = document.querySelector("nav");
-        const currentScroll = window.pageYOffset;
-
-        if (currentScroll > 100) {
-          nav.classList.add("scrolled");
-        } else {
-          nav.classList.remove("scrolled");
-        }
-
-        lastScroll = currentScroll;
-      });
-
-      // ===== FLOATING ACTION BUTTON =====
-      const fab = document.getElementById("scrollToTop");
-      window.addEventListener("scroll", () => {
-        if (window.pageYOffset > 500) {
-          fab.classList.add("visible");
-        } else {
-          fab.classList.remove("visible");
-        }
-      });
-
-      fab.addEventListener("click", () => {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
+          renderer.setSize(container.clientWidth,container.clientHeight);
         });
-      });
-
-      // Navigation toggle
-      function toggleNav() {
-        const navMenu = document.querySelector(".nav-menu");
-        navMenu.classList.toggle("active");
       }
 
-      // Smooth scrolling
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-            // Close mobile menu if open
-            document.querySelector(".nav-menu").classList.remove("active");
-          }
-        });
-      });
+      /* --- Background particles --- */
+      var bgScene,bgCamera,bgRenderer,bgParticles;
+      function initBgParticles(){
+        var container=document.getElementById("scene-container");
+        bgScene=new THREE.Scene();
+        bgCamera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,2000);
+        bgCamera.position.z=500;
+        bgRenderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+        bgRenderer.setSize(window.innerWidth,window.innerHeight);
+        bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+        bgRenderer.setClearColor(0x000000,0);
+        container.appendChild(bgRenderer.domElement);
 
-      // ===== SECTION REVEAL ANIMATIONS =====
-      const observerOptions = {
-        threshold: 0.2,
-        rootMargin: "0px 0px -50px 0px",
-      };
-
-      const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, observerOptions);
-
-      // Observe section titles
-      document.querySelectorAll(".section-title").forEach((el) => {
-        sectionObserver.observe(el);
-      });
-
-      // Card animations with stagger effect
-      const cardObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.style.opacity = "1";
-              entry.target.style.transform = "translateY(0)";
-            }, index * 100);
-          }
-        });
-      }, observerOptions);
-
-      document
-        .querySelectorAll(
-          ".skill-card, .project-card, .award-card, .testimonial-card, .timeline-item"
-        )
-        .forEach((el) => {
-          el.style.opacity = "0";
-          el.style.transform = "translateY(30px)";
-          el.style.transition = "all 0.6s ease-out";
-          cardObserver.observe(el);
-        });
-
-      // ===== PARALLAX EFFECT FOR HERO =====
-      window.addEventListener("scroll", () => {
-        const scrolled = window.pageYOffset;
-        const heroContent = document.querySelector(".hero-content");
-        if (heroContent && scrolled < window.innerHeight) {
-          heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-          heroContent.style.opacity = 1 - scrolled / 600;
+        var count=3000,positions=new Float32Array(count*3),colors=new Float32Array(count*3);
+        var palette=[new THREE.Color(0x6c63ff),new THREE.Color(0x00d4aa),new THREE.Color(0xff6b9d),new THREE.Color(0xffffff)];
+        for(var i=0;i<count;i++){
+          positions[i*3]=(Math.random()-0.5)*2000;
+          positions[i*3+1]=(Math.random()-0.5)*2000;
+          positions[i*3+2]=(Math.random()-0.5)*2000;
+          var c=palette[Math.floor(Math.random()*palette.length)];
+          colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b;
         }
-      });
+        var geo=new THREE.BufferGeometry();
+        geo.setAttribute("position",new THREE.BufferAttribute(positions,3));
+        geo.setAttribute("color",new THREE.BufferAttribute(colors,3));
+        var tex=createPTex();
+        bgParticles=new THREE.Points(geo,new THREE.PointsMaterial({size:2,map:tex,transparent:true,depthWrite:false,vertexColors:true,blending:THREE.AdditiveBlending,opacity:0.5}));
+        bgScene.add(bgParticles);
+        window.addEventListener("resize",function(){
+          bgCamera.aspect=window.innerWidth/window.innerHeight;
+          bgCamera.updateProjectionMatrix();
+          bgRenderer.setSize(window.innerWidth,window.innerHeight);
+        });
+      }
+      function createPTex(){
+        var c=document.createElement("canvas"); c.width=64; c.height=64;
+        var ctx=c.getContext("2d");
+        var g=ctx.createRadialGradient(32,32,0,32,32,32);
+        g.addColorStop(0,"rgba(255,255,255,1)");
+        g.addColorStop(0.3,"rgba(255,255,255,0.5)");
+        g.addColorStop(1,"rgba(255,255,255,0)");
+        ctx.fillStyle=g; ctx.fillRect(0,0,64,64);
+        var t=new THREE.Texture(c); t.needsUpdate=true; return t;
+      }
+
+      var clock=new THREE.Clock();
+      function animate(){
+        requestAnimationFrame(animate);
+        var t=clock.getElapsedTime();
+        if(globeMesh){ globeMesh.rotation.y+=0.003; particles.rotation.y+=0.003; }
+        if(bgParticles){ bgParticles.rotation.y+=0.0002; bgParticles.rotation.x+=0.0001; }
+        if(renderer) renderer.render(scene,camera);
+        if(bgRenderer) bgRenderer.render(bgScene,bgCamera);
+      }
+
+      /* ===== SKILLS ===== */
+      var skillsData=[
+        {name:"Java",pct:80},{name:"Angular",pct:75},{name:"TypeScript",pct:75},
+        {name:"HTML",pct:90},{name:"CSS",pct:85},{name:"JavaScript",pct:85},
+        {name:"SQL",pct:75},{name:"Python",pct:70},{name:"C#",pct:55},
+        {name:"R",pct:50},{name:"Excel",pct:70}
+      ];
+      function renderSkills(){
+        var list=document.getElementById("skillsList"); if(!list) return;
+        skillsData.forEach(function(s){
+          var row=document.createElement("div"); row.className="skill-row";
+          row.innerHTML='<span class="skill-name">'+s.name+'</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="'+s.pct+'"></div></div><span class="skill-pct">'+s.pct+'%</span>';
+          list.appendChild(row);
+        });
+
+        // Orbit nodes
+        var visual=document.querySelector(".skills-rings-visual"); if(!visual) return;
+        var rings=[{r:100,items:["Java","Angular","TS"]},{r:140,items:["HTML","CSS","JS","SQL"]},{r:160,items:["Python","C#","R","Excel"]}];
+        rings.forEach(function(ring,ri){
+          ring.items.forEach(function(label,i){
+            var angle=(2*Math.PI/ring.items.length)*i - Math.PI/2;
+            var x=160+ring.r*Math.cos(angle)-22;
+            var y=160+ring.r*Math.sin(angle)-22;
+            var node=document.createElement("div");
+            node.className="orbit-node";
+            node.textContent=label;
+            node.style.left=x+"px"; node.style.top=y+"px";
+            visual.appendChild(node);
+          });
+        });
+      }
+
+      /* ===== ANIMATED COUNTERS ===== */
+      function animateCounters(){
+        var counters=document.querySelectorAll(".stat-number[data-count]");
+        var obs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(!e.isIntersecting) return;
+            var el=e.target, target=parseInt(el.dataset.count), duration=2000, start=0;
+            var suffix=target>=1000?"+":"";
+            var displayTarget=target>=10000?(target/1000):target;
+            var displaySuffix=target>=10000?"K+":suffix;
+            var step=function(ts){
+              if(!start) start=ts;
+              var progress=Math.min((ts-start)/duration,1);
+              var eased=1-Math.pow(1-progress,3);
+              var current=Math.floor(eased*displayTarget);
+              el.textContent=current+displaySuffix;
+              if(progress<1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+            obs.unobserve(el);
+          });
+        },{threshold:0.5});
+        counters.forEach(function(c){ obs.observe(c); });
+      }
+
+      /* ===== REVEAL & STAGGER ===== */
+      function setupObservers(){
+        var revealObs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add("visible"); });
+        },{threshold:0.1,rootMargin:"0px 0px -40px 0px"});
+        document.querySelectorAll(".reveal").forEach(function(el){ revealObs.observe(el); });
+
+        var staggerObs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting){
+              var siblings=e.target.parentElement.children;
+              var idx=Array.from(siblings).indexOf(e.target);
+              setTimeout(function(){ e.target.classList.add("visible"); },idx*100);
+            }
+          });
+        },{threshold:0.05,rootMargin:"0px 0px -20px 0px"});
+        document.querySelectorAll(".stagger").forEach(function(el){ staggerObs.observe(el); });
+
+        // Skill bars
+        var skillObs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting){
+              e.target.querySelectorAll(".skill-bar-fill").forEach(function(bar){
+                bar.style.width=bar.dataset.width+"%";
+              });
+            }
+          });
+        },{threshold:0.2});
+        var skillsSection=document.getElementById("skills");
+        if(skillsSection) skillObs.observe(skillsSection);
+      }
+
+      /* ===== 3D TILT ===== */
+      function setupTilt(){
+        document.querySelectorAll(".tilt").forEach(function(card){
+          card.addEventListener("mousemove",function(e){
+            var rect=card.getBoundingClientRect();
+            var x=e.clientX-rect.left, y=e.clientY-rect.top;
+            var rotX=((y-rect.height/2)/rect.height)*-8;
+            var rotY=((x-rect.width/2)/rect.width)*8;
+            card.style.transform="perspective(1000px) rotateX("+rotX+"deg) rotateY("+rotY+"deg) translateY(-4px)";
+          });
+          card.addEventListener("mouseleave",function(){ card.style.transform="perspective(1000px) rotateX(0) rotateY(0) translateY(0)"; });
+        });
+      }
+
+      /* ===== NAV ===== */
+      function setupNav(){
+        var nav=document.querySelector("nav"), toggle=document.getElementById("navToggle"), menu=document.getElementById("navMenu");
+        window.addEventListener("scroll",function(){ nav.classList.toggle("scrolled",window.pageYOffset>80); });
+        toggle.addEventListener("click",function(){ menu.classList.toggle("active"); });
+        document.querySelectorAll('.nav-menu a[href^="#"]').forEach(function(a){ a.addEventListener("click",function(){ menu.classList.remove("active"); }); });
+      }
+
+      /* ===== SCROLL PROGRESS ===== */
+      function setupScroll(){
+        var bar=document.getElementById("scroll-progress");
+        window.addEventListener("scroll",function(){
+          var s=window.pageYOffset, h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+          bar.style.width=(s/h*100)+"%";
+        });
+      }
+
+      /* ===== FAB ===== */
+      function setupFab(){
+        var fab=document.getElementById("scrollToTop");
+        window.addEventListener("scroll",function(){ fab.classList.toggle("visible",window.pageYOffset>500); });
+        fab.addEventListener("click",function(){ window.scrollTo({top:0,behavior:"smooth"}); });
+      }
+
+      /* ===== INIT ===== */
+      function init(){
+        renderSkills();
+        initGlobe();
+        initBgParticles();
+        animate();
+        setupObservers();
+        animateCounters();
+        setupTilt();
+        setupNav();
+        setupScroll();
+        setupFab();
+      }
+      if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init);
+      else init();
+    })();
     </script>
   </body>
 </html>
