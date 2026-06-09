@@ -4,934 +4,681 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Manoj Khatiwada - Portfolio</title>
-    <meta
-      content="Manoj Khatiwada's Portfolio - Full-Stack Developer & Business Analyst"
-      name="description"
-    />
-    <meta
-      content="Manoj Khatiwada, Full-Stack Developer, Business Analyst, Web Developer"
-      name="keywords"
-    />
+    <meta content="Manoj Khatiwada's Portfolio - Full-Stack Developer & Business Analyst" name="description" />
+    <meta content="Manoj Khatiwada, Full-Stack Developer, Business Analyst, Web Developer" name="keywords" />
 
-    <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon" />
     <link href="assets/img/favicon.png" rel="apple-touch-icon" />
 
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Bootstrap Icons & Boxicons -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-
-    <!-- Calendly -->
-    <link
-      href="https://assets.calendly.com/assets/external/widget.css"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
 
     <style>
-      /* ========== RESET & VARIABLES ========== */
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
       :root {
-        --bg-dark: #0a0a0f;
-        --bg-card: rgba(255, 255, 255, 0.04);
-        --bg-card-hover: rgba(255, 255, 255, 0.08);
+        --bg: #06060a;
+        --bg-elevated: #0d0d14;
+        --bg-card: rgba(255,255,255,0.03);
+        --bg-card-hover: rgba(255,255,255,0.07);
         --accent: #6c63ff;
         --accent2: #00d4aa;
         --accent3: #ff6b9d;
-        --text: #e4e4e7;
-        --text-dim: #9ca3af;
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-        --font-display: "Space Grotesk", "Inter", sans-serif;
+        --accent4: #f59e0b;
+        --text: #eaeaea;
+        --text-dim: #8b8b9e;
+        --border: rgba(255,255,255,0.06);
+        --font: 'Inter', system-ui, -apple-system, sans-serif;
+        --font-display: 'Space Grotesk', 'Inter', sans-serif;
       }
 
-      html {
-        scroll-behavior: smooth;
-      }
+      html { scroll-behavior: smooth; }
 
       body {
-        font-family: var(--font-sans);
-        background: var(--bg-dark);
+        font-family: var(--font);
+        background: var(--bg);
         color: var(--text);
         line-height: 1.6;
         overflow-x: hidden;
+        cursor: none;
       }
 
-      h1, h2, h3, h4, h5, h6 {
+      h1,h2,h3,h4,h5,h6 {
         font-family: var(--font-display);
         font-weight: 700;
         letter-spacing: -0.03em;
       }
 
-      a { text-decoration: none; color: inherit; }
+      a { text-decoration: none; color: inherit; cursor: none; }
+      button { cursor: none; }
 
-      /* ========== THREE.JS CANVAS ========== */
-      #scene-container {
+      /* ===== CUSTOM CURSOR ===== */
+      .cursor-dot {
+        width: 8px; height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
         pointer-events: none;
+        z-index: 99999;
+        transition: transform 0.1s ease;
+        mix-blend-mode: difference;
+      }
+      .cursor-ring {
+        width: 40px; height: 40px;
+        border: 2px solid rgba(108,99,255,0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 99998;
+        transition: width 0.3s, height 0.3s, border-color 0.3s;
+      }
+      .cursor-ring.hovering {
+        width: 60px; height: 60px;
+        border-color: var(--accent2);
       }
 
-      /* ========== SCROLL PROGRESS ========== */
+      /* ===== THREE.JS ===== */
+      #scene-container {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0; pointer-events: none;
+      }
+
+      /* ===== GRADIENT MESH BACKGROUND ===== */
+      .gradient-mesh {
+        position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 0; pointer-events: none;
+        opacity: 0.4;
+        background:
+          radial-gradient(ellipse at 20% 50%, rgba(108,99,255,0.15) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 20%, rgba(0,212,170,0.1) 0%, transparent 50%),
+          radial-gradient(ellipse at 60% 80%, rgba(255,107,157,0.08) 0%, transparent 50%);
+        animation: meshShift 20s ease-in-out infinite alternate;
+      }
+      @keyframes meshShift {
+        0% { background-position: 0% 0%, 100% 0%, 50% 100%; }
+        100% { background-position: 100% 100%, 0% 100%, 50% 0%; }
+      }
+
+      /* ===== SCROLL PROGRESS ===== */
       #scroll-progress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 3px;
+        position: fixed; top: 0; left: 0;
+        width: 0%; height: 3px;
         background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
         z-index: 9999;
-        transition: width 0.1s ease-out;
       }
 
-      /* ========== NAVIGATION ========== */
+      /* ===== NAVIGATION ===== */
       nav {
-        position: fixed;
-        top: 0;
-        width: 100%;
+        position: fixed; top: 20px; left: 50%;
+        transform: translateX(-50%);
         z-index: 1000;
-        background: rgba(10, 10, 15, 0.7);
+        background: rgba(13,13,20,0.6);
         backdrop-filter: blur(20px) saturate(180%);
-        border-bottom: 1px solid var(--glass-border);
-        transition: all 0.3s ease;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 0 0.5rem;
+        transition: all 0.4s ease;
       }
-
       nav.scrolled {
-        background: rgba(10, 10, 15, 0.95);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        background: rgba(13,13,20,0.9);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
       }
-
       .nav-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 70px;
+        display: flex; align-items: center;
+        gap: 0.5rem; height: 56px;
+        padding: 0 1rem;
       }
-
       .nav-logo {
-        font-size: 1.6rem;
-        font-weight: 800;
+        font-size: 1.4rem; font-weight: 800;
         font-family: var(--font-display);
         background: linear-gradient(135deg, var(--accent), var(--accent2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         background-clip: text;
-        transition: transform 0.3s;
+        margin-right: 1rem;
       }
-
-      .nav-logo:hover { transform: scale(1.05); }
-
       .nav-menu {
-        display: flex;
-        gap: 0.25rem;
-        list-style: none;
-        align-items: center;
+        display: flex; gap: 0.15rem;
+        list-style: none; align-items: center;
       }
-
       .nav-menu a {
-        color: var(--text-dim);
-        font-weight: 500;
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        position: relative;
+        color: var(--text-dim); font-weight: 500;
+        font-size: 0.85rem; padding: 0.4rem 0.8rem;
+        border-radius: 10px; transition: all 0.3s;
       }
-
-      .nav-menu a:hover,
-      .nav-menu a.active {
+      .nav-menu a:hover, .nav-menu a.active {
         color: #fff;
-        background: rgba(108, 99, 255, 0.15);
+        background: rgba(108,99,255,0.15);
       }
-
       .nav-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
-        background: none;
-        border: none;
+        display: none; flex-direction: column;
+        gap: 4px; cursor: none; background: none; border: none;
       }
-
       .nav-toggle span {
-        width: 24px;
-        height: 2px;
-        background: var(--text);
-        transition: 0.3s;
-        border-radius: 2px;
+        width: 20px; height: 2px;
+        background: var(--text); border-radius: 2px; transition: 0.3s;
       }
 
-      /* ========== HERO ========== */
+      /* ===== HERO ===== */
       .hero {
-        position: relative;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1;
-        padding: 80px 2rem 2rem;
+        position: relative; min-height: 100vh;
+        display: grid; grid-template-columns: 1fr 1fr;
+        align-items: center; z-index: 1;
+        padding: 100px 0;
+        max-width: 1200px; margin: 0 auto;
+        gap: 4rem;
       }
-
-      .hero-content {
-        text-align: center;
-        max-width: 800px;
+      .hero-left { padding: 0 2rem; }
+      .hero-right {
+        position: relative; display: flex;
+        align-items: center; justify-content: center;
+        height: 500px;
       }
 
       .hero-badge {
-        display: inline-block;
-        padding: 0.4rem 1.2rem;
-        border-radius: 50px;
-        background: rgba(108, 99, 255, 0.15);
-        border: 1px solid rgba(108, 99, 255, 0.3);
-        color: var(--accent);
-        font-size: 0.85rem;
-        font-weight: 600;
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        padding: 0.4rem 1rem; border-radius: 50px;
+        background: rgba(108,99,255,0.1);
+        border: 1px solid rgba(108,99,255,0.2);
+        color: var(--accent); font-size: 0.8rem; font-weight: 600;
         margin-bottom: 1.5rem;
         animation: fadeInDown 0.8s ease-out;
       }
-
-      .hero-title {
-        font-size: clamp(2.8rem, 7vw, 5.5rem);
-        line-height: 1.1;
-        margin-bottom: 1rem;
-        background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent2) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        background-size: 200% auto;
-        animation: fadeInUp 1s ease-out, shimmer 6s linear infinite;
+      .hero-badge .dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--accent2);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.8); }
       }
 
+      .hero-title {
+        font-size: clamp(3rem, 6vw, 4.5rem);
+        line-height: 1.05; margin-bottom: 1.5rem;
+        color: #fff; position: relative;
+      }
+      .hero-title .gradient-text {
+        background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text; background-size: 200% auto;
+        animation: shimmer 4s linear infinite;
+      }
       @keyframes shimmer {
         0% { background-position: 0% center; }
         100% { background-position: 200% center; }
       }
 
-      .hero-subtitle {
-        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-        color: var(--text-dim);
-        margin-bottom: 1rem;
-        font-weight: 400;
-        animation: fadeInUp 1s ease-out 0.2s both;
+      /* Glitch effect */
+      .glitch {
+        position: relative; display: inline-block;
+      }
+      .glitch::before, .glitch::after {
+        content: attr(data-text);
+        position: absolute; top: 0; left: 0;
+        width: 100%; height: 100%;
+        opacity: 0;
+      }
+      .glitch:hover::before {
+        animation: glitch1 0.3s infinite;
+        color: var(--accent); opacity: 0.8;
+        clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+      }
+      .glitch:hover::after {
+        animation: glitch2 0.3s infinite;
+        color: var(--accent3); opacity: 0.8;
+        clip-path: polygon(0 66%, 100% 66%, 100% 100%, 0 100%);
+      }
+      @keyframes glitch1 {
+        0% { transform: translate(0); }
+        20% { transform: translate(-3px, 3px); }
+        40% { transform: translate(3px, -3px); }
+        60% { transform: translate(-2px, 1px); }
+        80% { transform: translate(2px, -2px); }
+        100% { transform: translate(0); }
+      }
+      @keyframes glitch2 {
+        0% { transform: translate(0); }
+        20% { transform: translate(3px, -2px); }
+        40% { transform: translate(-3px, 2px); }
+        60% { transform: translate(1px, -3px); }
+        80% { transform: translate(-2px, 3px); }
+        100% { transform: translate(0); }
       }
 
-      .hero-description {
-        font-size: 1.05rem;
-        color: var(--text-dim);
-        margin-bottom: 2.5rem;
-        line-height: 1.8;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        animation: fadeInUp 1s ease-out 0.4s both;
+      .hero-subtitle {
+        font-size: 1.1rem; color: var(--text-dim);
+        margin-bottom: 2rem; line-height: 1.8;
       }
 
       .social-links {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-bottom: 2rem;
-        animation: fadeInUp 1s ease-out 0.6s both;
+        display: flex; gap: 0.75rem; margin-bottom: 2rem;
       }
-
       .social-links a {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: var(--bg-card);
-        border: 1px solid var(--glass-border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-dim);
-        font-size: 1.3rem;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 44px; height: 44px; border-radius: 12px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--text-dim); font-size: 1.2rem;
+        transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
       }
-
       .social-links a:hover {
-        color: #fff;
-        background: var(--accent);
+        color: #fff; background: var(--accent);
         border-color: var(--accent);
         transform: translateY(-4px) scale(1.1);
-        box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
+        box-shadow: 0 8px 25px rgba(108,99,255,0.4);
       }
 
-      .cta-buttons {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        animation: fadeInUp 1s ease-out 0.8s both;
-      }
+      .cta-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
 
       .btn {
-        padding: 0.85rem 2rem;
-        border-radius: 12px;
-        font-weight: 600;
-        font-size: 0.95rem;
-        border: none;
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
+        padding: 0.8rem 1.8rem; border-radius: 12px;
+        font-weight: 600; font-size: 0.9rem;
+        border: none; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        position: relative; overflow: hidden; display: inline-block;
       }
-
       .btn-primary {
         background: linear-gradient(135deg, var(--accent), #8b5cf6);
-        color: white;
-        box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+        color: white; box-shadow: 0 4px 20px rgba(108,99,255,0.4);
       }
-
       .btn-primary:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(108, 99, 255, 0.6);
+        box-shadow: 0 8px 30px rgba(108,99,255,0.6);
       }
-
       .btn-secondary {
         background: transparent;
-        border: 1px solid var(--glass-border);
-        color: var(--text);
+        border: 1px solid var(--border); color: var(--text);
       }
-
       .btn-secondary:hover {
-        border-color: var(--accent2);
-        color: var(--accent2);
+        border-color: var(--accent2); color: var(--accent2);
         transform: translateY(-3px);
-        box-shadow: 0 4px 20px rgba(0, 212, 170, 0.2);
+        box-shadow: 0 4px 20px rgba(0,212,170,0.2);
       }
 
-      /* ========== SECTIONS COMMON ========== */
-      section {
-        position: relative;
-        z-index: 1;
-        padding: 100px 0;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
+      /* ===== STATS STRIP ===== */
+      .stats-strip {
+        position: relative; z-index: 1;
+        max-width: 1200px; margin: -40px auto 0;
         padding: 0 2rem;
       }
-
-      .section-header {
-        text-align: center;
-        margin-bottom: 4rem;
+      .stats-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 1px; background: var(--border); border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      }
+      .stat-item {
+        background: var(--bg-elevated);
+        padding: 2rem; text-align: center;
+        transition: background 0.3s;
+      }
+      .stat-item:hover { background: rgba(108,99,255,0.05); }
+      .stat-number {
+        font-size: 2.5rem; font-weight: 800;
+        font-family: var(--font-display);
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .stat-label {
+        font-size: 0.85rem; color: var(--text-dim);
+        margin-top: 0.25rem; font-weight: 500;
       }
 
-      .section-header h2 {
-        font-size: clamp(2rem, 4vw, 3rem);
+      /* ===== SECTIONS ===== */
+      section { position: relative; z-index: 1; padding: 120px 0; }
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+      .section-header { margin-bottom: 4rem; }
+      .section-header .label {
+        display: inline-block; font-size: 0.8rem;
+        font-weight: 600; color: var(--accent);
+        text-transform: uppercase; letter-spacing: 0.15em;
         margin-bottom: 0.75rem;
-        color: #fff;
+      }
+      .section-header h2 {
+        font-size: clamp(2rem, 4vw, 3rem); color: #fff;
+        margin-bottom: 1rem;
+      }
+      .section-header p {
+        color: var(--text-dim); max-width: 550px;
+        font-size: 1rem; line-height: 1.7;
       }
 
-      .section-header .accent-line {
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        margin: 0 auto;
-        border-radius: 3px;
-      }
-
-      /* ========== REVEAL ANIMATION ========== */
+      /* ===== REVEAL ===== */
       .reveal {
-        opacity: 0;
-        transform: translateY(40px);
-        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-                    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0; transform: translateY(40px);
+        transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1),
+                    transform 0.8s cubic-bezier(0.4,0,0.2,1);
       }
-
-      .reveal.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .stagger-child {
-        opacity: 0;
-        transform: translateY(30px);
+      .reveal.visible { opacity: 1; transform: translateY(0); }
+      .stagger { opacity: 0; transform: translateY(30px);
         transition: opacity 0.6s ease-out, transform 0.6s ease-out;
       }
+      .stagger.visible { opacity: 1; transform: translateY(0); }
 
-      .stagger-child.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      /* ========== GLASS CARD ========== */
-      .glass-card {
+      /* ===== GLASS CARD ===== */
+      .glass {
         background: var(--bg-card);
-        border: 1px solid var(--glass-border);
+        border: 1px solid var(--border);
         border-radius: 16px;
         backdrop-filter: blur(12px);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        position: relative; overflow: hidden;
       }
-
-      .glass-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      .glass::before {
+        content: ""; position: absolute;
+        top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
       }
-
-      .glass-card:hover {
+      .glass:hover {
         background: var(--bg-card-hover);
-        border-color: rgba(108, 99, 255, 0.3);
-        transform: translateY(-6px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-                    0 0 0 1px rgba(108, 99, 255, 0.1);
+        border-color: rgba(108,99,255,0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
       }
 
-      /* ========== 3D TILT ========== */
-      .tilt-card {
-        transform-style: preserve-3d;
-        perspective: 1000px;
-      }
+      /* ===== TILT ===== */
+      .tilt { transform-style: preserve-3d; perspective: 1000px; }
 
-      /* ========== ABOUT ========== */
-      .about-grid {
+      /* ===== ABOUT — BENTO GRID ===== */
+      .about-bento {
         display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 3rem;
-        align-items: center;
-      }
-
-      .about-image-wrapper {
-        position: relative;
-      }
-
-      .about-image-wrapper img {
-        width: 100%;
-        border-radius: 16px;
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      }
-
-      .about-image-wrapper::after {
-        content: "";
-        position: absolute;
-        inset: -4px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        z-index: -1;
-        opacity: 0.3;
-        filter: blur(20px);
-      }
-
-      .about-text h3 {
-        font-size: 1.6rem;
-        margin-bottom: 1.5rem;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .about-text p {
-        color: var(--text-dim);
-        font-size: 1rem;
-        line-height: 1.8;
-        margin-bottom: 1rem;
-      }
-
-      .about-info {
-        display: flex;
-        gap: 2rem;
-        margin-top: 1.5rem;
-        flex-wrap: wrap;
-      }
-
-      .info-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--text-dim);
-      }
-
-      .info-item i {
-        color: var(--accent);
-        font-size: 1.1rem;
-      }
-
-      /* ========== TIMELINE ========== */
-      .timeline {
-        position: relative;
-        max-width: 900px;
-        margin: 0 auto;
-      }
-
-      .timeline::before {
-        content: "";
-        position: absolute;
-        left: 16px;
-        top: 0;
-        width: 2px;
-        height: 100%;
-        background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
-      }
-
-      .timeline-item {
-        position: relative;
-        margin-bottom: 2.5rem;
-        padding-left: 56px;
-      }
-
-      .timeline-marker {
-        position: absolute;
-        left: 8px;
-        top: 8px;
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background: var(--accent);
-        border: 3px solid var(--bg-dark);
-        z-index: 2;
-        box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.2), 0 0 20px rgba(108, 99, 255, 0.3);
-      }
-
-      .timeline-content {
-        padding: 1.5rem;
-      }
-
-      .timeline-date {
-        color: var(--accent);
-        font-weight: 600;
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      .timeline-title {
-        font-size: 1.3rem;
-        color: #fff;
-        margin-bottom: 0.3rem;
-      }
-
-      .timeline-company {
-        color: var(--accent2);
-        font-weight: 500;
-        margin-bottom: 0.75rem;
-        font-size: 0.95rem;
-      }
-
-      .timeline-description {
-        color: var(--text-dim);
-        line-height: 1.8;
-        font-size: 0.95rem;
-      }
-
-      .timeline-description ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      .timeline-description li {
-        margin-bottom: 0.4rem;
-        padding-left: 1.2rem;
-        position: relative;
-      }
-
-      .timeline-description li::before {
-        content: "▹";
-        position: absolute;
-        left: 0;
-        color: var(--accent);
-      }
-
-      /* ========== PROJECTS ========== */
-      .projects-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        max-width: 1000px;
-        margin: 0 auto;
-      }
-
-      .project-card .project-content {
-        padding: 2rem;
-      }
-
-      .project-title {
-        font-size: 1.5rem;
-        color: #fff;
-        margin-bottom: 0.75rem;
-      }
-
-      .project-description {
-        color: var(--text-dim);
-        line-height: 1.8;
-        margin-bottom: 1.25rem;
-        font-size: 0.95rem;
-      }
-
-      .project-links {
-        display: flex;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-      }
-
-      .project-link {
-        padding: 0.6rem 1.2rem;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.3s;
-      }
-
-      .project-link-primary {
-        background: var(--accent);
-        color: white;
-      }
-
-      .project-link-primary:hover {
-        background: var(--accent2);
-        transform: translateY(-2px);
-      }
-
-      .project-embed-container {
-        width: 100%;
-        min-height: 500px;
-        margin-top: 1rem;
-        border-radius: 12px;
-        overflow: hidden;
-        background: rgba(0, 0, 0, 0.3);
-      }
-
-      .project-embed {
-        width: 100%;
-        min-height: 500px;
-        border: none;
-      }
-
-      .tableauPlaceholder {
-        width: 100%;
-        min-height: 600px;
-        margin-top: 1rem;
-      }
-
-      /* ========== SKILLS ========== */
-      .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto;
         gap: 1.25rem;
       }
-
-      .skill-card {
-        padding: 1.5rem 1rem;
-        text-align: center;
+      .about-photo {
+        grid-row: 1 / 3; position: relative;
       }
-
-      .skill-name {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: #fff;
-        margin-bottom: 0.75rem;
+      .about-photo img {
+        width: 100%; height: 100%;
+        object-fit: cover; border-radius: 16px;
+        border: 1px solid var(--border);
       }
-
-      .skill-ring {
-        position: relative;
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 0.5rem;
-      }
-
-      .skill-ring svg {
-        width: 80px;
-        height: 80px;
-        transform: rotate(-90deg);
-      }
-
-      .skill-ring .ring-bg {
-        fill: none;
-        stroke: rgba(255, 255, 255, 0.06);
-        stroke-width: 6;
-      }
-
-      .skill-ring .ring-progress {
-        fill: none;
-        stroke: url(#skillGradient);
-        stroke-width: 6;
-        stroke-linecap: round;
-        stroke-dasharray: 220;
-        stroke-dashoffset: 220;
-        transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .skill-ring .ring-value {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--accent);
-      }
-
-      /* ========== AWARDS ========== */
-      .awards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .award-card {
-        padding: 1.5rem;
-      }
-
-      .award-title {
-        font-size: 1.15rem;
-        color: #fff;
-        margin-bottom: 0.5rem;
-      }
-
-      .award-date {
-        color: var(--accent);
-        font-weight: 600;
-        font-size: 0.85rem;
-        margin-bottom: 0.3rem;
-      }
-
-      .award-org {
-        color: var(--accent2);
-        font-weight: 500;
-        margin-bottom: 0.75rem;
-        font-size: 0.9rem;
-      }
-
-      .award-description {
-        color: var(--text-dim);
-        line-height: 1.7;
-        font-size: 0.9rem;
-      }
-
-      /* ========== TESTIMONIALS ========== */
-      .testimonials-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .testimonial-card {
-        padding: 2rem;
-        position: relative;
-      }
-
-      .quote-icon {
-        font-size: 2.5rem;
-        color: var(--accent);
-        opacity: 0.2;
-        position: absolute;
-        top: 1rem;
-        left: 1.5rem;
-      }
-
-      .testimonial-text {
-        color: var(--text-dim);
-        line-height: 1.8;
-        margin-bottom: 1.5rem;
-        font-style: italic;
-        position: relative;
-        z-index: 1;
-        font-size: 0.95rem;
-      }
-
-      .testimonial-author {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .testimonial-img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 2px solid var(--accent);
-      }
-
-      .author-name {
-        font-weight: 600;
-        color: #fff;
-        font-size: 0.95rem;
-      }
-
-      .author-role {
-        color: var(--text-dim);
-        font-size: 0.85rem;
-      }
-
-      /* ========== FOOTER ========== */
-      footer {
-        position: relative;
-        z-index: 1;
-        background: rgba(10, 10, 15, 0.8);
-        backdrop-filter: blur(20px);
-        border-top: 1px solid var(--glass-border);
-        padding: 4rem 0 2rem;
-        text-align: center;
-      }
-
-      footer h3 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
+      .about-photo::after {
+        content: ""; position: absolute; inset: -3px;
+        border-radius: 20px;
         background: linear-gradient(135deg, var(--accent), var(--accent2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        z-index: -1; opacity: 0.25; filter: blur(20px);
+      }
+      .about-bio { grid-column: 2 / 4; padding: 2rem; }
+      .about-bio h3 {
+        font-size: 1.4rem; margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         background-clip: text;
       }
-
-      footer p {
-        color: var(--text-dim);
-        margin-bottom: 1.5rem;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
+      .about-bio p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.8; margin-bottom: 0.75rem; }
+      .about-detail { padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+      .about-detail .detail-icon {
+        font-size: 1.5rem; color: var(--accent);
+        margin-bottom: 0.5rem;
       }
+      .about-detail h4 {
+        font-size: 1rem; color: #fff; margin-bottom: 0.3rem;
+      }
+      .about-detail p { color: var(--text-dim); font-size: 0.85rem; }
 
-      /* ========== SCROLL-TO-TOP FAB ========== */
-      #scrollToTop {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
+      /* ===== TIMELINE ===== */
+      .timeline { position: relative; max-width: 900px; margin: 0 auto; }
+      .timeline::before {
+        content: ""; position: absolute;
+        left: 0; top: 0; width: 2px; height: 100%;
+        background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+        border-radius: 2px;
+      }
+      .tl-item {
+        position: relative; margin-bottom: 2rem; padding-left: 40px;
+      }
+      .tl-dot {
+        position: absolute; left: -5px; top: 10px;
+        width: 12px; height: 12px; border-radius: 50%;
         background: var(--accent);
-        color: white;
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        z-index: 999;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+        box-shadow: 0 0 0 4px rgba(108,99,255,0.15), 0 0 20px rgba(108,99,255,0.3);
+        z-index: 2;
       }
-
-      #scrollToTop.visible {
-        opacity: 1;
-        transform: translateY(0);
+      .tl-card { padding: 1.5rem; }
+      .tl-date {
+        color: var(--accent); font-weight: 600;
+        font-size: 0.8rem; text-transform: uppercase;
+        letter-spacing: 0.05em; margin-bottom: 0.4rem;
       }
+      .tl-title { font-size: 1.2rem; color: #fff; margin-bottom: 0.2rem; }
+      .tl-company { color: var(--accent2); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.6rem; }
+      .tl-desc { color: var(--text-dim); font-size: 0.9rem; line-height: 1.8; }
+      .tl-desc ul { list-style: none; padding: 0; }
+      .tl-desc li { margin-bottom: 0.3rem; padding-left: 1.1rem; position: relative; }
+      .tl-desc li::before { content: "▹"; position: absolute; left: 0; color: var(--accent); }
 
-      #scrollToTop:hover {
-        background: #8b5cf6;
-        transform: translateY(-3px);
+      /* ===== PROJECTS — HORIZONTAL SCROLL ===== */
+      .projects-scroll-wrapper {
+        overflow-x: auto; overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
+        scrollbar-width: none;
       }
+      .projects-scroll-wrapper::-webkit-scrollbar { display: none; }
+      .projects-track {
+        display: flex; gap: 1.5rem;
+        padding: 0 2rem;
+        width: max-content;
+      }
+      .project-card {
+        width: 420px; flex-shrink: 0;
+        scroll-snap-align: start;
+      }
+      .project-card .p-content { padding: 1.75rem; }
+      .p-tag {
+        display: inline-block; padding: 0.2rem 0.7rem;
+        border-radius: 6px; font-size: 0.7rem; font-weight: 600;
+        margin-bottom: 0.75rem; text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .p-tag.viz { background: rgba(108,99,255,0.15); color: var(--accent); }
+      .p-tag.game { background: rgba(255,107,157,0.15); color: var(--accent3); }
+      .p-tag.data { background: rgba(0,212,170,0.15); color: var(--accent2); }
+      .p-tag.event { background: rgba(245,158,11,0.15); color: var(--accent4); }
+      .p-title { font-size: 1.25rem; color: #fff; margin-bottom: 0.6rem; }
+      .p-desc { color: var(--text-dim); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1rem; }
+      .p-link {
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        padding: 0.5rem 1rem; border-radius: 8px;
+        font-weight: 600; font-size: 0.85rem;
+        background: var(--accent); color: white;
+        transition: all 0.3s;
+      }
+      .p-link:hover { background: var(--accent2); transform: translateY(-2px); }
 
-      /* ========== MOUSE GLOW ========== */
-      .mouse-glow {
-        position: fixed;
-        width: 400px;
-        height: 400px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(108, 99, 255, 0.08) 0%, transparent 70%);
-        pointer-events: none;
-        z-index: 0;
+      /* Tableau detail projects (full-width) */
+      .projects-detail { margin-top: 3rem; }
+      .projects-detail .project-full {
+        margin-bottom: 2rem; padding: 2rem;
+      }
+      .project-full .p-title { font-size: 1.3rem; margin-bottom: 0.6rem; }
+      .project-full .p-desc { margin-bottom: 1rem; }
+      .tableauPlaceholder { width: 100%; min-height: 600px; margin-top: 1rem; }
+      .project-embed-container {
+        width: 100%; min-height: 500px; margin-top: 1rem;
+        border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.3);
+      }
+      .project-embed { width: 100%; min-height: 500px; border: none; }
+
+      /* ===== SKILLS — ORBITING GRID ===== */
+      .skills-orbit-container {
+        display: flex; align-items: center; justify-content: center;
+        gap: 4rem; flex-wrap: wrap;
+      }
+      .skills-rings-visual {
+        position: relative; width: 320px; height: 320px;
+        flex-shrink: 0;
+      }
+      .orbit-ring {
+        position: absolute; border-radius: 50%;
+        border: 1px solid var(--border);
+        animation: orbitSpin linear infinite;
+      }
+      .orbit-ring.r1 { width: 200px; height: 200px; top: 60px; left: 60px; animation-duration: 20s; }
+      .orbit-ring.r2 { width: 280px; height: 280px; top: 20px; left: 20px; animation-duration: 30s; animation-direction: reverse; }
+      .orbit-ring.r3 { width: 320px; height: 320px; top: 0; left: 0; animation-duration: 40s; }
+      @keyframes orbitSpin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+      .orbit-node {
+        position: absolute; width: 44px; height: 44px;
+        border-radius: 12px; background: var(--bg-elevated);
+        border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.7rem; font-weight: 700; color: var(--accent);
+        transition: all 0.3s;
+      }
+      .orbit-node:hover {
+        background: var(--accent); color: #fff;
+        box-shadow: 0 0 20px rgba(108,99,255,0.5);
+        transform: scale(1.2);
+      }
+      .skills-center-label {
+        position: absolute; top: 50%; left: 50%;
         transform: translate(-50%, -50%);
-        transition: left 0.15s ease-out, top 0.15s ease-out;
+        text-align: center;
       }
-
-      /* ========== KEYFRAMES ========== */
-      @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+      .skills-center-label .num {
+        font-size: 2.5rem; font-weight: 800;
+        font-family: var(--font-display);
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
+      .skills-center-label span { display: block; font-size: 0.75rem; color: var(--text-dim); }
 
-      @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
+      .skills-list { flex: 1; min-width: 280px; }
+      .skill-row {
+        display: flex; align-items: center; gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border);
       }
+      .skill-row:last-child { border-bottom: none; }
+      .skill-name { font-size: 0.9rem; font-weight: 600; color: #fff; width: 100px; }
+      .skill-bar-wrap {
+        flex: 1; height: 6px; background: rgba(255,255,255,0.05);
+        border-radius: 6px; overflow: hidden;
+      }
+      .skill-bar-fill {
+        height: 100%; border-radius: 6px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        width: 0%; transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+      }
+      .skill-pct { font-size: 0.85rem; font-weight: 700; color: var(--accent); width: 40px; text-align: right; }
 
-      /* ========== RESPONSIVE ========== */
+      /* ===== AWARDS ===== */
+      .awards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.25rem;
+      }
+      .award-card { padding: 1.5rem; }
+      .award-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+      .award-title { font-size: 1.05rem; color: #fff; margin-bottom: 0.4rem; }
+      .award-date { color: var(--accent); font-weight: 600; font-size: 0.8rem; margin-bottom: 0.2rem; }
+      .award-org { color: var(--accent2); font-weight: 500; font-size: 0.85rem; margin-bottom: 0.6rem; }
+      .award-desc { color: var(--text-dim); font-size: 0.85rem; line-height: 1.7; }
+
+      /* ===== TESTIMONIALS ===== */
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+        gap: 1.25rem;
+      }
+      .test-card { padding: 2rem; }
+      .quote-icon { font-size: 2rem; color: var(--accent); opacity: 0.2; margin-bottom: 1rem; }
+      .test-text { color: var(--text-dim); font-style: italic; line-height: 1.8; margin-bottom: 1.5rem; font-size: 0.9rem; }
+      .test-author { display: flex; align-items: center; gap: 1rem; }
+      .test-img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); }
+      .author-name { font-weight: 600; color: #fff; font-size: 0.9rem; }
+      .author-role { color: var(--text-dim); font-size: 0.8rem; }
+
+      /* ===== FOOTER ===== */
+      footer {
+        position: relative; z-index: 1;
+        border-top: 1px solid var(--border);
+        padding: 4rem 0 2rem; text-align: center;
+      }
+      footer h3 {
+        font-size: 1.6rem; margin-bottom: 0.75rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      footer p { color: var(--text-dim); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+      /* ===== FAB ===== */
+      #scrollToTop {
+        position: fixed; bottom: 2rem; right: 2rem;
+        width: 44px; height: 44px; border-radius: 12px;
+        background: var(--accent); color: white;
+        border: none; display: flex;
+        align-items: center; justify-content: center;
+        font-size: 1.1rem; z-index: 999;
+        opacity: 0; transform: translateY(20px);
+        transition: all 0.3s; cursor: none;
+        box-shadow: 0 4px 20px rgba(108,99,255,0.4);
+      }
+      #scrollToTop.visible { opacity: 1; transform: translateY(0); }
+      #scrollToTop:hover { background: #8b5cf6; transform: translateY(-3px); }
+
+      /* ===== KEYFRAMES ===== */
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; padding: 120px 2rem 60px; gap: 2rem; }
+        .hero-right { height: 300px; }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .about-bento { grid-template-columns: 1fr; }
+        .about-photo { grid-row: auto; max-width: 300px; margin: 0 auto; }
+        .about-bio { grid-column: auto; }
+        .skills-orbit-container { flex-direction: column; }
+        nav { left: 1rem; right: 1rem; transform: none; }
+      }
       @media (max-width: 768px) {
         .nav-menu {
-          display: none;
-          position: fixed;
-          top: 70px;
-          left: 0;
-          width: 100%;
-          background: rgba(10, 10, 15, 0.98);
+          display: none; position: fixed;
+          top: 80px; left: 1rem; right: 1rem;
+          background: rgba(13,13,20,0.98);
           backdrop-filter: blur(20px);
-          flex-direction: column;
-          padding: 1rem;
-          border-bottom: 1px solid var(--glass-border);
+          flex-direction: column; padding: 1rem;
+          border-radius: 16px; border: 1px solid var(--border);
         }
-
         .nav-menu.active { display: flex; }
         .nav-toggle { display: flex; }
-
-        .about-grid { grid-template-columns: 1fr; }
-
-        .about-image-wrapper {
-          max-width: 300px;
-          margin: 0 auto;
-        }
-
-        .testimonials-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .hero-content { padding: 0 1rem; }
-
-        .mouse-glow { display: none; }
+        .testimonials-grid { grid-template-columns: 1fr; }
+        body { cursor: auto; }
+        a, button { cursor: auto; }
+        .cursor-dot, .cursor-ring { display: none; }
+        .project-card { width: 320px; }
       }
-
       @media (max-width: 480px) {
-        section { padding: 60px 0; }
-        .skills-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+        section { padding: 80px 0; }
+        .stats-grid { grid-template-columns: 1fr 1fr; }
         .awards-grid { grid-template-columns: 1fr; }
+        .project-card { width: 280px; }
       }
     </style>
   </head>
   <body>
-    <!-- SVG defs for skill ring gradient -->
-    <svg width="0" height="0" style="position: absolute;">
-      <defs>
-        <linearGradient id="skillGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#6c63ff" />
-          <stop offset="100%" stop-color="#00d4aa" />
-        </linearGradient>
-      </defs>
-    </svg>
 
-    <!-- Three.js Background -->
+    <!-- Custom cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Backgrounds -->
+    <div class="gradient-mesh"></div>
     <div id="scene-container"></div>
 
-    <!-- Mouse Glow -->
-    <div class="mouse-glow" id="mouseGlow"></div>
-
-    <!-- Scroll Progress -->
+    <!-- Scroll progress -->
     <div id="scroll-progress"></div>
 
     <!-- Navigation -->
@@ -949,72 +696,89 @@
           <li><a href="games.html">Games</a></li>
         </ul>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span>
         </button>
       </div>
     </nav>
 
     <!-- ===== HERO ===== -->
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <span class="hero-badge">Hello World! I'm</span>
-        <h1 class="hero-title">Manoj Khatiwada</h1>
-        <p class="hero-subtitle">Full-Stack Developer &amp; Business Analyst</p>
-        <p class="hero-description">
-          Transforming complex data into actionable insights and building
-          scalable web applications that drive business growth. Specializing in
-          full-stack development, data analytics, and creating intuitive user
-          experiences.
-        </p>
-
-        <div class="social-links">
-          <a href="https://twitter.com/reckless_mk" target="_blank" aria-label="Twitter"><i class="bx bxl-twitter"></i></a>
-          <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
-          <a href="https://github.com/manojkhatiwada" target="_blank" aria-label="GitHub"><i class="bx bxl-github"></i></a>
-          <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank" aria-label="HackerRank"><i class="bi bi-code-slash"></i></a>
+    <section id="home">
+      <div class="hero">
+        <div class="hero-left">
+          <div class="hero-badge"><span class="dot"></span> Available for work</div>
+          <h1 class="hero-title">
+            Hi, I'm<br>
+            <span class="glitch gradient-text" data-text="Manoj Khatiwada">Manoj Khatiwada</span>
+          </h1>
+          <p class="hero-subtitle">
+            Full-Stack Developer &amp; Business Analyst crafting scalable apps and
+            turning complex data into actionable insights. Specializing in modern
+            web technologies, data analytics, and intuitive UX.
+          </p>
+          <div class="social-links">
+            <a href="https://twitter.com/reckless_mk" target="_blank" aria-label="Twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
+            <a href="https://github.com/manojkhatiwada" target="_blank" aria-label="GitHub"><i class="bx bxl-github"></i></a>
+            <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank" aria-label="HackerRank"><i class="bi bi-code-slash"></i></a>
+          </div>
+          <div class="cta-buttons">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/1586602'});return false;" class="btn btn-secondary">Schedule a Call</a>
+          </div>
         </div>
-
-        <div class="cta-buttons">
-          <a href="#projects" class="btn btn-primary">View My Work</a>
-          <a
-            href="#"
-            onclick="Calendly.initPopupWidget({url: 'https://calendly.com/1586602'});return false;"
-            class="btn btn-secondary"
-          >Schedule a Call</a>
-        </div>
+        <div class="hero-right" id="heroGlobe"></div>
       </div>
     </section>
+
+    <!-- Stats Strip -->
+    <div class="stats-strip reveal">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number" data-count="450000">0</div>
+          <div class="stat-label">Monthly Users Served</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="3">0</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="500">0</div>
+          <div class="stat-label">Data Records Migrated</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="4">0</div>
+          <div class="stat-label">Awards Earned</div>
+        </div>
+      </div>
+    </div>
 
     <!-- ===== ABOUT ===== -->
     <section id="about">
       <div class="container">
         <div class="section-header reveal">
-          <h2>About Me</h2>
-          <div class="accent-line"></div>
+          <div class="label">About</div>
+          <h2>Crafting Digital Solutions</h2>
+          <p>Bridging the gap between technical innovation and business objectives.</p>
         </div>
-        <div class="about-grid reveal">
-          <div class="about-image-wrapper tilt-card">
+        <div class="about-bento">
+          <div class="about-photo glass tilt stagger">
             <img src="assets/img/me-bkg.jpg" alt="Manoj Khatiwada" />
           </div>
-          <div class="about-text">
-            <h3>Crafting Digital Solutions with Data-Driven Precision</h3>
+          <div class="about-bio glass stagger">
+            <h3>Data-Driven Precision</h3>
             <p>
               As a full-stack developer with a strong foundation in business
               analytics, I bridge the gap between technical innovation and
               business objectives. My journey combines rigorous academic
               training in Information Systems and hands-on experience building
-              production-grade applications that serve hundreds of thousands of
-              users.
+              production-grade applications that serve hundreds of thousands of users.
             </p>
             <p>
               I thrive in environments where data meets design, creating
               solutions that are not only technically sound but also
               strategically aligned with organizational goals. From optimizing
               payment portals that boost revenue to engineering speech analysis
-              pipelines for call centers, I focus on delivering measurable
-              impact.
+              pipelines for call centers, I focus on delivering measurable impact.
             </p>
             <p>
               What drives me is the challenge of transforming complex
@@ -1022,16 +786,16 @@
               reducing a 20-minute process to 50 seconds or visualizing
               agricultural data to uncover meaningful trends.
             </p>
-            <div class="about-info">
-              <div class="info-item">
-                <i class="bi bi-geo-alt"></i>
-                <span>Kansas City, MO</span>
-              </div>
-              <div class="info-item">
-                <i class="bi bi-envelope"></i>
-                <span>Open to opportunities</span>
-              </div>
-            </div>
+          </div>
+          <div class="about-detail glass stagger">
+            <div class="detail-icon"><i class="bi bi-geo-alt"></i></div>
+            <h4>Kansas City, MO</h4>
+            <p>Based in the heart of the Midwest</p>
+          </div>
+          <div class="about-detail glass stagger">
+            <div class="detail-icon"><i class="bi bi-briefcase"></i></div>
+            <h4>Open to Opportunities</h4>
+            <p>Full-time &amp; contract roles</p>
           </div>
         </div>
       </div>
@@ -1041,17 +805,17 @@
     <section id="education">
       <div class="container">
         <div class="section-header reveal">
-          <h2>Education</h2>
-          <div class="accent-line"></div>
+          <div class="label">Education</div>
+          <h2>Academic Background</h2>
         </div>
         <div class="timeline">
-          <div class="timeline-item stagger-child">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content glass-card tilt-card">
-              <div class="timeline-date">2023 &ndash; 2025</div>
-              <h3 class="timeline-title">Master of Science in Information Systems &amp; Business Analytics</h3>
-              <div class="timeline-company">Park University, Parkville, MO</div>
-              <div class="timeline-description">
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">2023 &ndash; 2025</div>
+              <h3 class="tl-title">M.S. Information Systems &amp; Business Analytics</h3>
+              <div class="tl-company">Park University, Parkville, MO</div>
+              <div class="tl-desc">
                 <strong>Relevant Courses:</strong>
                 <ul>
                   <li>Web &amp; Marketing Analytics</li>
@@ -1064,14 +828,13 @@
               </div>
             </div>
           </div>
-
-          <div class="timeline-item stagger-child">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content glass-card tilt-card">
-              <div class="timeline-date">2018 &ndash; 2022</div>
-              <h3 class="timeline-title">Bachelor of Science in Business Administration Management</h3>
-              <div class="timeline-company">Park University, Parkville, MO</div>
-              <div class="timeline-description">
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">2018 &ndash; 2022</div>
+              <h3 class="tl-title">B.S. Business Administration Management</h3>
+              <div class="tl-company">Park University, Parkville, MO</div>
+              <div class="tl-desc">
                 <ul>
                   <li>Minor in Human Resources Management</li>
                   <li>Certificate in Project Management</li>
@@ -1088,83 +851,72 @@
     <section id="experience">
       <div class="container">
         <div class="section-header reveal">
-          <h2>Professional Experience</h2>
-          <div class="accent-line"></div>
+          <div class="label">Experience</div>
+          <h2>Professional Journey</h2>
+          <p>Building impactful products across web development and business analysis.</p>
         </div>
         <div class="timeline">
-          <div class="timeline-item stagger-child">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content glass-card tilt-card">
-              <div class="timeline-date">Jan 2024 &ndash; Present</div>
-              <h3 class="timeline-title">Web Application Developer II</h3>
-              <div class="timeline-company">UGA Finance, Kansas City, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>Developed and maintained web applications using modern frameworks and technologies</li>
-                  <li>Collaborated with cross-functional teams to define, design, and ship new features</li>
-                  <li>Ensured the performance, quality, and responsiveness of applications</li>
-                  <li>Participated in code reviews and provided constructive feedback to peers</li>
-                  <li>Stayed up-to-date with emerging trends and technologies in web development</li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">Jan 2024 &ndash; Present</div>
+              <h3 class="tl-title">Web Application Developer II</h3>
+              <div class="tl-company">UGA Finance, Kansas City, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Developed and maintained web applications using modern frameworks and technologies</li>
+                <li>Collaborated with cross-functional teams to define, design, and ship new features</li>
+                <li>Ensured the performance, quality, and responsiveness of applications</li>
+                <li>Participated in code reviews and provided constructive feedback to peers</li>
+                <li>Stayed up-to-date with emerging trends and technologies in web development</li>
+              </ul></div>
             </div>
           </div>
-
-          <div class="timeline-item stagger-child">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content glass-card tilt-card">
-              <div class="timeline-date">June 2023 &ndash; July 2025</div>
-              <h3 class="timeline-title">Graduate Research Assistant</h3>
-              <div class="timeline-company">Park University, Parkville, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>Pioneered strategic initiatives in residential life, shaping impactful onboarding and RA training programs</li>
-                  <li>Oversaw a team of 14 Residence Assistants, 12 front desk assistants, and provided guidance to the Hall Council</li>
-                  <li>Managed safety protocols and emergency response during on-call rotations for 2 dorms housing 400 students</li>
-                  <li>Managed the budget for the Residence Life department ranging from $10,000 - $15,000</li>
-                  <li>Developed and implemented a comprehensive residential life reporting model</li>
-                  <li>Represented as student lead in Workday implementation</li>
-                  <li>Facilitated data migration of 500+ faculty credentials and records from CX to Workday</li>
-                  <li>Audited syllabus and textbook on 1,245 courses for courses</li>
-                  <li>Led onboarding and training for a team of 14 Resident Assistants and oversaw safety protocols for 400 residential students</li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">June 2023 &ndash; July 2025</div>
+              <h3 class="tl-title">Graduate Research Assistant</h3>
+              <div class="tl-company">Park University, Parkville, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Pioneered strategic initiatives in residential life, shaping impactful onboarding and RA training programs</li>
+                <li>Oversaw a team of 14 Residence Assistants, 12 front desk assistants, and provided guidance to the Hall Council</li>
+                <li>Managed safety protocols and emergency response during on-call rotations for 2 dorms housing 400 students</li>
+                <li>Managed the budget for the Residence Life department ranging from $10,000 - $15,000</li>
+                <li>Developed and implemented a comprehensive residential life reporting model</li>
+                <li>Represented as student lead in Workday implementation</li>
+                <li>Facilitated data migration of 500+ faculty credentials and records from CX to Workday</li>
+                <li>Audited syllabus and textbook on 1,245 courses</li>
+              </ul></div>
             </div>
           </div>
-
-          <div class="timeline-item stagger-child">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content glass-card tilt-card">
-              <div class="timeline-date">May 2022 &ndash; Dec 2024</div>
-              <h3 class="timeline-title">Web Application Developer I</h3>
-              <div class="timeline-company">UGA Finance, Kansas City, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>Designed features for high traffic web app with 450,000 monthly visits</li>
-                  <li>Revamped consumer payment portal to accommodate various payment plans aiming to boost revenue</li>
-                  <li>Connected RESTful API with vendors to pull credit reports, identification and sign contracts</li>
-                  <li>Built features such as email/phone verification, email payment receipts, resolving consumer fraud verification</li>
-                  <li>Optimized background search from a 20-minute manual process to a swift 50 seconds operation</li>
-                  <li>Built API and user-interface to support product/services return and refunds</li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">May 2022 &ndash; Dec 2024</div>
+              <h3 class="tl-title">Web Application Developer I</h3>
+              <div class="tl-company">UGA Finance, Kansas City, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Designed features for high traffic web app with 450,000 monthly visits</li>
+                <li>Revamped consumer payment portal to accommodate various payment plans aiming to boost revenue</li>
+                <li>Connected RESTful API with vendors to pull credit reports, identification and sign contracts</li>
+                <li>Built features such as email/phone verification, email payment receipts, resolving consumer fraud verification</li>
+                <li>Optimized background search from a 20-minute manual process to a swift 50 seconds operation</li>
+                <li>Built API and user-interface to support product/services return and refunds</li>
+              </ul></div>
             </div>
           </div>
-
-          <div class="timeline-item stagger-child">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content glass-card tilt-card">
-              <div class="timeline-date">May 2022 &ndash; May 2023</div>
-              <h3 class="timeline-title">Associate Business Analyst</h3>
-              <div class="timeline-company">UGA Finance, Kansas City, MO</div>
-              <div class="timeline-description">
-                <ul>
-                  <li>Automated SMS/Call campaigns for a call center with 50+ agents and engineered speech analysis pipelines</li>
-                  <li>Streamlined call routing process for inbound/outbound phone calls for newly established offshore call center</li>
-                  <li>Documented credit origination process using flowcharts, business process diagram, and swimlane diagrams</li>
-                  <li>Performed detailed unit testing, documented test cases for comprehensive system validation</li>
-                </ul>
-              </div>
+          <div class="tl-item stagger">
+            <div class="tl-dot"></div>
+            <div class="tl-card glass tilt">
+              <div class="tl-date">May 2022 &ndash; May 2023</div>
+              <h3 class="tl-title">Associate Business Analyst</h3>
+              <div class="tl-company">UGA Finance, Kansas City, MO</div>
+              <div class="tl-desc"><ul>
+                <li>Automated SMS/Call campaigns for a call center with 50+ agents and engineered speech analysis pipelines</li>
+                <li>Streamlined call routing process for inbound/outbound phone calls for newly established offshore call center</li>
+                <li>Documented credit origination process using flowcharts, business process diagram, and swimlane diagrams</li>
+                <li>Performed detailed unit testing, documented test cases for comprehensive system validation</li>
+              </ul></div>
             </div>
           </div>
         </div>
@@ -1175,188 +927,155 @@
     <section id="projects">
       <div class="container">
         <div class="section-header reveal">
-          <h2>Featured Projects</h2>
-          <div class="accent-line"></div>
+          <div class="label">Projects</div>
+          <h2>Featured Work</h2>
+          <p>Scroll horizontally to explore my projects.</p>
         </div>
-        <div class="projects-grid">
-          <!-- Earth From Stars -->
-          <div class="project-card glass-card tilt-card stagger-child">
-            <div class="project-content">
-              <h3 class="project-title">&#127757; Earth From Stars - 3D Particle Visualization</h3>
-              <p class="project-description">
-                An immersive 3D visualization rendering Earth using 50,000+
-                individually positioned particles. Built with Three.js and
-                WebGL, this interactive experience features realistic geographic
-                representation with color-coded oceans, continents, and polar
-                ice caps. The visualization supports full 360&deg; rotation and
-                real-time interaction.
-              </p>
-              <div class="project-links">
-                <a href="cosmos.html" target="_blank" class="project-link project-link-primary">&#128640; Launch Experience</a>
-              </div>
+      </div>
+      <div class="projects-scroll-wrapper">
+        <div class="projects-track">
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag viz">3D / WebGL</span>
+              <h3 class="p-title">Earth From Stars</h3>
+              <p class="p-desc">Immersive 3D visualization rendering Earth using 50,000+ particles with Three.js. Supports full 360&deg; rotation and real-time interaction with color-coded geography.</p>
+              <a href="cosmos.html" target="_blank" class="p-link">Launch Experience <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
-
-          <!-- Games -->
-          <div class="project-card glass-card tilt-card stagger-child">
-            <div class="project-content">
-              <h3 class="project-title">&#127918; Interactive Game Collection</h3>
-              <p class="project-description">
-                A curated collection of browser-based games showcasing
-                JavaScript fundamentals, canvas manipulation, and game state
-                management. Features classic games like Snake with multiple food
-                types and Rock-Paper-Scissors with celebratory graphics.
-              </p>
-              <div class="project-links">
-                <a href="games.html" target="_blank" class="project-link project-link-primary">&#127919; Play Games</a>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag game">Games</span>
+              <h3 class="p-title">Interactive Game Collection</h3>
+              <p class="p-desc">Browser-based games showcasing JavaScript fundamentals, canvas manipulation, and game state management. Features Snake and Rock-Paper-Scissors.</p>
+              <a href="games.html" target="_blank" class="p-link">Play Games <i class="bi bi-arrow-right"></i></a>
             </div>
           </div>
-
-          <!-- Crops in Missouri -->
-          <div class="project-card glass-card tilt-card stagger-child">
-            <div class="project-content">
-              <h3 class="project-title">&#128202; Missouri Agricultural Trends Dashboard</h3>
-              <p class="project-description">
-                A comprehensive data visualization analyzing multi-year
-                agricultural production trends across Missouri. This interactive
-                Tableau dashboard reveals patterns in crop yield variations,
-                helping stakeholders identify growth opportunities and
-                production challenges.
-              </p>
-              <div class="tableauPlaceholder" id="viz1715607817211">
-                <noscript><a href="#"><img alt="Dashboard 1" src="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1_rss.png" style="border: none" /></a></noscript>
-                <object class="tableauViz" style="display: none">
-                  <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
-                  <param name="embed_code_version" value="3" />
-                  <param name="site_root" value="" />
-                  <param name="name" value="CropsinMOoveryears/Dashboard1" />
-                  <param name="tabs" value="no" />
-                  <param name="toolbar" value="yes" />
-                  <param name="static_image" value="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1.png" />
-                  <param name="animate_transition" value="yes" />
-                  <param name="display_static_image" value="yes" />
-                  <param name="display_spinner" value="yes" />
-                  <param name="display_overlay" value="yes" />
-                  <param name="display_count" value="yes" />
-                  <param name="language" value="en-US" />
-                  <param name="filter" value="publish=yes" />
-                </object>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag data">Data Analytics</span>
+              <h3 class="p-title">Missouri Agricultural Trends</h3>
+              <p class="p-desc">Interactive Tableau dashboard analyzing multi-year agricultural production trends across Missouri, revealing patterns in crop yield variations.</p>
             </div>
           </div>
-
-          <!-- Washington Enrollment -->
-          <div class="project-card glass-card tilt-card stagger-child">
-            <div class="project-content">
-              <h3 class="project-title">&#127891; Washington Education Analytics Dashboard</h3>
-              <p class="project-description">
-                An insightful analysis of enrollment trends across public and
-                private educational institutions in Washington State. This
-                dashboard aggregates complex enrollment data to reveal
-                demographic patterns, institutional capacity, and educational
-                accessibility metrics.
-              </p>
-              <div class="tableauPlaceholder" id="viz1715608141020">
-                <noscript><a href="#"><img alt="Dashboard 1" src="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1_rss.png" style="border: none" /></a></noscript>
-                <object class="tableauViz" style="display: none">
-                  <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
-                  <param name="embed_code_version" value="3" />
-                  <param name="site_root" value="" />
-                  <param name="name" value="WashingtonStateEnrollmentDashboard/Dashboard1" />
-                  <param name="tabs" value="no" />
-                  <param name="toolbar" value="yes" />
-                  <param name="static_image" value="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1.png" />
-                  <param name="animate_transition" value="yes" />
-                  <param name="display_static_image" value="yes" />
-                  <param name="display_spinner" value="yes" />
-                  <param name="display_overlay" value="yes" />
-                  <param name="display_count" value="yes" />
-                  <param name="language" value="en-US" />
-                </object>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag data">Data Analytics</span>
+              <h3 class="p-title">Washington Education Analytics</h3>
+              <p class="p-desc">Analysis of enrollment trends across educational institutions in Washington State, revealing demographic patterns and accessibility metrics.</p>
             </div>
           </div>
-
-          <!-- Oregon Library Visits -->
-          <div class="project-card glass-card tilt-card stagger-child">
-            <div class="project-content">
-              <h3 class="project-title">&#128218; Oregon Library Usage Analytics</h3>
-              <p class="project-description">
-                A data-driven exploration of public library engagement across
-                Oregon, analyzing visitor patterns, resource utilization, and
-                community impact. This comprehensive dashboard combines multiple
-                data sources to provide insights into library system performance.
-              </p>
-              <div class="tableauPlaceholder" id="viz1715608425367">
-                <noscript><a href="#"><img alt="Combined Dashboard" src="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1_rss.png" style="border: none" /></a></noscript>
-                <object class="tableauViz" style="display: none">
-                  <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
-                  <param name="embed_code_version" value="3" />
-                  <param name="site_root" value="" />
-                  <param name="name" value="ManojFinalprojectDashboard2/CombinedDashboard" />
-                  <param name="tabs" value="no" />
-                  <param name="toolbar" value="yes" />
-                  <param name="static_image" value="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1.png" />
-                  <param name="animate_transition" value="yes" />
-                  <param name="display_static_image" value="yes" />
-                  <param name="display_spinner" value="yes" />
-                  <param name="display_overlay" value="yes" />
-                  <param name="display_count" value="yes" />
-                  <param name="language" value="en-US" />
-                </object>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag data">Data Analytics</span>
+              <h3 class="p-title">Oregon Library Usage</h3>
+              <p class="p-desc">Data-driven exploration of public library engagement across Oregon, analyzing visitor patterns and community impact.</p>
             </div>
           </div>
-
-          <!-- Color Festival -->
-          <div class="project-card glass-card tilt-card stagger-child">
-            <div class="project-content">
-              <h3 class="project-title">&#127912; Color Festival - Community Event Leadership</h3>
-              <p class="project-description">
-                Successfully organized and executed a large-scale cultural
-                celebration bringing together diverse communities. Demonstrated
-                project management, stakeholder coordination, and event
-                logistics expertise.
-              </p>
-              <div class="project-embed-container">
-                <iframe
-                  src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1"
-                  class="project-embed"
-                  frameborder="0"
-                  allowfullscreen=""
-                  title="Embedded post"
-                ></iframe>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag event">Leadership</span>
+              <h3 class="p-title">Color Festival</h3>
+              <p class="p-desc">Organized a large-scale cultural celebration bringing together diverse communities. Showcased project management and stakeholder coordination.</p>
             </div>
           </div>
-
-          <!-- Upkey Project -->
-          <div class="project-card glass-card tilt-card stagger-child">
-            <div class="project-content">
-              <h3 class="project-title">&#128188; Upkey Career Development Platform</h3>
-              <p class="project-description">
-                Capstone project developing a comprehensive career development
-                solution integrating multiple technologies and APIs. This
-                end-to-end implementation demonstrates full software development
-                lifecycle proficiency.
-              </p>
-              <div class="project-embed-container">
-                <iframe
-                  src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1"
-                  class="project-embed"
-                  frameborder="0"
-                  allowfullscreen=""
-                  title="Embedded post"
-                ></iframe>
-              </div>
+          <div class="project-card glass tilt stagger">
+            <div class="p-content">
+              <span class="p-tag event">Capstone</span>
+              <h3 class="p-title">Upkey Career Platform</h3>
+              <p class="p-desc">End-to-end career development solution integrating multiple technologies and APIs, demonstrating full SDLC proficiency.</p>
             </div>
           </div>
         </div>
-        <p style="text-align: center; color: var(--text-dim); margin-top: 3rem; font-size: 1rem;">
-          <strong style="color: #fff;">More innovative projects in development...</strong><br />
-          <span style="font-size: 0.9rem; opacity: 0.7;">Each project represents a commitment to continuous learning and technical excellence</span>
-        </p>
+      </div>
+
+      <!-- Full-width Tableau dashboards & embeds -->
+      <div class="container projects-detail">
+        <div class="project-full glass stagger">
+          <span class="p-tag data">Tableau Dashboard</span>
+          <h3 class="p-title">Missouri Agricultural Trends Dashboard</h3>
+          <p class="p-desc">Comprehensive data visualization analyzing multi-year agricultural production trends across Missouri.</p>
+          <div class="tableauPlaceholder" id="viz1715607817211">
+            <noscript><a href="#"><img alt="Dashboard 1" src="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1_rss.png" style="border: none" /></a></noscript>
+            <object class="tableauViz" style="display: none">
+              <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="CropsinMOoveryears/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="static_image" value="https://public.tableau.com/static/images/Cr/CropsinMOoveryears/Dashboard1/1.png" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+              <param name="language" value="en-US" />
+              <param name="filter" value="publish=yes" />
+            </object>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag data">Tableau Dashboard</span>
+          <h3 class="p-title">Washington Education Analytics Dashboard</h3>
+          <p class="p-desc">Enrollment trends across public and private educational institutions in Washington State.</p>
+          <div class="tableauPlaceholder" id="viz1715608141020">
+            <noscript><a href="#"><img alt="Dashboard 1" src="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1_rss.png" style="border: none" /></a></noscript>
+            <object class="tableauViz" style="display: none">
+              <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="WashingtonStateEnrollmentDashboard/Dashboard1" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="static_image" value="https://public.tableau.com/static/images/Wa/WashingtonStateEnrollmentDashboard/Dashboard1/1.png" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+              <param name="language" value="en-US" />
+            </object>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag data">Tableau Dashboard</span>
+          <h3 class="p-title">Oregon Library Usage Analytics</h3>
+          <p class="p-desc">Library engagement analytics across Oregon analyzing visitor patterns and community impact.</p>
+          <div class="tableauPlaceholder" id="viz1715608425367">
+            <noscript><a href="#"><img alt="Combined Dashboard" src="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1_rss.png" style="border: none" /></a></noscript>
+            <object class="tableauViz" style="display: none">
+              <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+              <param name="embed_code_version" value="3" />
+              <param name="site_root" value="" />
+              <param name="name" value="ManojFinalprojectDashboard2/CombinedDashboard" />
+              <param name="tabs" value="no" />
+              <param name="toolbar" value="yes" />
+              <param name="static_image" value="https://public.tableau.com/static/images/Ma/ManojFinalprojectDashboard2/CombinedDashboard/1.png" />
+              <param name="animate_transition" value="yes" />
+              <param name="display_static_image" value="yes" />
+              <param name="display_spinner" value="yes" />
+              <param name="display_overlay" value="yes" />
+              <param name="display_count" value="yes" />
+              <param name="language" value="en-US" />
+            </object>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag event">LinkedIn Embed</span>
+          <h3 class="p-title">Color Festival - Community Event Leadership</h3>
+          <p class="p-desc">Successfully organized a large-scale cultural celebration bringing together diverse communities.</p>
+          <div class="project-embed-container">
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6916231823823925248?compact=1" class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+          </div>
+        </div>
+        <div class="project-full glass stagger">
+          <span class="p-tag event">LinkedIn Embed</span>
+          <h3 class="p-title">Upkey Career Development Platform</h3>
+          <p class="p-desc">Capstone project integrating multiple technologies and APIs demonstrating full SDLC proficiency.</p>
+          <div class="project-embed-container">
+            <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6771146763236728832?compact=1" class="project-embed" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1364,11 +1083,22 @@
     <section id="skills">
       <div class="container">
         <div class="section-header reveal">
-          <h2>Technical Skills</h2>
-          <div class="accent-line"></div>
+          <div class="label">Skills</div>
+          <h2>Technical Toolkit</h2>
+          <p>Technologies and tools I work with daily.</p>
         </div>
-        <div class="skills-grid" id="skillsGrid">
-          <!-- Skills will render via JS for the animated rings -->
+        <div class="skills-orbit-container reveal">
+          <div class="skills-rings-visual">
+            <div class="orbit-ring r1"></div>
+            <div class="orbit-ring r2"></div>
+            <div class="orbit-ring r3"></div>
+            <!-- Nodes positioned via JS -->
+            <div class="skills-center-label">
+              <div class="num">11</div>
+              <span>Core Skills</span>
+            </div>
+          </div>
+          <div class="skills-list" id="skillsList"></div>
         </div>
       </div>
     </section>
@@ -1377,48 +1107,37 @@
     <section id="awards">
       <div class="container">
         <div class="section-header reveal">
-          <h2>Awards &amp; Recognition</h2>
-          <div class="accent-line"></div>
+          <div class="label">Recognition</div>
+          <h2>Awards &amp; Honors</h2>
         </div>
         <div class="awards-grid">
-          <div class="award-card glass-card tilt-card stagger-child">
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#127942;</div>
             <h3 class="award-title">20th Annual Gala AACC Scholarship Recipient</h3>
             <div class="award-date">May 2024</div>
             <div class="award-org">The Asian American Chamber of Commerce of Kansas City</div>
-            <p class="award-description">
-              This award recognizes the academic achievements from students in Kansas City metropolitan area.
-              <a href="https://www.asianchamberkc.com/gala/2024-gala" target="_blank" style="color: var(--accent);">Details</a>
-            </p>
+            <p class="award-desc">Recognizes academic achievements from students in the Kansas City metropolitan area. <a href="https://www.asianchamberkc.com/gala/2024-gala" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
-
-          <div class="award-card glass-card tilt-card stagger-child">
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#127760;</div>
             <h3 class="award-title">International Student Ambassador</h3>
             <div class="award-date">May 2023</div>
             <div class="award-org">Park University</div>
-            <p class="award-description">
-              Represented Park University to prospective international students in the college admission process.
-              <a href="https://www.park.edu/admissions/international-student-admissions/office-international-students/international-student-ambassadors/" target="_blank" style="color: var(--accent);">Details</a>
-            </p>
+            <p class="award-desc">Represented Park University to prospective international students in the college admission process. <a href="https://www.park.edu/admissions/international-student-admissions/office-international-students/international-student-ambassadors/" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
-
-          <div class="award-card glass-card tilt-card stagger-child">
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#11088;</div>
             <h3 class="award-title">Louisa Davidson Hinde / Carolyn Hinde Zarkaryan Memorial Award</h3>
             <div class="award-date">April 2022</div>
             <div class="award-org">Park University, Parkville, MO</div>
-            <p class="award-description">
-              This award is given to students, faculty, staff, and/or alumni who best represent the spirit of Park University.
-              <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color: var(--accent);">Details</a>
-            </p>
+            <p class="award-desc">Given to those who best represent the spirit of Park University by promoting quality of excellence. <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
-
-          <div class="award-card glass-card tilt-card stagger-child">
+          <div class="award-card glass tilt stagger">
+            <div class="award-icon">&#127941;</div>
             <h3 class="award-title">Outstanding Class Member Award - Non-Graduating Senior</h3>
             <div class="award-date">April 2021</div>
             <div class="award-org">Park University, Parkville, MO</div>
-            <p class="award-description">
-              This award honors two Parkville Campus Non-Graduating Seniors who best represent their class in service to and participation in Park University.
-              <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color: var(--accent);">Details</a>
-            </p>
+            <p class="award-desc">Honors two Parkville Campus Non-Graduating Seniors who best represent their class. <a href="https://www.park.edu/news/honors-convocation-2022/" target="_blank" style="color:var(--accent)">Details</a></p>
           </div>
         </div>
       </div>
@@ -1428,41 +1147,40 @@
     <section id="testimonials">
       <div class="container">
         <div class="section-header reveal">
-          <h2>References</h2>
-          <div class="accent-line"></div>
+          <div class="label">Testimonials</div>
+          <h2>What People Say</h2>
         </div>
         <div class="testimonials-grid">
-          <div class="testimonial-card glass-card tilt-card stagger-child">
-            <i class="bx bxs-quote-alt-left quote-icon"></i>
-            <p class="testimonial-text">
+          <div class="test-card glass tilt stagger">
+            <div class="quote-icon"><i class="bx bxs-quote-alt-left"></i></div>
+            <p class="test-text">
               For Manoj, the dedication and hard work from day one helped us to
               have a smooth transition from summer into the busy Fall move-in
               season. Within Residential Life, Manoj is directly responsible for
-              the supervision of 7 Resident Assistants (RAs) and indirectly
-              responsible for the co-supervision another 6 RAs. Additionally, he
-              is responsible for supporting and guiding 5 Front Desk Assistants
-              and supervising our Community Assistants.
+              the supervision of 7 Resident Assistants and indirectly responsible
+              for the co-supervision another 6 RAs. Additionally, he is
+              responsible for supporting and guiding 5 Front Desk Assistants and
+              supervising our Community Assistants.
             </p>
-            <div class="testimonial-author">
-              <img src="assets/img/testimonials/testimonials-reslife.jpg" alt="Sean" class="testimonial-img" />
+            <div class="test-author">
+              <img src="assets/img/testimonials/testimonials-reslife.jpg" alt="Sean" class="test-img" />
               <div>
                 <div class="author-name">Sean Dillon</div>
                 <div class="author-role">Director of Residential Life, Park University</div>
               </div>
             </div>
           </div>
-
-          <div class="testimonial-card glass-card tilt-card stagger-child">
-            <i class="bx bxs-quote-alt-left quote-icon"></i>
-            <p class="testimonial-text">
+          <div class="test-card glass tilt stagger">
+            <div class="quote-icon"><i class="bx bxs-quote-alt-left"></i></div>
+            <p class="test-text">
               Manoj has worked tirelessly as a student volunteer in KPKR Radio
               Station, assisting with operations, event planning and community
               outreach. His dedication and proactive approach have made a
               significant impact on the station's growth. I highly recommend him
               for his work ethic and commitment to excellence.
             </p>
-            <div class="testimonial-author">
-              <img src="assets/img/testimonials/testimonials-radio.jpg" alt="Kyle" class="testimonial-img" />
+            <div class="test-author">
+              <img src="assets/img/testimonials/testimonials-radio.jpg" alt="Kyle" class="test-img" />
               <div>
                 <div class="author-name">Kyle Burns</div>
                 <div class="author-role">Director of Student Life, Park University</div>
@@ -1476,370 +1194,312 @@
     <!-- ===== FOOTER ===== -->
     <footer>
       <div class="container">
-        <h3>Let's Build Something Amazing Together</h3>
-        <p>
-          Passionate about leveraging technology to solve complex problems and
-          create meaningful impact.<br />Always open to discussing new
-          opportunities, collaborations, and innovative ideas.
-        </p>
-        <div class="social-links" style="margin-bottom: 2rem;">
+        <h3>Let's Build Something Amazing</h3>
+        <p>Always open to discussing new opportunities, collaborations, and innovative ideas.</p>
+        <div class="social-links" style="justify-content: center; margin-bottom: 2rem;">
           <a href="https://twitter.com/reckless_mk" target="_blank" aria-label="Twitter"><i class="bx bxl-twitter"></i></a>
           <a href="https://www.linkedin.com/in/manoj-khatiwada" target="_blank" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
           <a href="https://github.com/manojkhatiwada" target="_blank" aria-label="GitHub"><i class="bx bxl-github"></i></a>
           <a href="https://www.hackerrank.com/manojkhatiwada" target="_blank" aria-label="HackerRank"><i class="bi bi-code-slash"></i></a>
         </div>
-        <p style="color: var(--text-dim); font-size: 0.85rem;">
-          &copy; 2025 Manoj Khatiwada. All rights reserved.
-        </p>
+        <p style="font-size:0.8rem;color:var(--text-dim);">&copy; 2025 Manoj Khatiwada. All rights reserved.</p>
       </div>
     </footer>
 
-    <!-- Scroll-to-Top -->
     <button id="scrollToTop" aria-label="Scroll to top"><i class="bi bi-arrow-up"></i></button>
 
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <!-- Calendly -->
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
-    <!-- Tableau Scripts -->
+    <!-- Tableau -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var configs = [
-          { id: "viz1715607817211", minW: "420px", maxW: "650px", minH: "587px", maxH: "887px", fallbackH: "777px" },
-          { id: "viz1715608141020", minW: "1709px", maxW: "1809px", minH: "1136px", maxH: "1236px", fallbackH: "1377px" },
-          { id: "viz1715608425367", minW: null, maxW: null, minH: null, maxH: null, fallbackH: "3277px" }
-        ];
-        configs.forEach(function (cfg) {
-          var el = document.getElementById(cfg.id);
-          if (!el) return;
-          var viz = el.getElementsByTagName("object")[0];
-          if (!viz) return;
-          if (el.offsetWidth > 800 || el.offsetWidth > 500) {
-            if (cfg.minW) { viz.style.minWidth = cfg.minW; viz.style.maxWidth = cfg.maxW; }
-            viz.style.width = "100%";
-            if (cfg.minH) { viz.style.minHeight = cfg.minH; viz.style.maxHeight = cfg.maxH; }
-            viz.style.height = el.offsetWidth * 0.75 + "px";
-          } else {
-            viz.style.width = "100%";
-            viz.style.height = cfg.fallbackH;
-          }
-          var s = document.createElement("script");
-          s.src = "https://public.tableau.com/javascripts/api/viz_v1.js";
-          viz.parentNode.insertBefore(s, viz);
-        });
+    document.addEventListener("DOMContentLoaded", function(){
+      [
+        {id:"viz1715607817211", mW:"420px", xW:"650px", mH:"587px", xH:"887px", fH:"777px"},
+        {id:"viz1715608141020", mW:"1709px", xW:"1809px", mH:"1136px", xH:"1236px", fH:"1377px"},
+        {id:"viz1715608425367", mW:null, xW:null, mH:null, xH:null, fH:"3277px"}
+      ].forEach(function(c){
+        var el=document.getElementById(c.id); if(!el) return;
+        var v=el.getElementsByTagName("object")[0]; if(!v) return;
+        if(el.offsetWidth>500){ if(c.mW){v.style.minWidth=c.mW;v.style.maxWidth=c.xW;} v.style.width="100%"; if(c.mH){v.style.minHeight=c.mH;v.style.maxHeight=c.xH;} v.style.height=el.offsetWidth*0.75+"px"; }
+        else { v.style.width="100%"; v.style.height=c.fH; }
+        var s=document.createElement("script"); s.src="https://public.tableau.com/javascripts/api/viz_v1.js"; v.parentNode.insertBefore(s,v);
       });
+    });
     </script>
 
     <script>
-    (function () {
+    (function(){
       "use strict";
 
-      /* ========== THREE.JS PARTICLE BACKGROUND ========== */
-      var scene, camera, renderer, particlesMesh, floatingGeo;
-      var mouseX = 0, mouseY = 0;
+      /* ===== CUSTOM CURSOR ===== */
+      var dot=document.getElementById("cursorDot"), ring=document.getElementById("cursorRing");
+      var mx=0,my=0,rx=0,ry=0;
+      document.addEventListener("mousemove",function(e){ mx=e.clientX; my=e.clientY; dot.style.left=mx-4+"px"; dot.style.top=my-4+"px"; });
+      function animateRing(){ rx+=(mx-rx)*0.15; ry+=(my-ry)*0.15; ring.style.left=rx-20+"px"; ring.style.top=ry-20+"px"; requestAnimationFrame(animateRing); }
+      animateRing();
+      document.querySelectorAll("a, button, .btn, .glass").forEach(function(el){
+        el.addEventListener("mouseenter",function(){ ring.classList.add("hovering"); });
+        el.addEventListener("mouseleave",function(){ ring.classList.remove("hovering"); });
+      });
 
-      function initScene() {
-        var container = document.getElementById("scene-container");
-        scene = new THREE.Scene();
-
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-        camera.position.z = 400;
-
-        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x000000, 0);
+      /* ===== THREE.JS — HERO GLOBE ===== */
+      var scene,camera,renderer,globeMesh,particles;
+      function initGlobe(){
+        var container=document.getElementById("heroGlobe"); if(!container) return;
+        scene=new THREE.Scene();
+        camera=new THREE.PerspectiveCamera(60,container.clientWidth/container.clientHeight,0.1,2000);
+        camera.position.z=300;
+        renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+        renderer.setSize(container.clientWidth,container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+        renderer.setClearColor(0x000000,0);
         container.appendChild(renderer.domElement);
 
-        /* --- Star-field particles --- */
-        var count = 6000;
-        var positions = new Float32Array(count * 3);
-        var colors = new Float32Array(count * 3);
-        var sizes = new Float32Array(count);
-        var palette = [
-          new THREE.Color(0x6c63ff),
-          new THREE.Color(0x00d4aa),
-          new THREE.Color(0xff6b9d),
-          new THREE.Color(0xffffff)
-        ];
+        // Wireframe globe
+        var sphereGeo=new THREE.IcosahedronGeometry(120,4);
+        var wireMat=new THREE.MeshBasicMaterial({color:0x6c63ff,wireframe:true,transparent:true,opacity:0.12});
+        globeMesh=new THREE.Mesh(sphereGeo,wireMat);
+        scene.add(globeMesh);
 
-        for (var i = 0; i < count; i++) {
-          positions[i * 3]     = (Math.random() - 0.5) * 1600;
-          positions[i * 3 + 1] = (Math.random() - 0.5) * 1600;
-          positions[i * 3 + 2] = (Math.random() - 0.5) * 1600;
-
-          var c = palette[Math.floor(Math.random() * palette.length)];
-          colors[i * 3]     = c.r;
-          colors[i * 3 + 1] = c.g;
-          colors[i * 3 + 2] = c.b;
-
-          sizes[i] = Math.random() * 3 + 1;
+        // Dots on globe surface
+        var dotGeo=new THREE.BufferGeometry();
+        var count=3000, positions=new Float32Array(count*3), colors=new Float32Array(count*3);
+        var palette=[new THREE.Color(0x6c63ff),new THREE.Color(0x00d4aa),new THREE.Color(0xff6b9d)];
+        for(var i=0;i<count;i++){
+          var phi=Math.acos(1-2*(i+0.5)/count);
+          var theta=Math.PI*(1+Math.sqrt(5))*i;
+          var r=122;
+          positions[i*3]=r*Math.sin(phi)*Math.cos(theta);
+          positions[i*3+1]=r*Math.sin(phi)*Math.sin(theta);
+          positions[i*3+2]=r*Math.cos(phi);
+          var c=palette[Math.floor(Math.random()*palette.length)];
+          colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b;
         }
+        dotGeo.setAttribute("position",new THREE.BufferAttribute(positions,3));
+        dotGeo.setAttribute("color",new THREE.BufferAttribute(colors,3));
+        var dotMat=new THREE.PointsMaterial({size:2,vertexColors:true,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false});
+        particles=new THREE.Points(dotGeo,dotMat);
+        scene.add(particles);
 
-        var geo = new THREE.BufferGeometry();
-        geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-        geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+        // Ambient ring
+        var ringGeo=new THREE.TorusGeometry(150,0.5,16,100);
+        var ringMat=new THREE.MeshBasicMaterial({color:0x6c63ff,transparent:true,opacity:0.15});
+        var ringMesh=new THREE.Mesh(ringGeo,ringMat);
+        ringMesh.rotation.x=Math.PI/2.5;
+        scene.add(ringMesh);
 
-        var ptTex = createParticleTexture();
-        var mat = new THREE.PointsMaterial({
-          size: 3,
-          map: ptTex,
-          transparent: true,
-          depthWrite: false,
-          vertexColors: true,
-          blending: THREE.AdditiveBlending,
-          opacity: 0.8
+        // Second ring
+        var ring2=new THREE.Mesh(new THREE.TorusGeometry(170,0.3,16,100),new THREE.MeshBasicMaterial({color:0x00d4aa,transparent:true,opacity:0.08}));
+        ring2.rotation.x=Math.PI/3; ring2.rotation.y=Math.PI/4;
+        scene.add(ring2);
+
+        window.addEventListener("resize",function(){
+          camera.aspect=container.clientWidth/container.clientHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(container.clientWidth,container.clientHeight);
         });
+      }
 
-        particlesMesh = new THREE.Points(geo, mat);
-        scene.add(particlesMesh);
+      /* --- Background particles --- */
+      var bgScene,bgCamera,bgRenderer,bgParticles;
+      function initBgParticles(){
+        var container=document.getElementById("scene-container");
+        bgScene=new THREE.Scene();
+        bgCamera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,2000);
+        bgCamera.position.z=500;
+        bgRenderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+        bgRenderer.setSize(window.innerWidth,window.innerHeight);
+        bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+        bgRenderer.setClearColor(0x000000,0);
+        container.appendChild(bgRenderer.domElement);
 
-        /* --- Floating wireframe shapes --- */
-        floatingGeo = [];
-        var shapes = [
-          new THREE.IcosahedronGeometry(30, 1),
-          new THREE.OctahedronGeometry(25, 0),
-          new THREE.TorusGeometry(20, 6, 8, 24),
-          new THREE.TetrahedronGeometry(22, 0)
-        ];
-        var shapeColors = [0x6c63ff, 0x00d4aa, 0xff6b9d, 0x8b5cf6];
-        for (var s = 0; s < shapes.length; s++) {
-          var wireMat = new THREE.MeshBasicMaterial({
-            color: shapeColors[s],
-            wireframe: true,
-            transparent: true,
-            opacity: 0.15
-          });
-          var mesh = new THREE.Mesh(shapes[s], wireMat);
-          mesh.position.set(
-            (Math.random() - 0.5) * 800,
-            (Math.random() - 0.5) * 600,
-            (Math.random() - 0.5) * 400
-          );
-          mesh.userData = {
-            rotSpeed: { x: (Math.random() - 0.5) * 0.01, y: (Math.random() - 0.5) * 0.01 },
-            floatOffset: Math.random() * Math.PI * 2,
-            baseY: mesh.position.y
-          };
-          scene.add(mesh);
-          floatingGeo.push(mesh);
+        var count=3000,positions=new Float32Array(count*3),colors=new Float32Array(count*3);
+        var palette=[new THREE.Color(0x6c63ff),new THREE.Color(0x00d4aa),new THREE.Color(0xff6b9d),new THREE.Color(0xffffff)];
+        for(var i=0;i<count;i++){
+          positions[i*3]=(Math.random()-0.5)*2000;
+          positions[i*3+1]=(Math.random()-0.5)*2000;
+          positions[i*3+2]=(Math.random()-0.5)*2000;
+          var c=palette[Math.floor(Math.random()*palette.length)];
+          colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b;
         }
-
-        window.addEventListener("resize", onResize);
-        document.addEventListener("mousemove", function (e) {
-          mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-          mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        var geo=new THREE.BufferGeometry();
+        geo.setAttribute("position",new THREE.BufferAttribute(positions,3));
+        geo.setAttribute("color",new THREE.BufferAttribute(colors,3));
+        var tex=createPTex();
+        bgParticles=new THREE.Points(geo,new THREE.PointsMaterial({size:2,map:tex,transparent:true,depthWrite:false,vertexColors:true,blending:THREE.AdditiveBlending,opacity:0.5}));
+        bgScene.add(bgParticles);
+        window.addEventListener("resize",function(){
+          bgCamera.aspect=window.innerWidth/window.innerHeight;
+          bgCamera.updateProjectionMatrix();
+          bgRenderer.setSize(window.innerWidth,window.innerHeight);
         });
-
-        animate();
+      }
+      function createPTex(){
+        var c=document.createElement("canvas"); c.width=64; c.height=64;
+        var ctx=c.getContext("2d");
+        var g=ctx.createRadialGradient(32,32,0,32,32,32);
+        g.addColorStop(0,"rgba(255,255,255,1)");
+        g.addColorStop(0.3,"rgba(255,255,255,0.5)");
+        g.addColorStop(1,"rgba(255,255,255,0)");
+        ctx.fillStyle=g; ctx.fillRect(0,0,64,64);
+        var t=new THREE.Texture(c); t.needsUpdate=true; return t;
       }
 
-      function createParticleTexture() {
-        var canvas = document.createElement("canvas");
-        canvas.width = 64;
-        canvas.height = 64;
-        var ctx = canvas.getContext("2d");
-        var gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-        gradient.addColorStop(0, "rgba(255,255,255,1)");
-        gradient.addColorStop(0.3, "rgba(255,255,255,0.6)");
-        gradient.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 64, 64);
-        var tex = new THREE.Texture(canvas);
-        tex.needsUpdate = true;
-        return tex;
-      }
-
-      function onResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      }
-
-      var clock = new THREE.Clock();
-      function animate() {
+      var clock=new THREE.Clock();
+      function animate(){
         requestAnimationFrame(animate);
-        var t = clock.getElapsedTime();
-
-        if (particlesMesh) {
-          particlesMesh.rotation.y += 0.0003;
-          particlesMesh.rotation.x += 0.0001;
-          particlesMesh.rotation.y += mouseX * 0.0002;
-          particlesMesh.rotation.x += mouseY * 0.0002;
-        }
-
-        for (var i = 0; i < floatingGeo.length; i++) {
-          var m = floatingGeo[i];
-          m.rotation.x += m.userData.rotSpeed.x;
-          m.rotation.y += m.userData.rotSpeed.y;
-          m.position.y = m.userData.baseY + Math.sin(t * 0.5 + m.userData.floatOffset) * 30;
-        }
-
-        renderer.render(scene, camera);
+        var t=clock.getElapsedTime();
+        if(globeMesh){ globeMesh.rotation.y+=0.003; particles.rotation.y+=0.003; }
+        if(bgParticles){ bgParticles.rotation.y+=0.0002; bgParticles.rotation.x+=0.0001; }
+        if(renderer) renderer.render(scene,camera);
+        if(bgRenderer) bgRenderer.render(bgScene,bgCamera);
       }
 
-      /* ========== SKILLS DATA & RENDER ========== */
-      var skillsData = [
-        { name: "Java", pct: 80 },
-        { name: "Angular", pct: 75 },
-        { name: "TypeScript", pct: 75 },
-        { name: "HTML", pct: 90 },
-        { name: "CSS", pct: 85 },
-        { name: "JavaScript", pct: 85 },
-        { name: "SQL", pct: 75 },
-        { name: "Python", pct: 70 },
-        { name: "C#", pct: 55 },
-        { name: "R", pct: 50 },
-        { name: "Excel", pct: 70 }
+      /* ===== SKILLS ===== */
+      var skillsData=[
+        {name:"Java",pct:80},{name:"Angular",pct:75},{name:"TypeScript",pct:75},
+        {name:"HTML",pct:90},{name:"CSS",pct:85},{name:"JavaScript",pct:85},
+        {name:"SQL",pct:75},{name:"Python",pct:70},{name:"C#",pct:55},
+        {name:"R",pct:50},{name:"Excel",pct:70}
       ];
+      function renderSkills(){
+        var list=document.getElementById("skillsList"); if(!list) return;
+        skillsData.forEach(function(s){
+          var row=document.createElement("div"); row.className="skill-row";
+          row.innerHTML='<span class="skill-name">'+s.name+'</span><div class="skill-bar-wrap"><div class="skill-bar-fill" data-width="'+s.pct+'"></div></div><span class="skill-pct">'+s.pct+'%</span>';
+          list.appendChild(row);
+        });
 
-      function renderSkills() {
-        var grid = document.getElementById("skillsGrid");
-        if (!grid) return;
-        var circumference = 2 * Math.PI * 35;
-        skillsData.forEach(function (skill) {
-          var offset = circumference - (skill.pct / 100) * circumference;
-          var card = document.createElement("div");
-          card.className = "skill-card glass-card tilt-card stagger-child";
-          card.innerHTML =
-            '<div class="skill-name">' + skill.name + '</div>' +
-            '<div class="skill-ring">' +
-              '<svg viewBox="0 0 80 80">' +
-                '<circle class="ring-bg" cx="40" cy="40" r="35"></circle>' +
-                '<circle class="ring-progress" cx="40" cy="40" r="35" style="stroke-dashoffset:' + circumference + ';" data-target="' + offset + '"></circle>' +
-              '</svg>' +
-              '<span class="ring-value">' + skill.pct + '%</span>' +
-            '</div>';
-          grid.appendChild(card);
+        // Orbit nodes
+        var visual=document.querySelector(".skills-rings-visual"); if(!visual) return;
+        var rings=[{r:100,items:["Java","Angular","TS"]},{r:140,items:["HTML","CSS","JS","SQL"]},{r:160,items:["Python","C#","R","Excel"]}];
+        rings.forEach(function(ring,ri){
+          ring.items.forEach(function(label,i){
+            var angle=(2*Math.PI/ring.items.length)*i - Math.PI/2;
+            var x=160+ring.r*Math.cos(angle)-22;
+            var y=160+ring.r*Math.sin(angle)-22;
+            var node=document.createElement("div");
+            node.className="orbit-node";
+            node.textContent=label;
+            node.style.left=x+"px"; node.style.top=y+"px";
+            visual.appendChild(node);
+          });
         });
       }
 
-      /* ========== SCROLL ANIMATIONS ========== */
-      function setupObservers() {
-        var revealObs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) e.target.classList.add("visible");
+      /* ===== ANIMATED COUNTERS ===== */
+      function animateCounters(){
+        var counters=document.querySelectorAll(".stat-number[data-count]");
+        var obs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(!e.isIntersecting) return;
+            var el=e.target, target=parseInt(el.dataset.count), duration=2000, start=0;
+            var suffix=target>=1000?"+":"";
+            var displayTarget=target>=10000?(target/1000):target;
+            var displaySuffix=target>=10000?"K+":suffix;
+            var step=function(ts){
+              if(!start) start=ts;
+              var progress=Math.min((ts-start)/duration,1);
+              var eased=1-Math.pow(1-progress,3);
+              var current=Math.floor(eased*displayTarget);
+              el.textContent=current+displaySuffix;
+              if(progress<1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+            obs.unobserve(el);
           });
-        }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+        },{threshold:0.5});
+        counters.forEach(function(c){ obs.observe(c); });
+      }
 
-        document.querySelectorAll(".reveal").forEach(function (el) { revealObs.observe(el); });
+      /* ===== REVEAL & STAGGER ===== */
+      function setupObservers(){
+        var revealObs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add("visible"); });
+        },{threshold:0.1,rootMargin:"0px 0px -40px 0px"});
+        document.querySelectorAll(".reveal").forEach(function(el){ revealObs.observe(el); });
 
-        var staggerObs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) {
-              var delay = Array.from(e.target.parentElement.children).indexOf(e.target) * 100;
-              setTimeout(function () { e.target.classList.add("visible"); }, delay);
+        var staggerObs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting){
+              var siblings=e.target.parentElement.children;
+              var idx=Array.from(siblings).indexOf(e.target);
+              setTimeout(function(){ e.target.classList.add("visible"); },idx*100);
             }
           });
-        }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
+        },{threshold:0.05,rootMargin:"0px 0px -20px 0px"});
+        document.querySelectorAll(".stagger").forEach(function(el){ staggerObs.observe(el); });
 
-        document.querySelectorAll(".stagger-child").forEach(function (el) { staggerObs.observe(el); });
-
-        /* Animate skill rings when visible */
-        var skillObs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) {
-              var rings = e.target.querySelectorAll(".ring-progress");
-              rings.forEach(function (ring) {
-                ring.style.strokeDashoffset = ring.dataset.target;
+        // Skill bars
+        var skillObs=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting){
+              e.target.querySelectorAll(".skill-bar-fill").forEach(function(bar){
+                bar.style.width=bar.dataset.width+"%";
               });
             }
           });
-        }, { threshold: 0.2 });
-
-        var skillsSection = document.getElementById("skills");
-        if (skillsSection) skillObs.observe(skillsSection);
+        },{threshold:0.2});
+        var skillsSection=document.getElementById("skills");
+        if(skillsSection) skillObs.observe(skillsSection);
       }
 
-      /* ========== 3D TILT EFFECT ========== */
-      function setupTilt() {
-        document.querySelectorAll(".tilt-card").forEach(function (card) {
-          card.addEventListener("mousemove", function (e) {
-            var rect = card.getBoundingClientRect();
-            var x = e.clientX - rect.left;
-            var y = e.clientY - rect.top;
-            var centerX = rect.width / 2;
-            var centerY = rect.height / 2;
-            var rotateX = ((y - centerY) / centerY) * -6;
-            var rotateY = ((x - centerX) / centerX) * 6;
-            card.style.transform = "perspective(1000px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-4px)";
+      /* ===== 3D TILT ===== */
+      function setupTilt(){
+        document.querySelectorAll(".tilt").forEach(function(card){
+          card.addEventListener("mousemove",function(e){
+            var rect=card.getBoundingClientRect();
+            var x=e.clientX-rect.left, y=e.clientY-rect.top;
+            var rotX=((y-rect.height/2)/rect.height)*-8;
+            var rotY=((x-rect.width/2)/rect.width)*8;
+            card.style.transform="perspective(1000px) rotateX("+rotX+"deg) rotateY("+rotY+"deg) translateY(-4px)";
           });
-          card.addEventListener("mouseleave", function () {
-            card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)";
-          });
+          card.addEventListener("mouseleave",function(){ card.style.transform="perspective(1000px) rotateX(0) rotateY(0) translateY(0)"; });
         });
       }
 
-      /* ========== NAVIGATION ========== */
-      function setupNav() {
-        var nav = document.querySelector("nav");
-        var toggle = document.getElementById("navToggle");
-        var menu = document.getElementById("navMenu");
+      /* ===== NAV ===== */
+      function setupNav(){
+        var nav=document.querySelector("nav"), toggle=document.getElementById("navToggle"), menu=document.getElementById("navMenu");
+        window.addEventListener("scroll",function(){ nav.classList.toggle("scrolled",window.pageYOffset>80); });
+        toggle.addEventListener("click",function(){ menu.classList.toggle("active"); });
+        document.querySelectorAll('.nav-menu a[href^="#"]').forEach(function(a){ a.addEventListener("click",function(){ menu.classList.remove("active"); }); });
+      }
 
-        window.addEventListener("scroll", function () {
-          nav.classList.toggle("scrolled", window.pageYOffset > 80);
-        });
-
-        toggle.addEventListener("click", function () {
-          menu.classList.toggle("active");
-        });
-
-        document.querySelectorAll('.nav-menu a[href^="#"]').forEach(function (a) {
-          a.addEventListener("click", function () {
-            menu.classList.remove("active");
-          });
+      /* ===== SCROLL PROGRESS ===== */
+      function setupScroll(){
+        var bar=document.getElementById("scroll-progress");
+        window.addEventListener("scroll",function(){
+          var s=window.pageYOffset, h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+          bar.style.width=(s/h*100)+"%";
         });
       }
 
-      /* ========== SCROLL PROGRESS ========== */
-      function setupScrollProgress() {
-        var bar = document.getElementById("scroll-progress");
-        window.addEventListener("scroll", function () {
-          var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-          bar.style.width = (scrollTop / scrollHeight * 100) + "%";
-        });
+      /* ===== FAB ===== */
+      function setupFab(){
+        var fab=document.getElementById("scrollToTop");
+        window.addEventListener("scroll",function(){ fab.classList.toggle("visible",window.pageYOffset>500); });
+        fab.addEventListener("click",function(){ window.scrollTo({top:0,behavior:"smooth"}); });
       }
 
-      /* ========== SCROLL-TO-TOP ========== */
-      function setupFab() {
-        var fab = document.getElementById("scrollToTop");
-        window.addEventListener("scroll", function () {
-          fab.classList.toggle("visible", window.pageYOffset > 500);
-        });
-        fab.addEventListener("click", function () {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-      }
-
-      /* ========== MOUSE GLOW ========== */
-      function setupMouseGlow() {
-        var glow = document.getElementById("mouseGlow");
-        document.addEventListener("mousemove", function (e) {
-          glow.style.left = e.clientX + "px";
-          glow.style.top = e.clientY + "px";
-        });
-      }
-
-      /* ========== INIT ========== */
-      function init() {
+      /* ===== INIT ===== */
+      function init(){
         renderSkills();
-        initScene();
+        initGlobe();
+        initBgParticles();
+        animate();
         setupObservers();
+        animateCounters();
         setupTilt();
         setupNav();
-        setupScrollProgress();
+        setupScroll();
         setupFab();
-        setupMouseGlow();
       }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", init);
-      } else {
-        init();
-      }
+      if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init);
+      else init();
     })();
     </script>
   </body>
