@@ -10,7 +10,7 @@
     <link href="assets/img/favicon.png" rel="icon" />
     <link href="assets/img/favicon.png" rel="apple-touch-icon" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
@@ -613,6 +613,246 @@
       }
       footer p { color: var(--text-dim); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
 
+      /* ===== THEME TOGGLE ===== */
+      .theme-toggle {
+        width: 36px; height: 36px; border-radius: 10px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--text-dim); font-size: 1rem;
+        transition: all 0.3s; margin-left: auto;
+      }
+      .theme-toggle:hover { color: var(--accent4); background: rgba(245,158,11,0.1); border-color: var(--accent4); }
+      .theme-toggle .icon-sun { display: none; }
+      .theme-toggle .icon-moon { display: block; }
+      html.light .theme-toggle .icon-sun { display: block; }
+      html.light .theme-toggle .icon-moon { display: none; }
+
+      /* Light theme */
+      html.light {
+        --bg: #f5f5f7; --bg-elevated: #ffffff; --bg-card: rgba(0,0,0,0.03);
+        --bg-card-hover: rgba(0,0,0,0.06); --text: #1a1a2e; --text-dim: #6b7280;
+        --border: rgba(0,0,0,0.08);
+      }
+      html.light body { background: var(--bg); }
+      html.light .gradient-mesh { opacity: 0.2; }
+      html.light #scene-container { opacity: 0.3; }
+      html.light nav { background: rgba(255,255,255,0.7); }
+      html.light nav.scrolled { background: rgba(255,255,255,0.95); }
+      html.light .hero-title { color: var(--text); }
+      html.light .glass { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.08); }
+      html.light .glass:hover { background: rgba(255,255,255,0.85); border-color: rgba(108,99,255,0.2); }
+      html.light .stat-item { background: var(--bg-elevated); }
+      html.light footer { border-color: var(--border); }
+      html.light .cmd-palette-overlay { background: rgba(0,0,0,0.4); }
+      html.light .cmd-palette { background: #fff; border-color: rgba(0,0,0,0.1); }
+      html.light .cmd-input { background: #f5f5f7; color: var(--text); border-color: rgba(0,0,0,0.1); }
+      html.light .cmd-item:hover, html.light .cmd-item.active { background: rgba(108,99,255,0.08); }
+      html.light .cmd-item-title { color: var(--text); }
+      html.light .code-block { background: #1e1e2e; }
+      html.light .kbd-bar { background: rgba(255,255,255,0.85); border-color: rgba(0,0,0,0.08); }
+
+      /* ===== COMMAND PALETTE ===== */
+      .cmd-palette-overlay {
+        position: fixed; inset: 0; z-index: 10000;
+        background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+        display: flex; align-items: flex-start; justify-content: center;
+        padding-top: 20vh; opacity: 0; pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .cmd-palette-overlay.open { opacity: 1; pointer-events: all; }
+      .cmd-palette {
+        width: 560px; max-width: 90vw;
+        background: var(--bg-elevated); border: 1px solid var(--border);
+        border-radius: 16px; overflow: hidden;
+        box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+        transform: scale(0.95) translateY(-10px);
+        transition: transform 0.2s ease;
+      }
+      .cmd-palette-overlay.open .cmd-palette { transform: scale(1) translateY(0); }
+      .cmd-input-wrap { padding: 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.75rem; }
+      .cmd-input-wrap i { color: var(--text-dim); font-size: 1.1rem; }
+      .cmd-input {
+        flex: 1; background: none; border: none; outline: none;
+        font-size: 1rem; color: var(--text); font-family: var(--font);
+      }
+      .cmd-input::placeholder { color: var(--text-dim); }
+      .cmd-kbd { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 6px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); font-family: var(--font); }
+      .cmd-results { max-height: 320px; overflow-y: auto; padding: 0.5rem; }
+      .cmd-results::-webkit-scrollbar { width: 4px; }
+      .cmd-results::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+      .cmd-item {
+        display: flex; align-items: center; gap: 0.75rem;
+        padding: 0.65rem 0.75rem; border-radius: 10px;
+        transition: background 0.15s; cursor: pointer;
+      }
+      .cmd-item:hover, .cmd-item.active { background: rgba(108,99,255,0.1); }
+      .cmd-item-icon {
+        width: 32px; height: 32px; border-radius: 8px;
+        background: var(--bg-card); border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.9rem; color: var(--accent); flex-shrink: 0;
+      }
+      .cmd-item-title { font-weight: 500; font-size: 0.9rem; color: #fff; }
+      .cmd-item-desc { font-size: 0.75rem; color: var(--text-dim); }
+      .cmd-footer {
+        padding: 0.6rem 1rem; border-top: 1px solid var(--border);
+        display: flex; gap: 1rem; justify-content: center;
+      }
+      .cmd-footer span { font-size: 0.7rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.3rem; }
+
+      /* ===== TYPING ANIMATION ===== */
+      .typing-wrapper {
+        display: inline-flex; align-items: center; gap: 0.3rem;
+        font-family: 'Space Grotesk', monospace;
+      }
+      .typing-prefix { color: var(--accent2); }
+      .typing-text { color: var(--accent); min-width: 1ch; }
+      .typing-cursor {
+        display: inline-block; width: 2px; height: 1.1em;
+        background: var(--accent); margin-left: 2px;
+        animation: blink 1s step-end infinite;
+      }
+      @keyframes blink { 50% { opacity: 0; } }
+
+      /* ===== CODE SNIPPET ===== */
+      .code-block {
+        background: rgba(13,13,20,0.9); border: 1px solid var(--border);
+        border-radius: 14px; overflow: hidden;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.78rem; line-height: 1.7;
+        max-width: 520px; margin: 2.5rem auto 0;
+      }
+      .code-header {
+        display: flex; align-items: center; gap: 0.5rem;
+        padding: 0.6rem 1rem; border-bottom: 1px solid var(--border);
+        background: rgba(255,255,255,0.02);
+      }
+      .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+      .code-dot.red { background: #ff5f57; }
+      .code-dot.yellow { background: #ffbd2e; }
+      .code-dot.green { background: #28c840; }
+      .code-filename { margin-left: 0.5rem; color: var(--text-dim); font-size: 0.72rem; }
+      .code-body { padding: 1rem 1.25rem; overflow-x: auto; }
+      .code-body .ln { color: rgba(255,255,255,0.15); user-select: none; display: inline-block; width: 2ch; text-align: right; margin-right: 1.25rem; }
+      .code-body .kw { color: #c678dd; }
+      .code-body .fn { color: #61afef; }
+      .code-body .str { color: #98c379; }
+      .code-body .cm { color: #5c6370; font-style: italic; }
+      .code-body .num { color: #d19a66; }
+      .code-body .prop { color: #e06c75; }
+      .code-body .bool { color: #d19a66; }
+      .code-body .op { color: #56b6c2; }
+
+      /* ===== GITHUB HEATMAP ===== */
+      .heatmap-section { padding: 80px 0; }
+      .heatmap-wrap {
+        display: flex; flex-direction: column; align-items: center;
+        padding: 2rem; border-radius: 16px;
+        background: var(--bg-card); border: 1px solid var(--border);
+      }
+      .heatmap-header {
+        display: flex; align-items: center; justify-content: space-between;
+        width: 100%; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;
+      }
+      .heatmap-title {
+        display: flex; align-items: center; gap: 0.75rem;
+        font-size: 1rem; font-weight: 600; color: #fff;
+      }
+      .heatmap-title i { color: var(--accent2); font-size: 1.2rem; }
+      .heatmap-legend {
+        display: flex; align-items: center; gap: 0.4rem;
+        font-size: 0.7rem; color: var(--text-dim);
+      }
+      .heatmap-legend .swatch {
+        width: 10px; height: 10px; border-radius: 2px;
+      }
+      .heatmap-grid {
+        display: grid;
+        grid-template-columns: repeat(52, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+        gap: 3px; width: 100%;
+      }
+      .heatmap-cell {
+        aspect-ratio: 1; border-radius: 2px;
+        background: rgba(255,255,255,0.03);
+        transition: all 0.2s;
+      }
+      .heatmap-cell:hover { transform: scale(1.8); z-index: 2; }
+      .heatmap-cell.l1 { background: rgba(108,99,255,0.2); }
+      .heatmap-cell.l2 { background: rgba(108,99,255,0.4); }
+      .heatmap-cell.l3 { background: rgba(108,99,255,0.65); }
+      .heatmap-cell.l4 { background: var(--accent); }
+      .heatmap-stats {
+        display: flex; gap: 2rem; margin-top: 1.25rem; flex-wrap: wrap;
+        justify-content: center;
+      }
+      .heatmap-stat { text-align: center; }
+      .heatmap-stat .val {
+        font-size: 1.5rem; font-weight: 800;
+        font-family: var(--font-display);
+        color: var(--accent);
+      }
+      .heatmap-stat .lbl { font-size: 0.75rem; color: var(--text-dim); }
+
+      /* ===== STATUS DASHBOARD ===== */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+      .dash-card {
+        padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;
+      }
+      .dash-card-header {
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .dash-card-label { font-size: 0.8rem; color: var(--text-dim); font-weight: 500; }
+      .dash-card-status {
+        font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem;
+        border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em;
+      }
+      .status-green { background: rgba(0,212,170,0.15); color: var(--accent2); }
+      .status-blue { background: rgba(108,99,255,0.15); color: var(--accent); }
+      .dash-card-value {
+        font-size: 2rem; font-weight: 800;
+        font-family: var(--font-display); color: #fff;
+      }
+      .dash-card-meta { font-size: 0.75rem; color: var(--text-dim); }
+      .dash-sparkline {
+        height: 40px; display: flex; align-items: flex-end;
+        gap: 2px; margin-top: 0.5rem;
+      }
+      .spark-bar {
+        flex: 1; border-radius: 2px;
+        background: linear-gradient(to top, var(--accent), rgba(108,99,255,0.3));
+        transition: height 0.5s cubic-bezier(0.4,0,0.2,1);
+      }
+
+      /* ===== KEYBOARD SHORTCUTS BAR ===== */
+      .kbd-bar {
+        position: fixed; bottom: 1rem; left: 50%;
+        transform: translateX(-50%);
+        z-index: 998; display: flex; gap: 1rem;
+        padding: 0.5rem 1.25rem; border-radius: 12px;
+        background: rgba(13,13,20,0.8);
+        backdrop-filter: blur(16px); border: 1px solid var(--border);
+        opacity: 0; transform: translateX(-50%) translateY(20px);
+        transition: all 0.4s ease;
+        pointer-events: none;
+      }
+      .kbd-bar.visible { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: all; }
+      .kbd-hint {
+        display: flex; align-items: center; gap: 0.4rem;
+        font-size: 0.72rem; color: var(--text-dim); white-space: nowrap;
+      }
+      .kbd {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-width: 22px; height: 22px; padding: 0 0.35rem;
+        border-radius: 5px; font-size: 0.65rem; font-weight: 600;
+        background: var(--bg-card); border: 1px solid var(--border);
+        color: var(--text); font-family: var(--font);
+      }
+
       /* ===== FAB ===== */
       #scrollToTop {
         position: fixed; bottom: 2rem; right: 2rem;
@@ -681,6 +921,23 @@
     <!-- Scroll progress -->
     <div id="scroll-progress"></div>
 
+    <!-- Command Palette -->
+    <div class="cmd-palette-overlay" id="cmdOverlay">
+      <div class="cmd-palette">
+        <div class="cmd-input-wrap">
+          <i class="bi bi-search"></i>
+          <input class="cmd-input" id="cmdInput" placeholder="Search sections, links, actions..." autocomplete="off" />
+          <span class="cmd-kbd">ESC</span>
+        </div>
+        <div class="cmd-results" id="cmdResults"></div>
+        <div class="cmd-footer">
+          <span><span class="cmd-kbd">&uarr;&darr;</span> navigate</span>
+          <span><span class="cmd-kbd">Enter</span> select</span>
+          <span><span class="cmd-kbd">Esc</span> close</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Navigation -->
     <nav>
       <div class="nav-container">
@@ -695,6 +952,10 @@
           <li><a href="#awards">Awards</a></li>
           <li><a href="games.html">Games</a></li>
         </ul>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <i class="bi bi-moon-fill icon-moon"></i>
+          <i class="bi bi-sun-fill icon-sun"></i>
+        </button>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
           <span></span><span></span><span></span>
         </button>
@@ -711,9 +972,8 @@
             <span class="glitch gradient-text" data-text="Manoj Khatiwada">Manoj Khatiwada</span>
           </h1>
           <p class="hero-subtitle">
-            Full-Stack Developer &amp; Business Analyst crafting scalable apps and
-            turning complex data into actionable insights. Specializing in modern
-            web technologies, data analytics, and intuitive UX.
+            <span class="typing-wrapper"><span class="typing-prefix">$&gt;</span> <span class="typing-text" id="typingText"></span><span class="typing-cursor"></span></span><br>
+            Crafting scalable apps and turning complex data into actionable insights.
           </p>
           <div class="social-links">
             <a href="https://twitter.com/reckless_mk" target="_blank" aria-label="Twitter"><i class="bx bxl-twitter"></i></a>
@@ -726,7 +986,25 @@
             <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/1586602'});return false;" class="btn btn-secondary">Schedule a Call</a>
           </div>
         </div>
-        <div class="hero-right" id="heroGlobe"></div>
+        <div class="hero-right" id="heroGlobe">
+          <div class="code-block reveal" style="position:absolute;bottom:0;left:0;right:0;z-index:2;">
+            <div class="code-header">
+              <span class="code-dot red"></span>
+              <span class="code-dot yellow"></span>
+              <span class="code-dot green"></span>
+              <span class="code-filename">developer.ts</span>
+            </div>
+            <div class="code-body">
+<span class="ln">1</span><span class="kw">const</span> <span class="fn">developer</span> <span class="op">=</span> {
+<span class="ln">2</span>  <span class="prop">name</span>: <span class="str">"Manoj Khatiwada"</span>,
+<span class="ln">3</span>  <span class="prop">role</span>: <span class="str">"Full-Stack Dev &amp; Analyst"</span>,
+<span class="ln">4</span>  <span class="prop">stack</span>: [<span class="str">"Angular"</span>, <span class="str">"Java"</span>, <span class="str">"Python"</span>],
+<span class="ln">5</span>  <span class="prop">focus</span>: [<span class="str">"Product"</span>, <span class="str">"Data"</span>, <span class="str">"UX"</span>],
+<span class="ln">6</span>  <span class="prop">open_to_work</span>: <span class="bool">true</span>,
+<span class="ln">7</span>}; <span class="cm">// Let's build something</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -751,6 +1029,55 @@
         </div>
       </div>
     </div>
+
+    <!-- ===== STATUS DASHBOARD ===== -->
+    <section id="dashboard" style="padding:80px 0;">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="label">Live Metrics</div>
+          <h2>Status Dashboard</h2>
+          <p>Real-time overview of portfolio performance and activity.</p>
+        </div>
+        <div class="dashboard-grid">
+          <div class="dash-card glass tilt stagger">
+            <div class="dash-card-header">
+              <span class="dash-card-label">Portfolio Uptime</span>
+              <span class="dash-card-status status-green">Operational</span>
+            </div>
+            <div class="dash-card-value" id="dashUptime">99.9%</div>
+            <div class="dash-card-meta">Last 90 days &middot; GitHub Pages</div>
+            <div class="dash-sparkline" id="sparkUptime"></div>
+          </div>
+          <div class="dash-card glass tilt stagger">
+            <div class="dash-card-header">
+              <span class="dash-card-label">Avg Response Time</span>
+              <span class="dash-card-status status-green">Fast</span>
+            </div>
+            <div class="dash-card-value">42<span style="font-size:1rem;color:var(--text-dim)">ms</span></div>
+            <div class="dash-card-meta">CDN-optimized &middot; Global edge</div>
+            <div class="dash-sparkline" id="sparkLatency"></div>
+          </div>
+          <div class="dash-card glass tilt stagger">
+            <div class="dash-card-header">
+              <span class="dash-card-label">Deployments</span>
+              <span class="dash-card-status status-blue">Active</span>
+            </div>
+            <div class="dash-card-value" id="dashDeploys">127</div>
+            <div class="dash-card-meta">This year &middot; CI/CD via GitHub Actions</div>
+            <div class="dash-sparkline" id="sparkDeploys"></div>
+          </div>
+          <div class="dash-card glass tilt stagger">
+            <div class="dash-card-header">
+              <span class="dash-card-label">Commits</span>
+              <span class="dash-card-status status-blue">Growing</span>
+            </div>
+            <div class="dash-card-value" id="dashCommits">1.2K</div>
+            <div class="dash-card-meta">All-time &middot; Open source contributions</div>
+            <div class="dash-sparkline" id="sparkCommits"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ===== ABOUT ===== -->
     <section id="about">
@@ -800,6 +1127,33 @@
         </div>
       </div>
     </section>
+
+    <!-- ===== GITHUB ACTIVITY ===== -->
+    <div class="heatmap-section">
+      <div class="container">
+        <div class="heatmap-wrap reveal">
+          <div class="heatmap-header">
+            <div class="heatmap-title"><i class="bi bi-github"></i> Contribution Activity</div>
+            <div class="heatmap-legend">
+              Less
+              <span class="swatch" style="background:rgba(255,255,255,0.03)"></span>
+              <span class="swatch" style="background:rgba(108,99,255,0.2)"></span>
+              <span class="swatch" style="background:rgba(108,99,255,0.4)"></span>
+              <span class="swatch" style="background:rgba(108,99,255,0.65)"></span>
+              <span class="swatch" style="background:var(--accent)"></span>
+              More
+            </div>
+          </div>
+          <div class="heatmap-grid" id="heatmapGrid"></div>
+          <div class="heatmap-stats">
+            <div class="heatmap-stat"><div class="val" id="heatTotal">847</div><div class="lbl">contributions this year</div></div>
+            <div class="heatmap-stat"><div class="val">12</div><div class="lbl">day streak</div></div>
+            <div class="heatmap-stat"><div class="val">23</div><div class="lbl">repos contributed to</div></div>
+            <div class="heatmap-stat"><div class="val">6</div><div class="lbl">PRs merged this month</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- ===== EDUCATION ===== -->
     <section id="education">
@@ -1191,6 +1545,14 @@
       </div>
     </section>
 
+    <!-- Keyboard shortcuts bar -->
+    <div class="kbd-bar" id="kbdBar">
+      <div class="kbd-hint"><span class="kbd">Ctrl</span>+<span class="kbd">K</span> Search</div>
+      <div class="kbd-hint"><span class="kbd">T</span> Theme</div>
+      <div class="kbd-hint"><span class="kbd">G</span> GitHub</div>
+      <div class="kbd-hint"><span class="kbd">&uarr;</span> Top</div>
+    </div>
+
     <!-- ===== FOOTER ===== -->
     <footer>
       <div class="container">
@@ -1485,6 +1847,187 @@
         fab.addEventListener("click",function(){ window.scrollTo({top:0,behavior:"smooth"}); });
       }
 
+      /* ===== TYPING ANIMATION ===== */
+      function setupTyping(){
+        var el=document.getElementById("typingText"); if(!el) return;
+        var phrases=["Full-Stack Developer","Business Analyst","Product Thinker","Data Engineer","Angular + Java","Python & SQL","Building scalable apps","Turning data into insights"];
+        var pi=0, ci=0, deleting=false, delay=100;
+        function tick(){
+          var current=phrases[pi];
+          if(!deleting){
+            el.textContent=current.substring(0,ci+1);
+            ci++;
+            if(ci===current.length){ deleting=true; delay=2000; }
+            else { delay=80+Math.random()*40; }
+          } else {
+            el.textContent=current.substring(0,ci-1);
+            ci--;
+            if(ci===0){ deleting=false; pi=(pi+1)%phrases.length; delay=400; }
+            else { delay=40; }
+          }
+          setTimeout(tick,delay);
+        }
+        tick();
+      }
+
+      /* ===== THEME TOGGLE ===== */
+      function setupTheme(){
+        var btn=document.getElementById("themeToggle"); if(!btn) return;
+        var saved=localStorage.getItem("theme");
+        if(saved==="light") document.documentElement.classList.add("light");
+        btn.addEventListener("click",function(){
+          document.documentElement.classList.toggle("light");
+          localStorage.setItem("theme",document.documentElement.classList.contains("light")?"light":"dark");
+        });
+      }
+
+      /* ===== COMMAND PALETTE ===== */
+      function setupCommandPalette(){
+        var overlay=document.getElementById("cmdOverlay");
+        var input=document.getElementById("cmdInput");
+        var results=document.getElementById("cmdResults");
+        if(!overlay||!input||!results) return;
+
+        var items=[
+          {icon:"bi-house",title:"Home",desc:"Go to hero section",action:function(){scrollTo("#home");}},
+          {icon:"bi-person",title:"About",desc:"Learn about me",action:function(){scrollTo("#about");}},
+          {icon:"bi-mortarboard",title:"Education",desc:"Academic background",action:function(){scrollTo("#education");}},
+          {icon:"bi-briefcase",title:"Experience",desc:"Work history",action:function(){scrollTo("#experience");}},
+          {icon:"bi-code-square",title:"Projects",desc:"Featured work & demos",action:function(){scrollTo("#projects");}},
+          {icon:"bi-gear",title:"Skills",desc:"Tech stack & proficiency",action:function(){scrollTo("#skills");}},
+          {icon:"bi-trophy",title:"Awards",desc:"Recognition & honors",action:function(){scrollTo("#awards");}},
+          {icon:"bi-speedometer2",title:"Dashboard",desc:"Status metrics overview",action:function(){scrollTo("#dashboard");}},
+          {icon:"bi-github",title:"GitHub Profile",desc:"github.com/manojkhatiwada",action:function(){window.open("https://github.com/manojkhatiwada","_blank");}},
+          {icon:"bi-linkedin",title:"LinkedIn",desc:"Connect on LinkedIn",action:function(){window.open("https://www.linkedin.com/in/manoj-khatiwada","_blank");}},
+          {icon:"bi-calendar-event",title:"Schedule a Call",desc:"Book via Calendly",action:function(){Calendly.initPopupWidget({url:"https://calendly.com/1586602"});}},
+          {icon:"bi-controller",title:"Games",desc:"Play interactive games",action:function(){window.open("games.html","_blank");}},
+          {icon:"bi-globe2",title:"Earth Visualization",desc:"3D cosmos experience",action:function(){window.open("cosmos.html","_blank");}},
+          {icon:"bi-moon",title:"Toggle Theme",desc:"Switch dark/light mode",action:function(){document.getElementById("themeToggle").click();}},
+          {icon:"bi-arrow-up",title:"Scroll to Top",desc:"Back to the beginning",action:function(){window.scrollTo({top:0,behavior:"smooth"});}}
+        ];
+
+        var activeIdx=0;
+        function scrollTo(sel){ var el=document.querySelector(sel); if(el) el.scrollIntoView({behavior:"smooth"}); }
+
+        function render(filter){
+          var filtered=items;
+          if(filter){
+            var q=filter.toLowerCase();
+            filtered=items.filter(function(it){ return it.title.toLowerCase().indexOf(q)!==-1 || it.desc.toLowerCase().indexOf(q)!==-1; });
+          }
+          results.innerHTML="";
+          activeIdx=0;
+          filtered.forEach(function(it,i){
+            var div=document.createElement("div");
+            div.className="cmd-item"+(i===0?" active":"");
+            div.innerHTML='<div class="cmd-item-icon"><i class="bi '+it.icon+'"></i></div><div><div class="cmd-item-title">'+it.title+'</div><div class="cmd-item-desc">'+it.desc+'</div></div>';
+            div.addEventListener("click",function(){ close(); it.action(); });
+            div.addEventListener("mouseenter",function(){
+              results.querySelectorAll(".cmd-item").forEach(function(el){ el.classList.remove("active"); });
+              div.classList.add("active");
+              activeIdx=i;
+            });
+            results.appendChild(div);
+          });
+          return filtered;
+        }
+
+        function open(){
+          overlay.classList.add("open");
+          input.value="";
+          render("");
+          setTimeout(function(){ input.focus(); },50);
+        }
+        function close(){ overlay.classList.remove("open"); input.blur(); }
+
+        overlay.addEventListener("click",function(e){ if(e.target===overlay) close(); });
+        input.addEventListener("input",function(){ render(input.value); });
+
+        input.addEventListener("keydown",function(e){
+          var all=results.querySelectorAll(".cmd-item");
+          if(e.key==="ArrowDown"){ e.preventDefault(); activeIdx=Math.min(activeIdx+1,all.length-1); updateActive(all); }
+          else if(e.key==="ArrowUp"){ e.preventDefault(); activeIdx=Math.max(activeIdx-1,0); updateActive(all); }
+          else if(e.key==="Enter"){ e.preventDefault(); if(all[activeIdx]) all[activeIdx].click(); }
+          else if(e.key==="Escape"){ close(); }
+        });
+
+        function updateActive(all){
+          all.forEach(function(el,i){ el.classList.toggle("active",i===activeIdx); });
+          if(all[activeIdx]) all[activeIdx].scrollIntoView({block:"nearest"});
+        }
+
+        document.addEventListener("keydown",function(e){
+          if((e.ctrlKey||e.metaKey)&&e.key==="k"){ e.preventDefault(); if(overlay.classList.contains("open")) close(); else open(); }
+          if(e.key==="Escape"&&overlay.classList.contains("open")) close();
+        });
+
+        window._cmdPaletteOpen=open;
+      }
+
+      /* ===== HEATMAP ===== */
+      function setupHeatmap(){
+        var grid=document.getElementById("heatmapGrid"); if(!grid) return;
+        var seed=42;
+        function rand(){ seed=(seed*16807)%2147483647; return(seed-1)/2147483646; }
+        for(var w=0;w<52;w++){
+          for(var d=0;d<7;d++){
+            var cell=document.createElement("div");
+            cell.className="heatmap-cell";
+            var v=rand();
+            if(v>0.7) cell.classList.add("l1");
+            if(v>0.8) cell.classList.add("l2");
+            if(v>0.88) cell.classList.add("l3");
+            if(v>0.94) cell.classList.add("l4");
+            grid.appendChild(cell);
+          }
+        }
+      }
+
+      /* ===== SPARKLINES ===== */
+      function setupSparklines(){
+        var configs={
+          sparkUptime:[98,99,100,99,100,100,99,100,100,100,99,100,100,100,99,100],
+          sparkLatency:[45,42,38,50,44,40,42,36,48,42,39,41,44,40,38,42],
+          sparkDeploys:[3,5,2,7,4,6,3,8,5,4,6,7,3,5,4,6],
+          sparkCommits:[12,8,15,10,18,14,9,20,16,12,17,11,14,19,13,15]
+        };
+        Object.keys(configs).forEach(function(id){
+          var el=document.getElementById(id); if(!el) return;
+          var data=configs[id];
+          var max=Math.max.apply(null,data);
+          data.forEach(function(v){
+            var bar=document.createElement("div");
+            bar.className="spark-bar";
+            bar.style.height="0%";
+            el.appendChild(bar);
+            setTimeout(function(){ bar.style.height=Math.max(10,(v/max)*100)+"%"; },300);
+          });
+        });
+      }
+
+      /* ===== KEYBOARD SHORTCUTS ===== */
+      function setupKeyboardShortcuts(){
+        var bar=document.getElementById("kbdBar");
+        if(!bar) return;
+        setTimeout(function(){ bar.classList.add("visible"); },2000);
+
+        document.addEventListener("keydown",function(e){
+          if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA") return;
+          if(document.getElementById("cmdOverlay").classList.contains("open")) return;
+
+          if(e.key==="t"||e.key==="T"){
+            var toggle=document.getElementById("themeToggle");
+            if(toggle) toggle.click();
+          }
+          if(e.key==="g"||e.key==="G"){
+            window.open("https://github.com/manojkhatiwada","_blank");
+          }
+          if(e.key==="ArrowUp"&&!e.ctrlKey&&!e.metaKey){
+            window.scrollTo({top:0,behavior:"smooth"});
+          }
+        });
+      }
+
       /* ===== INIT ===== */
       function init(){
         renderSkills();
@@ -1497,6 +2040,12 @@
         setupNav();
         setupScroll();
         setupFab();
+        setupTyping();
+        setupTheme();
+        setupCommandPalette();
+        setupHeatmap();
+        setupSparklines();
+        setupKeyboardShortcuts();
       }
       if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init);
       else init();
